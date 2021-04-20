@@ -57,7 +57,7 @@
 <div class="container" >
     <ul>
         <li><a href="studentinfo.aspx">個人資料</a></li>
-        <li><a href="courseRecord.aspx">歷史報名紀錄</a></li>
+        <li><a href="StudentCourseRecord.aspx">歷史報名紀錄</a></li>
         <li><a href="#">報名新課程</a></li>
         <li><a href="#">退課</a></li>
     </ul>

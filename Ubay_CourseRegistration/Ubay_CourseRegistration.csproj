@@ -88,6 +88,7 @@
     <Content Include="Students\StudentControlFooter.ascx" />
     <Content Include="Students\StudentControlHeader.ascx" />
     <Content Include="Students\StudentControlLeft.ascx" />
+    <Content Include="Students\StudentCourseRecord.aspx" />
     <Content Include="Students\StudentInfo.aspx" />
     <Content Include="vendor\animate\animate.css" />
     <Content Include="vendor\animsition\css\animsition.css" />
@@ -153,6 +154,13 @@
     </Compile>
     <Compile Include="Students\StudentControlLeft.ascx.designer.cs">
       <DependentUpon>StudentControlLeft.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Students\StudentCourseRecord.aspx.cs">
+      <DependentUpon>StudentCourseRecord.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\StudentCourseRecord.aspx.designer.cs">
+      <DependentUpon>StudentCourseRecord.aspx</DependentUpon>
     </Compile>
     <Compile Include="Students\StudentInfo.aspx.cs">
       <DependentUpon>StudentInfo.aspx</DependentUpon>
