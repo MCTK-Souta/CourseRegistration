@@ -10,7 +10,6 @@ namespace Ubay_CourseRegistration
     public class DataBaseExecutor
     {
 
-  //新增
         public static DataTable ReadTestTable1DT()
         {
             string connectionstring =

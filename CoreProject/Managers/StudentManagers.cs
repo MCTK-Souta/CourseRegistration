@@ -1,4 +1,5 @@
 ﻿using CoreProject.Models;
+using CoreProject.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,12 +10,12 @@ using System.Web;
 
 namespace CoreProject.Managers
 {
-    public class StudentManagers
+    public class StudentManagers:DBBase
     {
         //學生註冊
-        public void StudentSigh_UP(StudentInfoModel model,AccountModel acmodel)
+        public void StudentSigh_UP(StudentInfoModel model, AccountModel acmodel)
         {
-            Guid student_id =Guid.NewGuid();
+            Guid student_id = Guid.NewGuid();
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
             string queryString =
@@ -30,6 +31,7 @@ namespace CoreProject.Managers
                     (Account,password,Type)
                 VALUES
                     (@Account,@password,@Type);";
+
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
 
@@ -52,34 +54,16 @@ namespace CoreProject.Managers
             new SqlParameter("@Account", model.Idn),
             new SqlParameter("@password", acmodel.password),
             new SqlParameter("@Type", "0")
-        };
+            };
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
+            this.ExecuteNonQuery(connectionstring,parameters);
 
-
-
-
-                try
-                {
-                    connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
-    HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
-                    connection.Close();
-                }
-
-                catch (Exception ex)
-{
-    HttpContext.Current.Response.Write(ex.Message);
-}
-            }
         }
 
         public static void tead()
-{
+        {
 
-}
+        }
 
     }
 }

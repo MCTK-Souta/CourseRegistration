@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Helpers\DataBaseExecutor.cs" />
     <Compile Include="Helpers\DBAccountManager.cs" />
+    <Compile Include="Helpers\DBBase.cs" />
     <Compile Include="Helpers\LoginHelper.cs" />
     <Compile Include="Managers\StudentManagers.cs" />
     <Compile Include="Models\AccountModel.cs" />
