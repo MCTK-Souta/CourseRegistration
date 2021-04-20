@@ -5,7 +5,7 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace Ubay_CourseRegistration.Utility
+namespace Ubay_CourseRegistration
 {
     public class DBAccountManager
     {

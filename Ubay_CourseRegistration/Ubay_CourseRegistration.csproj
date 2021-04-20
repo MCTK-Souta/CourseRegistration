@@ -244,7 +244,12 @@
     <Folder Include="App_Data\" />
     <Folder Include="Managers\" />
     <Folder Include="Models\" />
-    <Folder Include="Utility\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreProject\CoreProject.csproj">
+      <Project>{AE5CEF4C-BE04-4523-9C02-125B7E3F1C54}</Project>
+      <Name>CoreProject</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
