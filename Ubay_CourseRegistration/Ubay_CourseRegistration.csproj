@@ -85,6 +85,7 @@
     <Content Include="js\main.js" />
     <Content Include="js\moment.js" />
     <Content Include="Login.aspx" />
+    <Content Include="Managers\Ad_Region.aspx" />
     <Content Include="Managers\ManagerControlFooter.ascx" />
     <Content Include="Managers\ManagerControlHeader.ascx" />
     <Content Include="Managers\ManagerControlLeft.ascx" />
@@ -137,6 +138,13 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\Ad_Region.aspx.cs">
+      <DependentUpon>Ad_Region.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\Ad_Region.aspx.designer.cs">
+      <DependentUpon>Ad_Region.aspx</DependentUpon>
     </Compile>
     <Compile Include="Managers\ManagerControlFooter.ascx.cs">
       <DependentUpon>ManagerControlFooter.ascx</DependentUpon>
@@ -351,5 +359,11 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
+ <Target Name="CopyRoslynFiles" AfterTargets="AfterBuild" Condition="!$(Disable_CopyWebApplication) And '$(OutDir)' != '$(OutputPath)'">
+    <ItemGroup>
+      <RoslynFiles Include="$(CscToolPath)\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
+    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
   -->
 </Project>
