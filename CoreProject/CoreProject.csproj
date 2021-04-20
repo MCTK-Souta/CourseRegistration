@@ -45,12 +45,12 @@
     <Compile Include="Helpers\DataBaseExecutor.cs" />
     <Compile Include="Helpers\DBAccountManager.cs" />
     <Compile Include="Helpers\LoginHelper.cs" />
+    <Compile Include="Managers\StudentManagers.cs" />
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\StudentInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Managers\" />
     <Folder Include="Students\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>

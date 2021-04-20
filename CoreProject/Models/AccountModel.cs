@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoreProject.Models
 {
-    class AccountModel
+    public class AccountModel
     {
         public Guid Acc_sum_ID { get; set; }
         public string Account { get; set; }

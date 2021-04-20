@@ -1,0 +1,25 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="StudentSubMaster.master.cs" Inherits="Ubay_CourseRegistration.Students.StudentSubMaster" %>
+
+<%@ Register Src="~/Students/StudentControlHeader.ascx" TagPrefix="uc1" TagName="StudentControlHeader" %>
+<%@ Register Src="~/Students/StudentControlFooter.ascx" TagPrefix="uc1" TagName="StudentControlFooter" %>
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <uc1:StudentControlHeader runat="server" id="StudentControlHeader" />
+               <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        <uc1:StudentControlFooter runat="server" id="StudentControlFooter" />
+    </form>
+</body>
+</html>

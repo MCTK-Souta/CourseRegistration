@@ -85,10 +85,15 @@
     <Content Include="js\main.js" />
     <Content Include="js\moment.js" />
     <Content Include="Login.aspx" />
+    <Content Include="Managers\ManagerControlFooter.ascx" />
+    <Content Include="Managers\ManagerControlHeader.ascx" />
+    <Content Include="Managers\ManagerControlLeft.ascx" />
+    <Content Include="Managers\ManagerInfo.aspx" />
     <Content Include="Students\StudentControlFooter.ascx" />
     <Content Include="Students\StudentControlHeader.ascx" />
     <Content Include="Students\StudentControlLeft.ascx" />
     <Content Include="Students\StudentInfo.aspx" />
+    <Content Include="Students\StudentSighUP.aspx" />
     <Content Include="vendor\animate\animate.css" />
     <Content Include="vendor\animsition\css\animsition.css" />
     <Content Include="vendor\animsition\css\animsition.min.css" />
@@ -132,6 +137,41 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Managers\ManagerControlFooter.ascx.cs">
+      <DependentUpon>ManagerControlFooter.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerControlFooter.ascx.designer.cs">
+      <DependentUpon>ManagerControlFooter.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ManagerControlHeader.ascx.cs">
+      <DependentUpon>ManagerControlHeader.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerControlHeader.ascx.designer.cs">
+      <DependentUpon>ManagerControlHeader.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ManagerControlLeft.ascx.cs">
+      <DependentUpon>ManagerControlLeft.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerControlLeft.ascx.designer.cs">
+      <DependentUpon>ManagerControlLeft.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ManagerInfo.aspx.cs">
+      <DependentUpon>ManagerInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerInfo.aspx.designer.cs">
+      <DependentUpon>ManagerInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ManagerMaster.Master.cs">
+      <DependentUpon>ManagerMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerMaster.Master.designer.cs">
+      <DependentUpon>ManagerMaster.Master</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Students\StudentControlFooter.ascx.cs">
       <DependentUpon>StudentControlFooter.ascx</DependentUpon>
@@ -167,6 +207,20 @@
     </Compile>
     <Compile Include="Students\StudentMaster.Master.designer.cs">
       <DependentUpon>StudentMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Students\StudentSighUP.aspx.cs">
+      <DependentUpon>StudentSighUP.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\StudentSighUP.aspx.designer.cs">
+      <DependentUpon>StudentSighUP.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Students\StudentSubMaster.Master.cs">
+      <DependentUpon>StudentSubMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\StudentSubMaster.Master.designer.cs">
+      <DependentUpon>StudentSubMaster.Master</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +279,7 @@
     <Content Include="fonts\poppins\Poppins-SemiBoldItalic.ttf" />
     <Content Include="fonts\poppins\Poppins-Thin.ttf" />
     <Content Include="fonts\poppins\Poppins-ThinItalic.ttf" />
+    <Content Include="Managers\ManagerMaster.Master" />
     <None Include="packages.config" />
     <Content Include="vendor\bootstrap\css\bootstrap-grid.css.map" />
     <Content Include="vendor\bootstrap\css\bootstrap-grid.min.css.map" />
@@ -233,6 +288,7 @@
     <Content Include="vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="vendor\bootstrap\css\bootstrap.min.css.map" />
     <Content Include="Students\StudentMaster.Master" />
+    <Content Include="Students\StudentSubMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -242,7 +298,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Managers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

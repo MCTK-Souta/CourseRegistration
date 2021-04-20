@@ -10,67 +10,7 @@ namespace Ubay_CourseRegistration
     public class DataBaseExecutor
     {
 
-        //學生註冊
-        public static void  StudentSigh_UP
-            (string fname,string lname,string idn,string gender,string birthday,string email,string phone,
-            string address,string education, string experience,string exyear, string schoolid,
-            string schoolname,string b_empno,string b_date,string pwd,int type)
-        {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-
-            string queryString =
-                $@"INSERT INTO Student
-                    (S_FirstName,S_LastName,Birthday,idn,Email,Address,CellPhone,Education,School_ID,School_Name,
-                        Experience,ExYear,gender,b_empno,b_date)
-                    )
-                VALUES
-                    (@S_FirstName,@S_LastName,@Birthday,@idn,@Email,@Address,@CellPhone,@Education,@School_ID,@School_Name,
-                        @Experience,@ExYear,@gender,@b_empno,@b_date);
-
-                INSERT INTO Account_summary
-                    (Account,password,Type)
-                VALUES
-                    (@Account,@password,@Type);";
-
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@S_FirstName", fname);
-                command.Parameters.AddWithValue("@S_LastName", lname);
-                command.Parameters.AddWithValue("@Birthday", birthday);
-                command.Parameters.AddWithValue("@idn", idn);
-                command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@Address", address);
-                command.Parameters.AddWithValue("@CellPhone", phone);
-                command.Parameters.AddWithValue("@Education", education);
-                command.Parameters.AddWithValue("@School_ID", schoolid);
-                command.Parameters.AddWithValue("@School_Name", schoolname);
-                command.Parameters.AddWithValue("@Experience", experience);
-                command.Parameters.AddWithValue("@ExYear", exyear);
-                command.Parameters.AddWithValue("@gender", gender);
-                command.Parameters.AddWithValue("@b_empno", b_empno);
-                command.Parameters.AddWithValue("@b_date", b_date);
-
-                command.Parameters.AddWithValue("@Account", idn);
-                command.Parameters.AddWithValue("@password", pwd);
-                command.Parameters.AddWithValue("@Type", 0);
-
-
-
-                try
-                {
-                    connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
-                    HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
-                    connection.Close();
-                }
-
-                catch (Exception ex)
-                {
-                    HttpContext.Current.Response.Write(ex.Message);
-                }
-            }
-        } //新增
+  //新增
         public static DataTable ReadTestTable1DT()
         {
             string connectionstring =
