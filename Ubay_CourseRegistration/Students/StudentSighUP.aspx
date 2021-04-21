@@ -43,13 +43,12 @@
             </div>
             <br />
             <div>
-                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone"></asp:TextBox><br />
+                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10"></asp:TextBox><br />
                 <asp:RegularExpressionValidator ID="revPhone" runat="server"
                     ErrorMessage="Not a valid phone" ControlToValidate="phone"
-                    ValidationExpression="^[01]?[- .]?(\([2-9]\d{2}\)|[2-9]\d{2})[- .]?\d{3}[- .]?\d{4}$">
+                    ValidationExpression="((\d{10})|(((\(\d{2}\))|(\d{2}-))?\d{4}(-)?\d{3}(\d)?))">
                 </asp:RegularExpressionValidator>
             </div>
-            <br />
             <div>
                 地址：<asp:TextBox runat="server" ID="address"></asp:TextBox><br />
             </div>
@@ -83,9 +82,6 @@
                     <asp:ListItem>大學以上時需選擇學校</asp:ListItem>
                     <asp:ListItem Text="高雄第一科技大學" Value="1"></asp:ListItem>
                 </asp:DropDownList><br />
-                <%--                <asp:DropDownList ID="departments" runat="server" Visible="false">
-                    <asp:ListItem>系別</asp:ListItem>
-                </asp:DropDownList><br />--%>
                 <br />
 
             </div>
@@ -94,7 +90,10 @@
             <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
             <br />
             <br />
-            <asp:Button ID="Button1" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="Button_StRegion" /><br />
+            <asp:Label ID="lbmsg" runat="server" Text="身分證格式錯誤" Visible="false" ForeColor="Red"></asp:Label>
+            <br />
+            <br />
+            <asp:Button ID="region" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="Button_StRegion" /><br />
             <br />
             <br />
         </div>

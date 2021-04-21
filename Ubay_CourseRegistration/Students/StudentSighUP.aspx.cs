@@ -16,7 +16,7 @@ namespace Ubay_CourseRegistration.Students
         private string _saveFolder = "~/FileDownload/";
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
         }
 
         protected void Button_StRegion(object sender, EventArgs e)
@@ -27,7 +27,16 @@ namespace Ubay_CourseRegistration.Students
 
             stmodel.S_FirstName = this.fname.Text.Trim();
             stmodel.S_LastName = this.lname.Text.Trim();
-            stmodel.Idn= this.idn.Text.Trim();
+            bool idnc = Managers.Check(this.idn.Text);
+            if(idnc==true)
+            {
+                stmodel.Idn = this.idn.Text.Trim();
+            }
+            else
+            {
+                this.lbmsg.Visible = true;
+                return;
+            }
             acmodel.Account = this.idn.Text.Trim();
             acmodel.password = this.pwd.Text.Trim();
             string repwd = this.repwd.Text.Trim();

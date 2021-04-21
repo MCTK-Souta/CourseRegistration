@@ -82,6 +82,7 @@
     <Content Include="js\console.js" />
     <Content Include="js\fullcalendar\main.css" />
     <Content Include="js\fullcalendar\main.js" />
+    <Content Include="js\jquery-3.6.0.min.js" />
     <Content Include="js\main.js" />
     <Content Include="js\moment.js" />
     <Content Include="Login.aspx" />
