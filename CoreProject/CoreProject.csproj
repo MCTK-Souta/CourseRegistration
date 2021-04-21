@@ -50,6 +50,7 @@
     <Compile Include="Managers\ManagerManagers.cs" />
     <Compile Include="Managers\StudentManagers.cs" />
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\Account_summaryModel.cs" />
     <Compile Include="Models\StudentInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

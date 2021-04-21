@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Managers/ManagerMaster.Master" AutoEventWireup="true" CodeBehind="Ad_Region.aspx.cs" Inherits="Ubay_CourseRegistration.Managers.Ad_Region" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Managers/ManagerMaster.Master" AutoEventWireup="true" CodeBehind="ManagerRegion.aspx.cs" Inherits="Ubay_CourseRegistration.Managers.Ad_Region" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
