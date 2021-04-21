@@ -52,7 +52,7 @@ namespace Ubay_CourseRegistration.Managers
             }
             else
             {
-                ManagerDB.InsertAdminTablel(temp.ToString(), firstname, lastname, department, account, Password, type, createtime);
+                ManagerManagers.InsertAdminTablel(temp.ToString(), firstname, lastname, department, account, Password, type, createtime);
             }
 
 

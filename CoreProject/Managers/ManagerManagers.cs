@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Ubay_CourseRegistration.Utility
 {
-    public class ManagerDB
+    public class ManagerManagers
     {
         public static void InsertAdminTablel(string GUID, string fname, string lname, string department, string account,
     string password, int type, string date)

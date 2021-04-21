@@ -13,24 +13,26 @@ namespace CoreProject.Managers
     public class StudentManagers:DBBase
     {
         //學生註冊
-        public void StudentSigh_UP(StudentInfoModel model, AccountModel acmodel)
+        public  void StudentSigh_UP(StudentInfoModel model, AccountModel acmodel)
         {
             Guid student_id = Guid.NewGuid();
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-
+            Guid b_empno = student_id;
             string queryString =
-                $@"INSERT INTO Student
-                    (Student_ID,S_FirstName,S_LastName,Birthday,idn,Email,Address,CellPhone,Education,School_ID,School_Name,
-                        Experience,ExYear,gender,b_empno,b_date)
-                    )
+                $@" INSERT INTO Account_summary
+                    (Acc_sum_ID,Account,password,Type)
+                VALUES
+                    (@Acc_sum_ID,@Account,@password,@Type);
+
+
+                INSERT INTO Student
+                    (Student_ID,S_FirstName,S_LastName,Birthday,idn,Email,Address,CellPhone,Education,School_ID,
+                        Experience,ExYear,gender,PassNumber,PassPic,b_empno,b_date)
+                    
                 VALUES
                     (@Student_ID,@S_FirstName,@S_LastName,@Birthday,@idn,@Email,@Address,@CellPhone,@Education,@School_ID,
-                        @Experience,@ExYear,@gender,@b_empno,@b_date);
+                        @Experience,@ExYear,@gender,@PassNumber,@PassPic,@b_empno,@b_date);
 
-                INSERT INTO Account_summary
-                    (Account,password,Type)
-                VALUES
-                    (@Account,@password,@Type);";
+";
 
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
@@ -48,15 +50,18 @@ namespace CoreProject.Managers
             new SqlParameter("@Experience", model.Experience),
             new SqlParameter("@ExYear", model.ExYear),
             new SqlParameter("@gender", model.gender),
-            new SqlParameter("@b_empno", model.b_empno),
+            new SqlParameter("@PassNumber",model.PassNumber),
+            new SqlParameter("@PassPic",model.PassPic),
+            new SqlParameter("@b_empno", b_empno),
             new SqlParameter("@b_date", model.b_date),
 
-            new SqlParameter("@Account", model.Idn),
+            new SqlParameter("@Acc_sum_ID", student_id),
+            new SqlParameter("@Account", student_id),
             new SqlParameter("@password", acmodel.password),
             new SqlParameter("@Type", "0")
             };
 
-            this.ExecuteNonQuery(connectionstring,parameters);
+            this.ExecuteNonQuery(queryString,parameters);
 
         }
 

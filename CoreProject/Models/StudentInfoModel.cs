@@ -21,12 +21,14 @@ namespace CoreProject.Models
         public string Experience { get; set; }
         public string ExYear { get; set; }
         public string gender { get; set; }
-        public string b_empno { get; set; }
+        public string PassNumber { get; set; }
+        public string PassPic { get; set; }
+        public Guid b_empno { get; set; }
         public DateTime b_date { get; set; }
-        public string e_empno { get; set; }
-        public DateTime e_date { get; set; }
-        public string d_empno { get; set; }
-        public DateTime d_date { get; set; }
+        public Guid? e_empno { get; set; }
+        public DateTime? e_date { get; set; }
+        public Guid? d_empno { get; set; }
+        public DateTime? d_date { get; set; }
 
     }
 }

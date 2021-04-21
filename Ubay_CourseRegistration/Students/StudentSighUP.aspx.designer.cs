@@ -60,22 +60,13 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox repwd;
 
         /// <summary>
-        /// Men 控制項。
+        /// gender 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Men;
-
-        /// <summary>
-        /// Famale 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton Famale;
+        protected global::System.Web.UI.WebControls.DropDownList gender;
 
         /// <summary>
         /// birthday 控制項。
@@ -105,6 +96,15 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox phone;
 
         /// <summary>
+        /// revPhone 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revPhone;
+
+        /// <summary>
         /// address 控制項。
         /// </summary>
         /// <remarks>
@@ -114,40 +114,40 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox address;
 
         /// <summary>
-        /// n_experience 控制項。
+        /// experience 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton n_experience;
+        protected global::System.Web.UI.WebControls.RadioButtonList experience;
 
         /// <summary>
-        /// h_experience 控制項。
+        /// exyear 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton h_experience;
+        protected global::System.Web.UI.WebControls.DropDownList exyear;
 
         /// <summary>
-        /// RadioButtonList1 控制項。
+        /// education 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList1;
+        protected global::System.Web.UI.WebControls.DropDownList education;
 
         /// <summary>
-        /// exp_university 控制項。
+        /// school 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList exp_university;
+        protected global::System.Web.UI.WebControls.DropDownList school;
 
         /// <summary>
         /// psn 控制項。
@@ -159,13 +159,13 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox psn;
 
         /// <summary>
-        /// FileUpload1 控制項。
+        /// passpic 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
+        protected global::System.Web.UI.WebControls.FileUpload passpic;
 
         /// <summary>
         /// Button1 控制項。
