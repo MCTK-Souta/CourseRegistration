@@ -58,7 +58,7 @@ namespace CoreProject.Managers
 
             new SqlParameter("@Acc_sum_ID", student_id),
             new SqlParameter("@Account", student_id),
-            new SqlParameter("@password", acmodel.password),
+            new SqlParameter("@password", acmodel.Password),
             new SqlParameter("@Type", "0")
             };
 
