@@ -38,7 +38,7 @@ namespace Ubay_CourseRegistration.Utility
                 command.Parameters.AddWithValue("@Lastname", asmodel.lastname);
                 command.Parameters.AddWithValue("@Department", asmodel.department);
                 command.Parameters.AddWithValue("@Account", acmodel.Account);
-                command.Parameters.AddWithValue("@Password", acmodel.Password);
+                command.Parameters.AddWithValue("@Password", acmodel.password);
                 command.Parameters.AddWithValue("@Pwdcheck", asmodel.Pwdcheck);
                 command.Parameters.AddWithValue("@Type", acmodel.Type);
                 command.Parameters.AddWithValue("@createtime", createtime);
