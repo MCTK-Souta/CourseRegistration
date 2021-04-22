@@ -7,27 +7,27 @@
         <h1 style="margin: 0,auto; left: 45%; position: relative;">註冊帳戶</h1>
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
-                姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p>姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
             </div>
             <br />
             <div>
-                名字：<asp:TextBox runat="server" ID="lname"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p>名字：<asp:TextBox runat="server" ID="lname"></asp:TextBox><br />
             </div>
             <br />
             <div>
-                帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn"></asp:TextBox><br />
+               <p  style="color:red;display:inline">*</p> 帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn"></asp:TextBox><br />
             </div>
             <br />
             <div>
-                密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd"></asp:TextBox><br />
+               <p  style="color:red;display:inline">*</p> 密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd"></asp:TextBox><br />
             </div>
             <br />
             <div style="margin-left: -65px;">
-                再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="repwd"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p>再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="repwd"></asp:TextBox><br />
             </div>
             <br />
             <div>
-                性別：<asp:DropDownList ID="gender" runat="server">
+               <p  style="color:red;display:inline">*</p> 性別：<asp:DropDownList ID="gender" runat="server">
                     <asp:ListItem Text="男" Value="0"></asp:ListItem>
                     <asp:ListItem Text="女" Value="1"></asp:ListItem>
                 </asp:DropDownList>
@@ -35,27 +35,27 @@
             </div>
             <br />
             <div>
-                生日：<asp:TextBox runat="server" TextMode="Date" ID="birthday"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p>生日：<asp:TextBox runat="server" TextMode="Date" ID="birthday"></asp:TextBox><br />
             </div>
             <br />
             <div style="margin-left: -10px;">
-                E-mail：<asp:TextBox runat="server" TextMode="Email" ID="email"></asp:TextBox><br />
+               <p  style="color:red;display:inline">*</p> E-mail：<asp:TextBox runat="server" TextMode="Email" ID="email"></asp:TextBox><br />
             </div>
             <br />
             <div>
-                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10"></asp:TextBox><br />
+               <p  style="color:red;display:inline">*</p> 手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10"></asp:TextBox><br />
                 <asp:RegularExpressionValidator ID="revPhone" runat="server"
-                    ErrorMessage="Not a valid phone" ControlToValidate="phone"
+                    ErrorMessage="手機號碼格式錯誤" ControlToValidate="phone"
                     ValidationExpression="((\d{10})|(((\(\d{2}\))|(\d{2}-))?\d{4}(-)?\d{3}(\d)?))">
                 </asp:RegularExpressionValidator>
             </div>
             <div>
-                地址：<asp:TextBox runat="server" ID="address"></asp:TextBox><br />
+               <p  style="color:red;display:inline">*</p> 地址：<asp:TextBox runat="server" ID="address"></asp:TextBox><br />
             </div>
             <br />
 
             <div style="margin-left: -65px;">
-                有無程式經驗：
+               <p  style="color:red;display:inline">*</p> 有無程式經驗：
                 <asp:RadioButtonList ID="experience" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
                     <asp:ListItem Text="無" Value="0"></asp:ListItem>
                     <asp:ListItem Text="有" Value="1"></asp:ListItem>
@@ -70,7 +70,7 @@
             <br />
 
             <div style="margin-left: -33px;">
-                最高學歷：
+               <p  style="color:red;display:inline">*</p> 最高學歷：
                 <asp:DropDownList ID="education" runat="server">
                     <asp:ListItem Text="國小" Value="0"></asp:ListItem>
                     <asp:ListItem Text="國中" Value="1"></asp:ListItem>
@@ -79,7 +79,7 @@
                     <asp:ListItem Text="研究所" Value="4"></asp:ListItem>
                 </asp:DropDownList>
                 <asp:DropDownList ID="school" runat="server">
-                    <asp:ListItem>大學以上時需選擇學校</asp:ListItem>
+                    <asp:ListItem Text="大學以上時需選擇學校" Value="0"></asp:ListItem>
                     <asp:ListItem Text="高雄第一科技大學" Value="1"></asp:ListItem>
                 </asp:DropDownList><br />
                 <br />
@@ -90,7 +90,7 @@
             <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
             <br />
             <br />
-            <asp:Label ID="lbmsg" runat="server" Text="身分證格式錯誤" Visible="false" ForeColor="Red"></asp:Label>
+            <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
             <br />
             <br />
             <asp:Button ID="region" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="Button_StRegion" /><br />
