@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,8 +10,7 @@ namespace Ubay_CourseRegistration.Utility
 {
     public class ManagerManagers
     {
-        public static void InsertAdminTablel(string GUID, string fname, string lname, string department, string account,
-    string password, int type, string date)
+        public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime)
         {
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
@@ -24,7 +24,7 @@ namespace Ubay_CourseRegistration.Utility
                 INSERT INTO Manager
                     (Manager_ID,Manager_FirstName,Manager_LastName,Department,Account,b_date,b_empno)
                 VALUES
-                    (@GUID,@Firstname,@Lastname,@Department,@Account,@Date,@GUID);
+                    (@GUID,@Firstname,@Lastname,@Department,@Account,@createtime,@GUID);
                 ";
 
 
@@ -33,15 +33,28 @@ namespace Ubay_CourseRegistration.Utility
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
 
+                command.Parameters.AddWithValue("@GUID", acmodel.Acc_sum_ID);
+                command.Parameters.AddWithValue("@Firstname", asmodel.firstname);
+                command.Parameters.AddWithValue("@Lastname", asmodel.lastname);
+                command.Parameters.AddWithValue("@Department", asmodel.department);
+                command.Parameters.AddWithValue("@Account", acmodel.Account);
+                command.Parameters.AddWithValue("@Password", acmodel.Password);
+                command.Parameters.AddWithValue("@Pwdcheck", asmodel.Pwdcheck);
+                command.Parameters.AddWithValue("@Type", acmodel.Type);
+                command.Parameters.AddWithValue("@createtime", createtime);
 
-                command.Parameters.AddWithValue("@GUID", GUID);
-                command.Parameters.AddWithValue("@Firstname", fname);
-                command.Parameters.AddWithValue("@Lastname", lname);
-                command.Parameters.AddWithValue("@Department", department);
-                command.Parameters.AddWithValue("@Account", account);
-                command.Parameters.AddWithValue("@Password", password);
-                command.Parameters.AddWithValue("@Type", type);
-                command.Parameters.AddWithValue("@Date", date);
+                //List<SqlParameter> parameters = new List<SqlParameter>()
+                //{
+                //    new SqlParameter("@GUID", acmodel.Acc_sum_ID),
+                //    new SqlParameter("@Firstname", asmodel.firstname),
+                //    new SqlParameter("@Lastname", asmodel.lastname),
+                //    new SqlParameter("@Department", asmodel.department),
+                //    new SqlParameter("@Account", acmodel.Account),
+                //    new SqlParameter("@Password", acmodel.Password),
+                //    new SqlParameter("@Pwdcheck", asmodel.Pwdcheck),
+                //    new SqlParameter("@Pwdcheck", acmodel.Type),
+                //    new SqlParameter("@createtime", createtime)
+                //};
 
 
 

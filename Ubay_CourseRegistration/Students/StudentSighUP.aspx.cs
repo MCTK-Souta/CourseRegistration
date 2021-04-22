@@ -38,7 +38,7 @@ namespace Ubay_CourseRegistration.Students
                 return;
             }
             acmodel.Account = this.idn.Text.Trim();
-            acmodel.password = this.pwd.Text.Trim();
+            acmodel.Password = this.pwd.Text.Trim();
             string repwd = this.repwd.Text.Trim();
             stmodel.gender = this.gender.Text;
             stmodel.Birthday = Convert.ToDateTime(this.birthday.Text);
