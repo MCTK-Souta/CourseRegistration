@@ -10,7 +10,7 @@ namespace CoreProject.Models
     {
         public Guid Acc_sum_ID { get; set; }
         public string Account { get; set; }
-        public string Password { get; set; }
+        public string password { get; set; }
         public int Type { get; set; }
     }
 }
