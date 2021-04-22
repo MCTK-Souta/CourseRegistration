@@ -48,6 +48,10 @@ namespace Ubay_CourseRegistration.Students
                     ON Registration_record.Student_ID=Student.Student_ID
                 INNER JOIN Course 
                 ON Registration_record.Course_ID=Course.Course_ID
+		INNER JOIN Teacher
+		ON Teacher.Teacher_ID=Course.Teacher_ID
+		INNER JOIN Place
+		ON Place.Place_ID=Course.Place_ID
                 WHERE Registration_record.Student_ID ='39113b48-6693-8276-b8e8-fc803d3160ee';";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -164,8 +168,6 @@ namespace Ubay_CourseRegistration.Students
             CurrentPage = (Convert.ToInt32(ViewState["TotalPages"]) - 1);
             BindDataIntoRepeater();
         }
-
-
         protected void rptPaging_ItemDataBound(object sender, DataListItemEventArgs e)
         {
             var lnkPage = (LinkButton)e.Item.FindControl("lbPaging");
@@ -174,5 +176,32 @@ namespace Ubay_CourseRegistration.Students
             lnkPage.BackColor = Color.FromName("#F75C2F");
         }
 
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string course_id = this.txtCourseID.Text;
+            string courseName = this.txtCourseName.Text;
+            string teacher_id = this.ddlTeacher.Text;
+            string StartDate = this.txtStartDate1.Text;
+            string StarDate2 = this.txtStartDate2.Text;
+            string place_id = this.txtPlace.Text;
+            string minPrice = this.TxtPrice1.Text;
+            string maxPrice = this.TxtPrice2.Text;
+
+            string template = "?Page=1";
+
+            if (!string.IsNullOrEmpty(course_id))
+                template += "&course_id=" + course_id;
+
+            if (!string.IsNullOrEmpty(courseName))
+                template += "&courseName=" + courseName;
+
+            if (!string.IsNullOrEmpty(StartDate))
+                template += "&StartDate=" + StartDate;
+
+            if (!string.IsNullOrEmpty(StarDate2))
+                template += "&StarDate2=" + StarDate2;
+
+            //Response.Redirect("ProductList.aspx" + template);
+        }
     }
 }

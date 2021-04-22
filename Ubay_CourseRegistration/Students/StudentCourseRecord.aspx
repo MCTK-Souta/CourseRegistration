@@ -29,7 +29,32 @@
             <div>
             <%--搜尋框--%>
 
-            <input type="search" class="search_key" accesskey="S" name="key" id="Key" value="搜尋" autocomplete="off" style="margin:0,auto;left:20%;position:relative;">
+<%--            <input type="search" class="search_key" accesskey="S" name="key" id="Key" value="搜尋" autocomplete="off" style="margin:0,auto;left:20%;position:relative;">--%>
+
+    <div style="margin:0,auto;left:20%;position:relative;">
+        <p > 
+            課程ID: <asp:TextBox runat="server" ID="txtCourseID" Width="5%"></asp:TextBox> 
+            課程名稱:<asp:TextBox runat="server" ID="txtCourseName"></asp:TextBox> 
+            教師: 
+            <asp:DropDownList runat="server" ID="ddlTeacher">
+                <asp:ListItem Text="All" Value=""></asp:ListItem>
+                <asp:ListItem Text="王老師" Value="1"></asp:ListItem>
+                <asp:ListItem Text="李老師" Value="2"></asp:ListItem>
+                <asp:ListItem Text="張老師" Value="3"></asp:ListItem>
+            </asp:DropDownList>
+            開課時間:
+            <asp:TextBox runat="server" ID="txtStartDate1" placeholder="最小值"></asp:TextBox>~
+            <asp:TextBox runat="server" ID="txtStartDate2" placeholder="最大值"></asp:TextBox>
+             </p>
+             <p >
+            教室: <asp:TextBox runat="server" ID="txtPlace" Width="5%"></asp:TextBox> 
+            價格:
+            <asp:TextBox runat="server" ID="TxtPrice1" placeholder="最小值"></asp:TextBox>~
+            <asp:TextBox runat="server" ID="TxtPrice2" placeholder="最大值"></asp:TextBox>
+
+            <asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click" />
+        </p>
+    </div>
             <br />
 
             <%--顯示學生所有歷史課程--%>
@@ -43,8 +68,8 @@
                                 <th>課程名稱</th>
                                 <th>教師</th>
                                 <th>開課時間</th>
-                                <th>結訓時間</th>
-                                <th>教室ID</th>
+                                <th>結訓日期</th>
+                                <th>上課地點</th>
                                 <th>價格</th>
                             </tr>
                     </HeaderTemplate>
@@ -52,11 +77,11 @@
                         <tr>
                             <td><%#Eval("Course_ID") %></td>
                             <td><%#Eval("C_Name") %></td>
-                            <td><%#Eval("Teacher_ID") %></td>
-                            <td><%#Eval("StartDate") %></td>
-                            <td><%#Eval("EndDate") %></td>
-                            <td><%#Eval("Place_ID") %></td>
-                            <td><%#Eval("Price") %></td>
+                            <td><%#Eval("Teacher_FirstName") %> <%#Eval("Teacher_LastName") %></td>
+                            <td><%#Eval("StartDate", "{0:yyyy-MM-dd}") %> <%#Eval("StartTime") %></td>
+                            <td><%#Eval("EndDate", "{0:yyyy-MM-dd}") %></td>
+                            <td><%#Eval("Place_Name") %></td>
+                            <td><%#Eval("Price","{0,0:C0}") %></td>
                         </tr>
                     </ItemTemplate>
                     <FooterTemplate>
