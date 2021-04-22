@@ -65,7 +65,7 @@
 
 					<div class="text-center p-t-115">
 
-						<a class="txt2" href="../student/Sigh_up.aspx">
+						<a class="txt2" href="../Students/StudentSighUP.aspx">
 							註冊
 						</a>
 					</div>
