@@ -26,7 +26,7 @@ namespace Ubay_CourseRegistration.Managers
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
             acmodel.Account = this.txtAccount.Text;
-            acmodel.Password = this.txtPassword.Text;
+            acmodel.password = this.txtPassword.Text;
             asmodel.Pwdcheck = this.txtPwdcheck.Text;
             asmodel.datetime = DateTime.Now; // 取得現在時間
             string createtime = asmodel.datetime.ToString("yyyy/MM/dd HH:mm:ss"); // 轉成字串
@@ -38,11 +38,11 @@ namespace Ubay_CourseRegistration.Managers
             SqlCommand bb = new SqlCommand("Select * From Account_summary Where Account='" + txtAccount.Text + "'", conn);
             SqlDataReader ha = bb.ExecuteReader();
 
-            if (string.IsNullOrEmpty(asmodel.firstname) || string.IsNullOrEmpty(asmodel.lastname) || string.IsNullOrEmpty(asmodel.department) || string.IsNullOrEmpty(acmodel.Account) || string.IsNullOrEmpty(acmodel.Password) || string.IsNullOrEmpty(asmodel.Pwdcheck))
+            if (string.IsNullOrEmpty(asmodel.firstname) || string.IsNullOrEmpty(asmodel.lastname) || string.IsNullOrEmpty(asmodel.department) || string.IsNullOrEmpty(acmodel.Account) || string.IsNullOrEmpty(acmodel.password) || string.IsNullOrEmpty(asmodel.Pwdcheck))
             {
                 Response.Write("<script>alert('所有欄位皆為必填，不可為空!');</script>");
             }
-            else if (acmodel.Password != asmodel.Pwdcheck)
+            else if (acmodel.password != asmodel.Pwdcheck)
             {
                 Response.Write("<script>alert('確認密碼不一致，請重新輸入');</script>");
             }
