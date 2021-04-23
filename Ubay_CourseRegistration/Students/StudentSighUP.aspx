@@ -7,11 +7,11 @@
         <h1 style="margin: 0,auto; left: 45%; position: relative;">註冊帳戶</h1>
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
-                <p  style="color:red;display:inline">*</p>姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p> 姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
             </div>
             <br />
             <div>
-                <p  style="color:red;display:inline">*</p>名字：<asp:TextBox runat="server" ID="lname"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p> 名字：<asp:TextBox runat="server" ID="lname"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -23,7 +23,7 @@
             </div>
             <br />
             <div style="margin-left: -65px;">
-                <p  style="color:red;display:inline">*</p>再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="repwd"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p> 再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="repwd"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -35,7 +35,7 @@
             </div>
             <br />
             <div>
-                <p  style="color:red;display:inline">*</p>生日：<asp:TextBox runat="server" TextMode="Date" ID="birthday"></asp:TextBox><br />
+                <p  style="color:red;display:inline">*</p> 生日：<asp:TextBox runat="server" TextMode="Date" ID="birthday"></asp:TextBox><br />
             </div>
             <br />
             <div style="margin-left: -10px;">
@@ -60,6 +60,7 @@
                     <asp:ListItem Text="無" Value="0"></asp:ListItem>
                     <asp:ListItem Text="有" Value="1"></asp:ListItem>
                 </asp:RadioButtonList>
+                &nbsp;&nbsp;年數：
                 <asp:DropDownList ID="exyear" runat="server" RepeatLayout="Flow">
                     <asp:ListItem Text="1年以下" Value="0"></asp:ListItem>
                     <asp:ListItem Text="1年" Value="1"></asp:ListItem>
@@ -78,6 +79,7 @@
                     <asp:ListItem Text="大學" Value="3"></asp:ListItem>
                     <asp:ListItem Text="研究所" Value="4"></asp:ListItem>
                 </asp:DropDownList>
+                &nbsp;&nbsp;&nbsp;&nbsp;學校：
                 <asp:DropDownList ID="school" runat="server">
                     <asp:ListItem Text="大學以上時需選擇學校" Value="0"></asp:ListItem>
                     <asp:ListItem Text="高雄第一科技大學" Value="1"></asp:ListItem>
@@ -85,9 +87,9 @@
                 <br />
 
             </div>
-            <div style="margin-left: -33px;">護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox></div>
+            <div style="margin-left: -33px;"> 護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox></div>
             <br />
-            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
+            <div style="margin-left: -65px;"> 上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
             <br />
             <br />
             <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
