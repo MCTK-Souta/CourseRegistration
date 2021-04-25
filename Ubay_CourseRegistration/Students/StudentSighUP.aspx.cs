@@ -25,18 +25,20 @@ namespace Ubay_CourseRegistration.Students
             StudentInfoModel stmodel = new StudentInfoModel();
             AccountModel acmodel = new AccountModel();
 
-            if(this.fname.Text != string.Empty&&this.lname.Text!=string.Empty&&this.idn.Text!=string.Empty&&
-                this.pwd.Text!=string.Empty&&this.repwd.Text!=string.Empty&&this.gender.Text!=string.Empty&&
-                this.birthday.Text!=string.Empty&&this.email.Text!=string.Empty&&this.phone.Text!=string.Empty&&
-                this.address.Text!=string.Empty&&this.experience.Text!=string.Empty&&this.exyear.Text!=string.Empty&&
-                this.education.Text!=string.Empty)
+            if (this.fname.Text != string.Empty && this.lname.Text != string.Empty && this.idn.Text != string.Empty &&
+                this.pwd.Text != string.Empty && this.repwd.Text != string.Empty && this.gender.Text != string.Empty &&
+                this.birthday.Text != string.Empty && this.email.Text != string.Empty && this.phone.Text != string.Empty &&
+                this.address.Text != string.Empty && this.experience.Text != string.Empty && this.exyear.Text != string.Empty &&
+                this.education.Text != string.Empty)
             {
+                StudentManagers managers = new StudentManagers();
                 stmodel.S_FirstName = this.fname.Text.Trim();
                 stmodel.S_LastName = this.lname.Text.Trim();
                 bool idnc = Managers.Check(this.idn.Text);
                 if (idnc == true)
                 {
                     stmodel.Idn = this.idn.Text.Trim();
+
                 }
                 else
                 {
@@ -44,7 +46,20 @@ namespace Ubay_CourseRegistration.Students
                     this.lbmsg.Visible = true;
                     return;
                 }
-                acmodel.Account = this.idn.Text.Trim();
+
+                if (managers.GetAccount(this.idn.Text.Trim()) != null)
+                {
+                    this.lbmsg.Text = "帳號已重複註冊";
+                    this.lbmsg.Visible = true;
+                    return;
+                }
+                else
+                {
+                    acmodel.Account = this.idn.Text.Trim();
+                }
+
+
+
                 acmodel.password = this.pwd.Text.Trim();
                 string repwd = this.repwd.Text.Trim();
                 stmodel.gender = this.gender.Text;

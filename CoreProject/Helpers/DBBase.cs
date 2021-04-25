@@ -103,7 +103,8 @@ namespace CoreProject.Helpers
             }
         }
 
-        private string GetConnectionString()
+        //private string GetConnectionString()
+        public string GetConnectionString()
         {
             var manage = System.Configuration.ConfigurationManager.ConnectionStrings["systemDataBase"];
 

@@ -11,11 +11,71 @@ using System.Text.RegularExpressions;
 
 namespace CoreProject.Managers
 {
-    public class StudentManagers:DBBase
+    public class StudentManagers : DBBase
     {
-        //學生註冊
-        public  void StudentSigh_UP(StudentInfoModel model, AccountModel acmodel)
+        //public bool GetAccountForRegion(string Account)
+        //{
+        //    SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
+        //    conn.Open();
+
+        //    SqlCommand bb = new SqlCommand("Select * From Account_summary Where Account='" + Account + "'", conn);
+        //    SqlDataReader ha = bb.ExecuteReader();
+
+        //    return ha.Read();
+
+        //}
+
+        public AccountModel GetAccount(string Account)
         {
+            string connectionString = GetConnectionString();
+            string queryString =
+                $@" SELECT * FROM Account_summary
+                    WHERE Account = @Account
+                ";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@Account", Account);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    AccountModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new AccountModel();
+                        model.Acc_sum_ID = (Guid)reader["Acc_sum_ID"];
+                        model.Account = (string)reader["Account"];
+                        model.password = (string)reader["password"];
+                        model.Type = (int)reader["Type"];
+                    }
+
+                    reader.Close();
+
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+        private bool HasAccount(string account)
+        {
+            return false;
+        }
+        //學生註冊
+        public void StudentSigh_UP(StudentInfoModel model, AccountModel acmodel)
+        {
+            if (this.HasAccount(acmodel.Account))
+            {
+                throw new Exception($"Account [{acmodel.Account}] has been created.");
+            }
+
             Guid student_id = Guid.NewGuid();
             Guid b_empno = student_id;
             string queryString =
@@ -57,12 +117,12 @@ namespace CoreProject.Managers
             new SqlParameter("@b_date", model.b_date),
 
             new SqlParameter("@Acc_sum_ID", student_id),
-            new SqlParameter("@Account", student_id),
+            new SqlParameter("@Account", model.Idn),
             new SqlParameter("@password", acmodel.password),
             new SqlParameter("@Type", "0")
             };
 
-            this.ExecuteNonQuery(queryString,parameters);
+            this.ExecuteNonQuery(queryString, parameters);
 
         }
 
@@ -83,7 +143,7 @@ namespace CoreProject.Managers
             //A=10 B=11 C=12 D=13 E=14 F=15 G=16 H=17 J=18 K=19 L=20 M=21 N=22
             //P=23 Q=24 R=25 S=26 T=27 U=28 V=29 X=30 Y=31 W=32  Z=33 I=34 O=35            
             string[] charMapping = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" };
-            string target = id.Substring(0, 1).ToUpper() ; //取第一個英文數字
+            string target = id.Substring(0, 1).ToUpper(); //取第一個英文數字
             for (int index = 0; index < charMapping.Length; index++)
             {
                 if (charMapping[index] == target)
