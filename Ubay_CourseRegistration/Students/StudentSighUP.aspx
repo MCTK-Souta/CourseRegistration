@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Students/StudentSubMaster.Master" AutoEventWireup="true" CodeBehind="StudentSighUP.aspx.cs" Inherits="Ubay_CourseRegistration.Students.StudentSighUP" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="../js/console.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
@@ -44,7 +46,7 @@
             <br />
             <div>
                <p  style="color:red;display:inline">*</p> 手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10"></asp:TextBox><br />
-                <asp:RegularExpressionValidator ID="revPhone" runat="server"
+                <asp:RegularExpressionValidator ID="revPhone" runat="server" ForeColor="Red"
                     ErrorMessage="手機號碼格式錯誤" ControlToValidate="phone"
                     ValidationExpression="((\d{10})|(((\(\d{2}\))|(\d{2}-))?\d{4}(-)?\d{3}(\d)?))">
                 </asp:RegularExpressionValidator>
@@ -72,18 +74,18 @@
 
             <div style="margin-left: -33px;">
                <p  style="color:red;display:inline">*</p> 最高學歷：
-                <asp:DropDownList ID="education" runat="server">
+                <asp:DropDownList ID="education"   runat="server">
                     <asp:ListItem Text="國小" Value="0"></asp:ListItem>
                     <asp:ListItem Text="國中" Value="1"></asp:ListItem>
                     <asp:ListItem Text="高中" Value="2"></asp:ListItem>
                     <asp:ListItem Text="大學" Value="3"></asp:ListItem>
                     <asp:ListItem Text="研究所" Value="4"></asp:ListItem>
                 </asp:DropDownList>
-                &nbsp;&nbsp;&nbsp;&nbsp;學校：
-                <asp:DropDownList ID="school" runat="server">
+                &nbsp;&nbsp;&nbsp;&nbsp;<div id="schoolshow"  style="display:inline;">學校：
+                <asp:DropDownList ID="school" runat="server" >
                     <asp:ListItem Text="大學以上時需選擇學校" Value="0"></asp:ListItem>
                     <asp:ListItem Text="高雄第一科技大學" Value="1"></asp:ListItem>
-                </asp:DropDownList><br />
+                </asp:DropDownList></div><br />
                 <br />
 
             </div>

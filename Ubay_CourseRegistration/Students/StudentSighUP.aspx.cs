@@ -90,8 +90,8 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.b_date = DateTime.Now;
 
                 Managers.StudentSigh_UP(stmodel, acmodel);
-
-                Response.Redirect("~/Login.aspx");
+                Response.Write
+                ("<script>alert('註冊成功，返回登入頁面');location.href='/Login.aspx'; </script>");
             }
 
             else
