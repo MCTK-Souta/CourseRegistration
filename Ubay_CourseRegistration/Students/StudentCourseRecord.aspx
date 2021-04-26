@@ -38,9 +38,9 @@
             教師: 
             <asp:DropDownList runat="server" ID="ddlTeacher">
                 <asp:ListItem Text="All" Value=""></asp:ListItem>
-                <asp:ListItem Text="王老師" Value="1"></asp:ListItem>
-                <asp:ListItem Text="李老師" Value="2"></asp:ListItem>
-                <asp:ListItem Text="張老師" Value="3"></asp:ListItem>
+                <asp:ListItem Text="陳一" Value="1"></asp:ListItem>
+                <asp:ListItem Text="李二" Value="2"></asp:ListItem>
+                <asp:ListItem Text="林三" Value="3"></asp:ListItem>
             </asp:DropDownList>
             開課時間:
             <asp:TextBox runat="server" ID="txtStartDate1" placeholder="最小值"></asp:TextBox>~
@@ -127,8 +127,43 @@
             
         </div>
             <%--顯示登入的學生已選過的課程紀錄月曆--%>
-            <div>
-                <div id='calendar' style="left:20%;position:relative;width:900px;"></div>
+            <div style="left:20%;position:relative;width:900px;">
+                <%--<div id='calendar' ></div>--%>
+
+            <asp:Table Width="100%" runat="server">
+                <asp:TableRow>
+                     <asp:TableCell HorizontalAlign="Center">
+                         <asp:Label ID="TEST" runat="server"></asp:Label>
+                    </asp:TableCell>
+                     <asp:TableCell Width="10%" HorizontalAlign="Center">
+                        <asp:Button runat="server" Text="上個月" CommandName="Previous" OnClick="NextMonth_Click" />
+                    </asp:TableCell>
+                     <asp:TableCell Width="10%" HorizontalAlign="Center">
+                        <asp:Button runat="server" Text="下個月" CommandName="Next" OnClick="NextMonth_Click" />
+                    </asp:TableCell>
+              </asp:TableRow>
+            </asp:Table>
+            <asp:DataList ID="Calendar" runat="server" OnUpdateCommand="Calendar_UpdateCommand" RepeatDirection="Horizontal" RepeatColumns="7" Width="100%">
+                <HeaderTemplate>
+                    <asp:Table runat="server" Width="100%" >
+                        <asp:TableRow>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Sun</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Mon</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Tue</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Wed</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Thu</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Fri</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Sat</asp:TableCell>
+                        </asp:TableRow>
+                    </asp:Table>
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <div style="width:50px; height:100px">
+                        <div style="text-align:center; vertical-align:top;"><label><%#Eval("Date")%></label></div>
+                        <div style="text-align:left; vertical-align:top; height:100%"><h5><%#Eval("Course")%></h5></div>
+                    </div>
+                </ItemTemplate>
+            </asp:DataList>
             </div>
         </div>
     </div> 
