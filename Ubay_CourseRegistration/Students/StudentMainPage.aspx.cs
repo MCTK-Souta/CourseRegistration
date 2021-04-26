@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace Ubay_CourseRegistration.Managers
+namespace Ubay_CourseRegistration.Students
 {
-    public partial class ManagerInfo : System.Web.UI.Page
+    public partial class StudentMainPage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

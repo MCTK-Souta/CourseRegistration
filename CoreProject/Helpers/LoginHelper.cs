@@ -45,8 +45,8 @@ namespace Ubay_CourseRegistration
             //bool isAccountRight = string.Compare("admin", account, true) == 0;
             //bool isPasswordRight = string.Compare("Ys123", pwd) == 0;
             string dbPwd = dt.Rows[0].Field<string>("password");
-            string dbFName = dt.Rows[0].Field<string>("Manager_FirstName");
-            string dbLName = dt.Rows[0].Field<string>("Manager_LastName");
+            //string dbFName = dt.Rows[0].Field<string>("Manager_FirstName");
+            //string dbLName = dt.Rows[0].Field<string>("Manager_LastName");
             bool isPasswordRight = string.Compare(dbPwd, pwd) == 0;
 
             //if (isAccountRight && isPasswordRight)

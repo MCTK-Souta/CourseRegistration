@@ -87,16 +87,18 @@
     <Content Include="js\main.js" />
     <Content Include="js\moment.js" />
     <Content Include="Login.aspx" />
+    <Content Include="Managers\ManagerMainPage.aspx" />
     <Content Include="Managers\ManagerRegion.aspx" />
     <Content Include="Managers\ManagerControlFooter.ascx" />
     <Content Include="Managers\ManagerControlHeader.ascx" />
     <Content Include="Managers\ManagerControlLeft.ascx" />
-    <Content Include="Managers\ManagerInfo.aspx" />
+    <Content Include="Managers\ManagerUpdate.aspx" />
     <Content Include="Students\StudentControlFooter.ascx" />
     <Content Include="Students\StudentControlHeader.ascx" />
     <Content Include="Students\StudentControlLeft.ascx" />
     <Content Include="Students\StudentCourseRecord.aspx" />
     <Content Include="Students\StudentInfo.aspx" />
+    <Content Include="Students\StudentMainPage.aspx" />
     <Content Include="Students\StudentSighUP.aspx" />
     <Content Include="vendor\animate\animate.css" />
     <Content Include="vendor\animsition\css\animsition.css" />
@@ -141,6 +143,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Managers\ManagerMainPage.aspx.cs">
+      <DependentUpon>ManagerMainPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerMainPage.aspx.designer.cs">
+      <DependentUpon>ManagerMainPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Managers\ManagerRegion.aspx.cs">
       <DependentUpon>ManagerRegion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -169,12 +178,12 @@
     <Compile Include="Managers\ManagerControlLeft.ascx.designer.cs">
       <DependentUpon>ManagerControlLeft.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Managers\ManagerInfo.aspx.cs">
-      <DependentUpon>ManagerInfo.aspx</DependentUpon>
+    <Compile Include="Managers\ManagerUpdate.aspx.cs">
+      <DependentUpon>ManagerUpdate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Managers\ManagerInfo.aspx.designer.cs">
-      <DependentUpon>ManagerInfo.aspx</DependentUpon>
+    <Compile Include="Managers\ManagerUpdate.aspx.designer.cs">
+      <DependentUpon>ManagerUpdate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Managers\ManagerMaster.Master.cs">
       <DependentUpon>ManagerMaster.Master</DependentUpon>
@@ -218,6 +227,13 @@
     </Compile>
     <Compile Include="Students\StudentInfo.aspx.designer.cs">
       <DependentUpon>StudentInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Students\StudentMainPage.aspx.cs">
+      <DependentUpon>StudentMainPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\StudentMainPage.aspx.designer.cs">
+      <DependentUpon>StudentMainPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Students\StudentMaster.Master.cs">
       <DependentUpon>StudentMaster.Master</DependentUpon>

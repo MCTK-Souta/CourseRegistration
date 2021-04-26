@@ -8,9 +8,9 @@
 //------------------------------------------------------------------------------
 
 
-namespace Ubay_CourseRegistration.Managers
+namespace Ubay_CourseRegistration.Students
 {
-    public partial class ManagerInfo
+    public partial class StudentMainPage
     {
     }
 }
