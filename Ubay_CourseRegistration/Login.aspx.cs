@@ -42,9 +42,9 @@ namespace Ubay_CourseRegistration
             con.Open();
 
             SqlCommand Typecheck = new SqlCommand("Select * From Account_summary Where Type=1 AND Account='" + txtAccount.Text + "'", conn);
-            SqlCommand Typcheck = new SqlCommand("Select * From Account_summary Where Type=2 AND Account='" + txtAccount.Text + "'", con);
+            //SqlCommand Typcheck = new SqlCommand("Select * From Account_summary Where Type=2 AND Account='" + txtAccount.Text + "'", con);
             SqlDataReader Typechk = Typecheck.ExecuteReader();
-            SqlDataReader Typchk = Typcheck.ExecuteReader();
+            //SqlDataReader Typchk = Typcheck.ExecuteReader();
 
             
             if (isSuccess)
@@ -56,7 +56,7 @@ namespace Ubay_CourseRegistration
                 {
                     Response.Redirect(this._goToManager);
                 }
-                if (Typchk.Read())
+                else
                 {
                     Response.Redirect(this._goToStudent);
                 }
