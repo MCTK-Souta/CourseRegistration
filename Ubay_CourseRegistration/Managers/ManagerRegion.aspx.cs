@@ -42,18 +42,19 @@ namespace Ubay_CourseRegistration.Managers
                 string.IsNullOrEmpty(asmodel.department) || string.IsNullOrEmpty(acmodel.Account) ||
                 string.IsNullOrEmpty(acmodel.password) || string.IsNullOrEmpty(asmodel.Pwdcheck))
             {
-                Response.Write("<script>alert('所有欄位皆為必填，不可為空!');</script>");
+                this.WarningMsg.Text = "所有欄位皆為必填，不可為空!";
             }
             else if (acmodel.password != asmodel.Pwdcheck)
             {
-                Response.Write("<script>alert('確認密碼不一致，請重新輸入');</script>");
+                this.WarningMsg.Text = "確認密碼不一致，請重新輸入";
             }
             else if (ha.Read())
             {
-                Response.Write("<script>alert('已有相同帳號，請換一個重新輸入');</script>");
+                this.WarningMsg.Text = "已有相同帳號，請重新輸入";
             }
             else
             {
+                this.WarningMsg.Text = "新增成功";
                 ManagerManagers.InsertAdminTablel(acmodel, asmodel, createtime);
             }
         }

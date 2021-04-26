@@ -26,6 +26,7 @@
 
             <asp:Button ID="Button1" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 25%; position: relative;" OnClick="CreateAdmin_Click" /><br />
             <br />
+            <asp:Label ID="WarningMsg" runat="server" style="color:red;font-size:20px;"></asp:Label>
             <br />
             <br />
 
