@@ -43,17 +43,17 @@ namespace Ubay_CourseRegistration.Students
             BindDataIntoRepeater();
 
             var _post = Request.QueryString["datetime"];
-            var asdflkhjalsd = Request.QueryString["coursetime"];
-            var sadfas = Request.QueryString["course12time"];
-            var asdf = Request.QueryString["eee"];
-            var afdsf = Request.QueryString["ffff"];
+            //var asdflkhjalsd = Request.QueryString["coursetime"];
+            //var sadfas = Request.QueryString["course12time"];
+            //var asdf = Request.QueryString["eee"];
+            //var afdsf = Request.QueryString["ffff"];
             if (_post != null)
                 datetime = DateTime.Parse(_post);
             TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
         }
 
-        //連接報名紀錄資料表，帶入報名學生及報名課程資料
+        //連接報名紀錄資料表，帶入報名學生及報名課程資料 (此段功能已移至StudentManager  待測試)
         public DataTable GetDataTable()
         {
             string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
@@ -65,10 +65,10 @@ namespace Ubay_CourseRegistration.Students
                     ON Registration_record.Student_ID=Student.Student_ID
                 INNER JOIN Course 
                 ON Registration_record.Course_ID=Course.Course_ID
-		INNER JOIN Teacher
-		ON Teacher.Teacher_ID=Course.Teacher_ID
-		INNER JOIN Place
-		ON Place.Place_ID=Course.Place_ID
+		            INNER JOIN Teacher
+		            ON Teacher.Teacher_ID=Course.Teacher_ID
+		            INNER JOIN Place
+		            ON Place.Place_ID=Course.Place_ID
                 WHERE Registration_record.Student_ID ='F9B00778-B226-4F73-B525-FB923E4DB80F';";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -96,7 +96,7 @@ namespace Ubay_CourseRegistration.Students
 
         private void BindDataIntoRepeater()
         {
-            var dtt = GetDataTable();
+            var dtt = _studentManagers.GetStudentCourseRecord(_ID);
             _pgsource.DataSource = dtt.DefaultView;
             _pgsource.AllowPaging = true;
             // Number of items to be displayed in the Repeater
@@ -212,13 +212,16 @@ namespace Ubay_CourseRegistration.Students
             if (!string.IsNullOrEmpty(courseName))
                 template += "&courseName=" + courseName;
 
-            if (!string.IsNullOrEmpty(StartDate))
-                template += "&StartDate=" + StartDate;
+            if (!string.IsNullOrEmpty(teacher_id))
+                template += "&teacher_id=" + teacher_id;
 
-            if (!string.IsNullOrEmpty(StarDate2))
-                template += "&StarDate2=" + StarDate2;
+            if (!string.IsNullOrEmpty(place_id))
+                template += "&place_id=" + place_id;
 
-            //Response.Redirect("ProductList.aspx" + template);
+            //Response.Redirect("StudentCourseRecord.aspx" + template);
+
+            
+
         }
 
         protected void NextMonth_Click(object sender, EventArgs e)
@@ -245,6 +248,7 @@ namespace Ubay_CourseRegistration.Students
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
             dt_calendar.Columns.Add(new DataColumn("Place"));
+            dt_calendar.Columns.Add(new DataColumn("StartTime"));
             int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
             //填滿空格
             for (int i = 0; i < ii; i++)
@@ -257,6 +261,7 @@ namespace Ubay_CourseRegistration.Students
                 dr[0] = i.ToString();
                 dr[1] = "";
                 dr[2] = "";
+                dr[3] = "";
 
                 dt_calendar.Rows.Add(dr);
             }
@@ -277,7 +282,8 @@ namespace Ubay_CourseRegistration.Students
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
             dt_calendar.Columns.Add(new DataColumn("Place"));
-
+            dt_calendar.Columns.Add(new DataColumn("StartTime"));
+            
 
             int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
             //填滿空格
@@ -291,10 +297,11 @@ namespace Ubay_CourseRegistration.Students
                 dr[0] = i.ToString();
                 foreach (DataRow r in dt_course.Rows)
                 {
-                    if (DateTime.Parse(r["b_date"].ToString()) == DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}"))
+                    if (DateTime.Parse(r["StartDate"].ToString()) == DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}"))
                     {
                         dr[1] = r["C_Name"].ToString();
                         dr[2] = r["Place_Name"].ToString();
+                        dr[3] = r["StartTime"].ToString();
                     }
                         
                     

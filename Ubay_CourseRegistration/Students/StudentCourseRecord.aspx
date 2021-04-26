@@ -78,7 +78,7 @@
                             <td><%#Eval("Course_ID") %></td>
                             <td><%#Eval("C_Name") %></td>
                             <td><%#Eval("Teacher_FirstName") %> <%#Eval("Teacher_LastName") %></td>
-                            <td><%#Eval("StartDate", "{0:yyyy-MM-dd}") %> <%#Eval("StartTime") %></td>
+                            <td><%#Eval("StartDate", "{0:yyyy-MM-dd}") %> <%#Eval("StartTime","{0:hh}") %>:<%#Eval("StartTime","{0:mm}") %></td>
                             <td><%#Eval("EndDate", "{0:yyyy-MM-dd}") %></td>
                             <td><%#Eval("Place_Name") %></td>
                             <td><%#Eval("Price","{0,0:C0}") %></td>
@@ -158,9 +158,9 @@
                     </asp:Table>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <div style="width:50px; height:100px">
+                    <div style="width:100px; height:100px">
                         <div style="text-align:center; vertical-align:top;"><label><%#Eval("Date")%></label></div>
-                        <div style="text-align:left; vertical-align:top; height:100%"><h4><%#Eval("Course")%><%#Eval("Place")%></h4></div>
+                        <div style="text-align:left; vertical-align:top; height:100%"><h4><%#Eval("Course")%><%#Eval("Place")%><%#Eval("StartTime","{0:hh}") %></h4></div>
                     </div>
                 </ItemTemplate>
             </asp:DataList>
