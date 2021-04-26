@@ -49,6 +49,7 @@ namespace Ubay_CourseRegistration.Students
 
                 if (managers.GetAccount(this.idn.Text.Trim()) != null)
                 {
+                    stmodel.Idn = null;
                     this.lbmsg.Text = "帳號已重複註冊";
                     this.lbmsg.Visible = true;
                     return;
@@ -59,9 +60,20 @@ namespace Ubay_CourseRegistration.Students
                 }
 
 
-
-                acmodel.password = this.pwd.Text.Trim();
-                string repwd = this.repwd.Text.Trim();
+                if (this.pwd.Text == this.repwd.Text)
+                {
+                    acmodel.password = this.pwd.Text.Trim();
+                }
+                else if(this.pwd.Text!=this.repwd.Text)
+                {
+                    this.lbmsg.Text = "密碼與確認密碼不一致";
+                    return;
+                }
+                else
+                {
+                    this.lbmsg.Text = "密碼不可為空";
+                    return;
+                }
                 stmodel.gender = this.gender.Text;
                 stmodel.Birthday = Convert.ToDateTime(this.birthday.Text);
                 stmodel.Email = this.email.Text.Trim();
@@ -78,6 +90,7 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.b_date = DateTime.Now;
 
                 Managers.StudentSigh_UP(stmodel, acmodel);
+
                 Response.Redirect("~/Login.aspx");
             }
 

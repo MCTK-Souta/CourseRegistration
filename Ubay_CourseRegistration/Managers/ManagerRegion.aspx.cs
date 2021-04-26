@@ -30,7 +30,7 @@ namespace Ubay_CourseRegistration.Managers
             asmodel.Pwdcheck = this.txtPwdcheck.Text;
             asmodel.datetime = DateTime.Now; // 取得現在時間
             string createtime = asmodel.datetime.ToString("yyyy/MM/dd HH:mm:ss"); // 轉成字串
-            acmodel.Type = 1;
+            acmodel.Type = true;
 
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
             conn.Open();
