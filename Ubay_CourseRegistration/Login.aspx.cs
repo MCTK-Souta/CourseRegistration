@@ -65,7 +65,7 @@ namespace Ubay_CourseRegistration
             }
             else
             {
-                this.ltMessage.Text = "Fail";
+                this.ltMessage.Text = "帳號或密碼錯誤，請重新輸入";
                 this.PlaceHolder1.Visible = true;
             }
         }
