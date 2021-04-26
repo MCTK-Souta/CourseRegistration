@@ -18,7 +18,7 @@ namespace Ubay_CourseRegistration.Utility
                 $@"
 
                 INSERT INTO Account_summary
-                    (Acc_sum_ID,Account, Password, Type)
+                    (Acc_sum_ID,Account, password, Type)
                 VALUES
                     (@GUID,@Account, @Password, @Type);
                 INSERT INTO Manager
