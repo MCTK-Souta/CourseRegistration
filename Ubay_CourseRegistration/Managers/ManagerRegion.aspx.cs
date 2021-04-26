@@ -12,11 +12,14 @@ namespace Ubay_CourseRegistration.Managers
 {
     public partial class Ad_Region : System.Web.UI.Page
     {
+        protected void Page_Init(object sender, EventArgs e)
+        {
+
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
-
         protected void CreateAdmin_Click(object sender, EventArgs e)
         {
             Account_summaryModel asmodel = new Account_summaryModel();

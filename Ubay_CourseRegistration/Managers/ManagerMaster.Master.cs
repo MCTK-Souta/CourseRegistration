@@ -9,9 +9,12 @@ namespace Ubay_CourseRegistration.Managers
 {
     public partial class ManagerMaster : System.Web.UI.MasterPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Init(object sender, EventArgs e)
         {
-
+            if (!LoginHelper.HasLogined())
+            {
+                Response.Redirect("~/Login.aspx");
+            }
         }
     }
 }

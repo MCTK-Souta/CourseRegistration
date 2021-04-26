@@ -19,9 +19,7 @@ namespace Ubay_CourseRegistration
 
             if (LoginHelper.HasLogined())
             {
-
                 this.PlaceHolder1.Visible = false;
-
             }
         }
 
