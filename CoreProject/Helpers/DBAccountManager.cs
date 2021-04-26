@@ -12,10 +12,14 @@ namespace Ubay_CourseRegistration
         public static DataTable GetUserAccount(string account)
         {
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
             string queryString =
-                $@" SELECT Account_summary.Account,Account_summary.password,Manager.Account,Manager.Manager_FirstName,Manager.Manager_LastName
+                $@" SELECT Account_summary.Account,
+                            Account_summary.password,
+                            Manager.Account,
+                            Manager.Manager_FirstName,
+                            Manager.Manager_LastName
                     FROM Account_summary inner join Manager 
                     on Account_summary.Account=Manager.Account
 					WHERE Account_summary.Account=@account;";

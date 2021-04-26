@@ -26,6 +26,11 @@ namespace CoreProject.Managers
 
         //}
 
+        /// <summary>
+        /// 取得帳號資料
+        /// </summary>
+        /// <param name="Account"></param>
+        /// <returns></returns>
         public AccountModel GetAccount(string Account)
         {
             string connectionString = GetConnectionString();
@@ -69,7 +74,12 @@ namespace CoreProject.Managers
         {
             return false;
         }
-        //學生註冊
+
+        /// <summary>
+        /// 學生註冊 學生Model,帳戶Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="acmodel"></param>
         public void StudentSigh_UP(StudentInfoModel model, AccountModel acmodel)
         {
             if (this.HasAccount(acmodel.Account))
@@ -120,13 +130,18 @@ namespace CoreProject.Managers
             new SqlParameter("@Acc_sum_ID", student_id),
             new SqlParameter("@Account", model.Idn),
             new SqlParameter("@password", acmodel.password),
-            new SqlParameter("@Type", "0")
+            new SqlParameter("@Type", false)
             };
 
             this.ExecuteNonQuery(queryString, parameters);
 
         }
 
+        /// <summary>
+        /// 身分證驗證
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool Check(string id)
         {
             // 使用「正規表達式」檢驗格式 [A~Z] {1}個數字 [0~9] {9}個數字

@@ -25,10 +25,18 @@ namespace Ubay_CourseRegistration.Students
             StudentInfoModel stmodel = new StudentInfoModel();
             AccountModel acmodel = new AccountModel();
 
-            if (this.fname.Text != string.Empty && this.lname.Text != string.Empty && this.idn.Text != string.Empty &&
-                this.pwd.Text != string.Empty && this.repwd.Text != string.Empty && this.gender.Text != string.Empty &&
-                this.birthday.Text != string.Empty && this.email.Text != string.Empty && this.phone.Text != string.Empty &&
-                this.address.Text != string.Empty && this.experience.Text != string.Empty && this.exyear.Text != string.Empty &&
+            if (this.fname.Text != string.Empty &&
+                this.lname.Text != string.Empty &&
+                this.idn.Text != string.Empty &&
+                this.pwd.Text != string.Empty &&
+                this.repwd.Text != string.Empty &&
+                this.gender.Text != string.Empty &&
+                this.birthday.Text != string.Empty &&
+                this.email.Text != string.Empty &&
+                this.phone.Text != string.Empty &&
+                this.address.Text != string.Empty &&
+                this.experience.Text != string.Empty &&
+                this.exyear.Text != string.Empty &&
                 this.education.Text != string.Empty)
             {
                 StudentManagers managers = new StudentManagers();
@@ -90,8 +98,8 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.b_date = DateTime.Now;
 
                 Managers.StudentSigh_UP(stmodel, acmodel);
-
-                Response.Redirect("~/Login.aspx");
+                Response.Write
+                ("<script>alert('註冊成功，返回登入頁面');location.href='/Login.aspx'; </script>");
             }
 
             else
