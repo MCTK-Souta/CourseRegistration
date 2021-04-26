@@ -87,7 +87,12 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.Email = this.email.Text.Trim();
                 stmodel.CellPhone = this.phone.Text.Trim();
                 stmodel.Address = this.address.Text.Trim();
+                if(this.experience.SelectedItem.Text=="有")
+                {
+
+                }
                 stmodel.Experience = this.experience.Text;
+
                 stmodel.ExYear = this.exyear.Text;
                 stmodel.Education = this.education.Text;
 
@@ -132,5 +137,38 @@ namespace Ubay_CourseRegistration.Students
             uFile.SaveAs(fullPath);
             return newFileName;
         }
+
+        protected void experience_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.experience.SelectedItem.Text == "有")
+            {
+                this.yearshow.Visible = true;
+                this.exyear.Visible = true;
+
+            }
+            else
+            {
+                this.yearshow.Visible = false;
+                this.exyear.Visible = false;
+
+            }
+        }
+        protected void education_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.education.SelectedItem.Text == "大學" || this.education.SelectedItem.Text == "研究所")
+            {
+                this.schoolshow.Visible = true;
+                this.school.Visible = true;
+
+            }
+            else
+            {
+                this.schoolshow.Visible = false;
+                this.school.Visible = false;
+
+            }
+        }
+
+
     }
 }

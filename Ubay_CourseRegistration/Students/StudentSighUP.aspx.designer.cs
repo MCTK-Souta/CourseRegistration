@@ -66,7 +66,7 @@ namespace Ubay_CourseRegistration.Students
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList gender;
+        protected global::System.Web.UI.WebControls.RadioButtonList gender;
 
         /// <summary>
         /// birthday 控制項。
@@ -123,6 +123,15 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.RadioButtonList experience;
 
         /// <summary>
+        /// yearshow 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label yearshow;
+
+        /// <summary>
         /// exyear 控制項。
         /// </summary>
         /// <remarks>
@@ -139,6 +148,15 @@ namespace Ubay_CourseRegistration.Students
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList education;
+
+        /// <summary>
+        /// schoolshow 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label schoolshow;
 
         /// <summary>
         /// school 控制項。

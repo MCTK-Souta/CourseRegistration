@@ -1,9 +1,26 @@
-﻿$(document).ready(function () {
-    var education = $("#education").val();
-    if (education == "3" || education == "4") {
-        $("#schoolshow").css('display', 'block')
-            ;}
-    else {
-        $("#schoolshow").css('display', 'none');
-    }
-})
+﻿////$(function () {
+////    $("#education").change(function () {
+////        educations();
+////    });
+////    educations();
+////});
+
+////function educations() {
+////    if ($("#education").find("option:selected").text() == "3" || $("#education").find("option:selected").text() == "4") {
+////        $("#schoolshow").show();
+////    } else {
+////        $("#schoolshow").hide();
+////    }
+////};
+
+
+
+//$(document).ready(function () {
+//    if ($("#education").text() == "大學" || $("#education").text() == "研究所") {
+//        $("#schoolshow").show()
+//            ;
+//    }
+//    else {
+//        $("#schoolshow").hide();
+//    }
+//})
