@@ -244,6 +244,7 @@ namespace Ubay_CourseRegistration.Students
             //DataTable dt_course = new DataTable();
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
+            dt_calendar.Columns.Add(new DataColumn("Place"));
             int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
             //填滿空格
             for (int i = 0; i < ii; i++)
@@ -255,7 +256,8 @@ namespace Ubay_CourseRegistration.Students
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
                 dr[1] = "";
-                
+                dr[2] = "";
+
                 dt_calendar.Rows.Add(dr);
             }
 
@@ -269,11 +271,12 @@ namespace Ubay_CourseRegistration.Students
 
         protected void CreateCalendar()//int InYear, int InMonth)
         {
-            DataTable dt_course = _studentManagers.GetStudentCourse(_ID);
+            DataTable dt_course = _studentManagers.GetStudentCourseRecord(_ID);
             DataTable dt_calendar = new DataTable();
 
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
+            dt_calendar.Columns.Add(new DataColumn("Place"));
 
 
             int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
@@ -289,7 +292,12 @@ namespace Ubay_CourseRegistration.Students
                 foreach (DataRow r in dt_course.Rows)
                 {
                     if (DateTime.Parse(r["b_date"].ToString()) == DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}"))
-                        dr[1] = r["Course_ID"].ToString();
+                    {
+                        dr[1] = r["C_Name"].ToString();
+                        dr[2] = r["Place_Name"].ToString();
+                    }
+                        
+                    
 
                 }
                 dt_calendar.Rows.Add(dr);

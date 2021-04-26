@@ -147,20 +147,20 @@
                 <HeaderTemplate>
                     <asp:Table runat="server" Width="100%" >
                         <asp:TableRow>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Sun</asp:TableCell>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Mon</asp:TableCell>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Tue</asp:TableCell>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Wed</asp:TableCell>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Thu</asp:TableCell>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Fri</asp:TableCell>
-                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">Sat</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期日</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期一</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期二</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期三</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期四</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期五</asp:TableCell>
+                            <asp:TableCell HorizontalAlign="Center" BorderStyle="None">星期六</asp:TableCell>
                         </asp:TableRow>
                     </asp:Table>
                 </HeaderTemplate>
                 <ItemTemplate>
                     <div style="width:50px; height:100px">
                         <div style="text-align:center; vertical-align:top;"><label><%#Eval("Date")%></label></div>
-                        <div style="text-align:left; vertical-align:top; height:100%"><h5><%#Eval("Course")%></h5></div>
+                        <div style="text-align:left; vertical-align:top; height:100%"><h4><%#Eval("Course")%><%#Eval("Place")%></h4></div>
                     </div>
                 </ItemTemplate>
             </asp:DataList>

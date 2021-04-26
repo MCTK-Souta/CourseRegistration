@@ -173,15 +173,37 @@ namespace CoreProject.Managers
             return true;
         }
 
-        public DataTable GetStudentCourse(string ID)
+        //public DataTable GetStudentCourse(string ID)
+        //{
+        //    string cmd = @"SELECT * FROM Registration_record WHERE Student_ID = @ID;";
+        //    List<SqlParameter> parameters = new List<SqlParameter>()
+        //    {
+        //        new SqlParameter("@ID",ID)
+        //    };
+        //    return this.GetDataTable(cmd, parameters);
+        //}
+
+        //抓取學生歷史報名紀錄
+        public DataTable GetStudentCourseRecord(string ID)
         {
-            string cmd = @"SELECT * FROM Registration_record WHERE Student_ID = @ID;";
+            string cmd = @" SELECT * 
+                FROM Registration_record
+                    INNER JOIN Student
+                    ON Registration_record.Student_ID=Student.Student_ID
+                INNER JOIN Course 
+                ON Registration_record.Course_ID=Course.Course_ID
+		            INNER JOIN Teacher
+		            ON Teacher.Teacher_ID=Course.Teacher_ID
+		            INNER JOIN Place
+		            ON Place.Place_ID=Course.Place_ID
+                WHERE Registration_record.Student_ID =@ID;";
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@ID",ID)
             };
             return this.GetDataTable(cmd, parameters);
         }
+
 
     }
 }
