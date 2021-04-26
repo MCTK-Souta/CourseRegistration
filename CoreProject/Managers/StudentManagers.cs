@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Text.RegularExpressions;
+using System.Data;
 
 namespace CoreProject.Managers
 {
@@ -170,6 +171,16 @@ namespace CoreProject.Managers
             }
 
             return true;
+        }
+
+        public DataTable GetStudentCourse(string ID)
+        {
+            string cmd = @"SELECT * FROM Registration_record WHERE Student_ID = @ID;";
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",ID)
+            };
+            return this.GetDataTable(cmd, parameters);
         }
 
     }

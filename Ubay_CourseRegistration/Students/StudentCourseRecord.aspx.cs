@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreProject.Managers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -12,9 +13,15 @@ namespace Ubay_CourseRegistration.Students
 {
     public partial class StudentCourseRecord : System.Web.UI.Page
     {
+        StudentManagers _studentManagers = new StudentManagers();
         readonly PagedDataSource _pgsource = new PagedDataSource();
+        static DateTime datetime = DateTime.Now;
         int _firstIndex, _lastIndex;
+        string _ID = "F9B00778-B226-4F73-B525-FB923E4DB80F";
+        public string _month { get; set; } = "";
         private int _pageSize = 10;
+
+
         private int CurrentPage
         {
             get
@@ -34,6 +41,16 @@ namespace Ubay_CourseRegistration.Students
         {
             if (Page.IsPostBack) return;
             BindDataIntoRepeater();
+
+            var _post = Request.QueryString["datetime"];
+            var asdflkhjalsd = Request.QueryString["coursetime"];
+            var sadfas = Request.QueryString["course12time"];
+            var asdf = Request.QueryString["eee"];
+            var afdsf = Request.QueryString["ffff"];
+            if (_post != null)
+                datetime = DateTime.Parse(_post);
+            TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
+            CreateCalendar();
         }
 
         //連接報名紀錄資料表，帶入報名學生及報名課程資料
@@ -52,7 +69,7 @@ namespace Ubay_CourseRegistration.Students
 		ON Teacher.Teacher_ID=Course.Teacher_ID
 		INNER JOIN Place
 		ON Place.Place_ID=Course.Place_ID
-                WHERE Registration_record.Student_ID ='39113b48-6693-8276-b8e8-fc803d3160ee';";
+                WHERE Registration_record.Student_ID ='F9B00778-B226-4F73-B525-FB923E4DB80F';";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -202,6 +219,89 @@ namespace Ubay_CourseRegistration.Students
                 template += "&StarDate2=" + StarDate2;
 
             //Response.Redirect("ProductList.aspx" + template);
+        }
+
+        protected void NextMonth_Click(object sender, EventArgs e)
+        {
+            switch (((Button)sender).CommandName)
+            {
+                case "Next":
+                    datetime = datetime.AddMonths(1);
+                    break;
+                case "Previous":
+                    datetime = datetime.AddMonths(-1);
+                    break;
+            }
+            CreateCalendar();
+            Response.Redirect($"StudentCourseRecord.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+        }
+
+
+
+        protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
+        {
+            DataTable dt_calendar = new DataTable();
+            //DataTable dt_course = new DataTable();
+            dt_calendar.Columns.Add(new DataColumn("Date"));
+            dt_calendar.Columns.Add(new DataColumn("Course"));
+            int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
+            //填滿空格
+            for (int i = 0; i < ii; i++)
+                dt_calendar.Rows.Add("");
+
+            //產生該月的日期列表
+            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
+            {
+                DataRow dr = dt_calendar.NewRow();
+                dr[0] = i.ToString();
+                dr[1] = "";
+                
+                dt_calendar.Rows.Add(dr);
+            }
+
+            //資料綁定
+            Calendar.DataSource = dt_calendar;
+            Calendar.DataBind();
+
+            //設定當天顏色
+            Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
+        }
+
+        protected void CreateCalendar()//int InYear, int InMonth)
+        {
+            DataTable dt_course = _studentManagers.GetStudentCourse(_ID);
+            DataTable dt_calendar = new DataTable();
+
+            dt_calendar.Columns.Add(new DataColumn("Date"));
+            dt_calendar.Columns.Add(new DataColumn("Course"));
+
+
+            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
+            //填滿空格
+            for (int i = 0; i < ii; i++)
+                dt_calendar.Rows.Add("");
+
+            //產生該月的日期列表
+            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
+            {
+                DataRow dr = dt_calendar.NewRow();
+                dr[0] = i.ToString();
+                foreach (DataRow r in dt_course.Rows)
+                {
+                    if (DateTime.Parse(r["b_date"].ToString()) == DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}"))
+                        dr[1] = r["Course_ID"].ToString();
+
+                }
+                dt_calendar.Rows.Add(dr);
+            }
+
+            //資料綁定
+            Calendar.DataSource = dt_calendar;
+            Calendar.DataBind();
+
+            //設定當天顏色
+            if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
+                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
         }
     }
 }
