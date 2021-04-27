@@ -13,5 +13,13 @@ namespace Ubay_CourseRegistration.Students
         {
 
         }
+
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if (!LoginHelper.HasLogined())
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+        }
     }
 }

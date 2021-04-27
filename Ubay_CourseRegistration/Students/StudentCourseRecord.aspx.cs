@@ -13,6 +13,8 @@ namespace Ubay_CourseRegistration.Students
 {
     public partial class StudentCourseRecord : System.Web.UI.Page
     {
+
+
         StudentManagers _studentManagers = new StudentManagers();
         readonly PagedDataSource _pgsource = new PagedDataSource();
         static DateTime datetime = DateTime.Now;
@@ -53,7 +55,7 @@ namespace Ubay_CourseRegistration.Students
             CreateCalendar();
         }
 
-        //連接報名紀錄資料表，帶入報名學生及報名課程資料 (此段功能已移至StudentManager  待測試)
+        //連接報名紀錄資料表，帶入報名學生及報名課程資料 (待刪除   因為此段功能已移至StudentManager-->待測試)
         public DataTable GetDataTable()
         {
             string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
@@ -220,7 +222,7 @@ namespace Ubay_CourseRegistration.Students
 
             //Response.Redirect("StudentCourseRecord.aspx" + template);
 
-            
+            BindDataIntoRepeater();
 
         }
 
