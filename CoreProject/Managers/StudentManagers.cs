@@ -35,8 +35,8 @@ namespace CoreProject.Managers
         {
             string connectionString = GetConnectionString();
             string queryString =
-                $@" SELECT * FROM Account_summary;
-                    WHERE Account = @Account
+                $@" SELECT * FROM Account_summary
+                    WHERE Account = @Account;
                 ";
 
             using (SqlConnection connection = new SqlConnection(connectionString))

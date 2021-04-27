@@ -36,7 +36,6 @@ namespace Ubay_CourseRegistration.Students
                 this.phone.Text != string.Empty &&
                 this.address.Text != string.Empty &&
                 this.experience.Text != string.Empty &&
-                this.exyear.Text != string.Empty &&
                 this.education.Text != string.Empty)
             {
                 StudentManagers managers = new StudentManagers();
@@ -89,14 +88,52 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.Address = this.address.Text.Trim();
                 if(this.experience.SelectedItem.Text=="有")
                 {
+                    if(this.exyear.SelectedItem.Text== "請選擇")
+                    {
+                        stmodel.Experience = null;
+                        stmodel.ExYear = null;
+                        this.lbmsg.Visible = true;
+                        this.lbmsg.Text = "需選擇年數";
+                        return;
+                    }
+                    else
+                    {
+                        stmodel.Experience = this.experience.Text;
+                        stmodel.ExYear = this.exyear.Text;
+
+                    }
+                }
+                else
+                {
+                    stmodel.Experience = this.experience.Text;
+                    stmodel.ExYear = null;
 
                 }
-                stmodel.Experience = this.experience.Text;
 
-                stmodel.ExYear = this.exyear.Text;
-                stmodel.Education = this.education.Text;
+                if(this.education.SelectedItem.Text=="大學"||this.education.SelectedItem.Text=="研究所")
+                {
+                    if(this.school.SelectedItem.Text== "請選擇")
+                    {
+                        stmodel.Education = null;
+                        stmodel.School_ID = null;
+                        this.lbmsg.Visible = true;
+                        this.lbmsg.Text = "需選擇學校";
 
-                stmodel.School_ID = this.school.Text;
+                        return;
+                    }
+                    else
+                    {
+                        stmodel.Education = this.education.Text;
+                        stmodel.School_ID = this.school.Text;
+
+                    }
+                }
+                else
+                {
+                    stmodel.Education = this.education.Text;
+                    stmodel.School_ID = null;
+                }
+
                 stmodel.PassNumber = this.psn.Text.Trim();
 
                 stmodel.PassPic = this.GetNewFileName(this.passpic);

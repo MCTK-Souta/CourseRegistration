@@ -37,7 +37,7 @@
                 <p style="color: red; display: inline">*</p>
 
                 性別：               
-                <asp:RadioButtonList ID="gender" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow"   >
+                <asp:RadioButtonList ID="gender" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
                     <asp:ListItem Text="男" Value="0"></asp:ListItem>
                     <asp:ListItem Text="女" Value="1"></asp:ListItem>
                 </asp:RadioButtonList>
@@ -105,7 +105,9 @@
                 <br />
 
             </div>
-            <div style="margin-left: -33px;">護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox></div>
+            <div style="margin-left: -33px;">
+                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox>
+            </div>
             <br />
             <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
             <br />
