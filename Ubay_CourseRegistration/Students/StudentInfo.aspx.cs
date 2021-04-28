@@ -11,6 +11,7 @@ namespace Ubay_CourseRegistration.Students
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
 
         }
     }

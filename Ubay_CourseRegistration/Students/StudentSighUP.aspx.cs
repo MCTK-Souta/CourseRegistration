@@ -17,14 +17,20 @@ namespace Ubay_CourseRegistration.Students
         protected void Page_Load(object sender, EventArgs e)
         {
             UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+            if (IsPostBack)
+            {
+                pwd.Attributes.Add("value", pwd.Text);
+                repwd.Attributes.Add("value", repwd.Text);
+
+            }
         }
 
         protected void Button_StRegion(object sender, EventArgs e)
         {
-            var Managers = new StudentManagers();
+            var Managers = new DBAccountManager();
             StudentInfoModel stmodel = new StudentInfoModel();
             AccountModel acmodel = new AccountModel();
-
+            var StManagers = new StudentManagers();
             if (this.fname.Text != string.Empty &&
                 this.lname.Text != string.Empty &&
                 this.idn.Text != string.Empty &&
@@ -38,7 +44,7 @@ namespace Ubay_CourseRegistration.Students
                 this.experience.Text != string.Empty &&
                 this.education.Text != string.Empty)
             {
-                StudentManagers managers = new StudentManagers();
+                //StudentManagers managers = new StudentManagers();
                 stmodel.S_FirstName = this.fname.Text.Trim();
                 stmodel.S_LastName = this.lname.Text.Trim();
                 bool idnc = Managers.Check(this.idn.Text);
@@ -54,7 +60,7 @@ namespace Ubay_CourseRegistration.Students
                     return;
                 }
 
-                if (managers.GetAccount(this.idn.Text.Trim()) != null)
+                if (Managers.GetAccount(this.idn.Text.Trim()) != null)
                 {
                     stmodel.Idn = null;
                     this.lbmsg.Text = "帳號已重複註冊";
@@ -139,7 +145,7 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.PassPic = this.GetNewFileName(this.passpic);
                 stmodel.b_date = DateTime.Now;
 
-                Managers.StudentSigh_UP(stmodel, acmodel);
+                StManagers.StudentSigh_UP(stmodel, acmodel);
                 Response.Write
                 ("<script>alert('註冊成功，返回登入頁面');location.href='/Login.aspx'; </script>");
             }

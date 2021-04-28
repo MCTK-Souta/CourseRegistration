@@ -15,7 +15,8 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-
+        <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/console.js"></script>
     <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
     <link href="../js/fullcalendar/main.css" rel="stylesheet" />
     <script src="../js/moment.js"></script>
