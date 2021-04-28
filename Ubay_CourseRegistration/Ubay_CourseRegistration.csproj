@@ -92,6 +92,7 @@
     <Content Include="Managers\ManagerControlFooter.ascx" />
     <Content Include="Managers\ManagerControlHeader.ascx" />
     <Content Include="Managers\ManagerControlLeft.ascx" />
+    <Content Include="Managers\ManagerStList.aspx" />
     <Content Include="Managers\ManagerUpdate.aspx" />
     <Content Include="Students\StudentControlFooter.ascx" />
     <Content Include="Students\StudentControlHeader.ascx" />
@@ -177,6 +178,13 @@
     </Compile>
     <Compile Include="Managers\ManagerControlLeft.ascx.designer.cs">
       <DependentUpon>ManagerControlLeft.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ManagerStList.aspx.cs">
+      <DependentUpon>ManagerStList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerStList.aspx.designer.cs">
+      <DependentUpon>ManagerStList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Managers\ManagerUpdate.aspx.cs">
       <DependentUpon>ManagerUpdate.aspx</DependentUpon>

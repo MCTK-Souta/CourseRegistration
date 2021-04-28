@@ -5,10 +5,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using CoreProject.Helpers;
+using CoreProject.ViewModels;
 
 namespace Ubay_CourseRegistration.Utility
 {
-    public class ManagerManagers
+    public class ManagerManagers : DBBase
     {
         public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime)
         {
@@ -109,126 +111,151 @@ namespace Ubay_CourseRegistration.Utility
 
             }
 
-        } //查詢
+        }
 
-        public static DataTable ReadTestTable1on1(string ID)
+
+        public List<StudentAccountViewModel> GetStudentViewModels(
+      string name, string Idn, out int totalSize, int currentPage = 1, int pageSize = 10)
         {
-            string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
+            //----- Process filter conditions -----
+            List<string> conditions = new List<string>();
 
-            string queryString =
-                $@" SELECT * FROM TestTable1;
-                WHERE ID = @id
-                ORDER BY ID DESC; ";
+            if (!string.IsNullOrEmpty(name))
+                conditions.Add(" Student.S_FirstName+Student.S_LastName LIKE '%' + @name + '%'");
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
+            if (!string.IsNullOrEmpty(Idn))
+                conditions.Add(" Idn = @Idn");
+
+            string filterConditions =
+                (conditions.Count > 0)
+                    ? (" WHERE " + string.Join(" AND ", conditions))
+                    : string.Empty;
+            //----- Process filter conditions -----
+
+
+            string query =
+                $@"         
+					SELECT TOP {10} * FROM
+                    (
+                        SELECT 
+                            ROW_NUMBER() OVER(ORDER BY Student.Idn) AS RowNumber,
+                            Student.S_FirstName+Student.S_LastName AS 姓名,
+                            Student.gender AS 性別,
+                            Student.Idn AS 身分證字號,
+							Student.CellPhone AS 手機,
+                            Student.Address AS 地址
+                        FROM Student
+                        JOIN Account_summary
+                        ON Student.Student_ID = Account_summary.Acc_sum_ID
+                        {filterConditions}
+                    ) AS TempT
+                    WHERE RowNumber > {pageSize * (currentPage - 1)}
+                    ORDER BY 身分證字號
+                    ";
+
+            string countQuery =
+                $@" SELECT 
+                        COUNT(Student.Idn) 
+                    FROM Student
+                    JOIN Account_summary
+                    ON  Student.Student_ID = Account_summary.Acc_sum_ID
+                    {filterConditions}
+                ";
+
+            List<SqlParameter> dbParameters = new List<SqlParameter>();
+
+            if (!string.IsNullOrEmpty(name))
+                dbParameters.Add(new SqlParameter("@name", name));
+
+            if (!string.IsNullOrEmpty(Idn))
+                dbParameters.Add(new SqlParameter("@Idn", Idn));
+
+
+            var dt = this.GetDataTable(query, dbParameters);
+
+            List<StudentAccountViewModel> list = new List<StudentAccountViewModel>();
+
+            foreach (DataRow dr in dt.Rows)
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@ID", 3);
+                StudentAccountViewModel model = new StudentAccountViewModel();
+                model.Student_ID = (Guid)dr["ID"];
+                model.S_FirstName = (string)dr["S_FirstName"];
+                model.S_LastName = (string)dr["S_LastName"];
+                model.gender = (string)dr["gender"];
+                model.Idn = (string)dr["Idn"];
+                model.CellPhone = (string)dr["CellPhone"];
+                model.Address = (string)dr["Address"];
 
 
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    DataTable dt = new DataTable();
-                    dt.Load(reader);
-                    reader.Close();
-                    return dt;
-                }
-
-                catch (Exception ex)
-                {
-                    HttpContext.Current.Response.Write(ex.Message);
-                    return null;
-                }
-
+                list.Add(model);
             }
 
-        } //查詢
 
-        public static void DeleteTestTablel(string id)
-        {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
+            // 算總數並回傳
+            int? totalSize2 = this.GetScale(countQuery, dbParameters) as int?;
+            totalSize = (totalSize2.HasValue) ? totalSize2.Value : 0;
 
-            string queryString =
-                $@"DELETE FROM TestTable1 WHERE ID=@ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@ID", id);
-
-                try
-                {
-                    connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
-                    HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
-                }
-
-                catch (Exception ex)
-                {
-                    HttpContext.Current.Response.Write(ex.Message);
-                }
-            }
-        } //刪除
-
-        public static void UpdateTestTablel(string id, string name, string birthday, string numbercol)
-        {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
-
-            string queryString =
-                $@"UPDATE  TestTable1 SET
-                    ID=@ID,Name=@Name,Birthday=@Birthday,NumberCol=@NumberCol
-                WHERE
-                    ID=@ID;";
-
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@ID", id);
-                command.Parameters.AddWithValue("@Name", name);
-                command.Parameters.AddWithValue("@Birthday", birthday);
-                command.Parameters.AddWithValue("@NumberCol", numbercol);
-
-                try
-                {
-                    connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
-                    HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
-                }
-
-                catch (Exception ex)
-                {
-                    HttpContext.Current.Response.Write(ex.Message);
-                }
-            }
-        } //修改
+            return list;
+        }
 
 
-        public static DataTable BuildDataTablel()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ID", typeof(int));
-            dt.Columns.Add("Name", typeof(string));
-            dt.Columns.Add("Birthday", typeof(DateTime));
-            dt.Columns.Add("NumberCol", typeof(int));
-            dt.Columns["Birthday"].AllowDBNull = true;
+        //public StudentAccountViewModel GetAccountViewModel(Guid id)
+        //{
+        //    string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=SampleProject; Integrated Security=true";
+        //    string queryString =
+        //        $@" SELECT 
+        //                Accounts.ID,
+        //                Accounts.Name AS Account,
+        //                Accounts.UserLevel,
+        //                Accounts.PWD,
+        //                Accounts.Email,
+        //                AccountInfos.Name,
+        //                AccountInfos.Title,
+        //                AccountInfos.Phone
+        //            FROM Accounts
+        //            JOIN AccountInfos
+        //                ON Accounts.ID = AccountInfos.ID
+        //            WHERE Accounts.ID = @id
+        //        ";
 
-            DateTime baseDate = new DateTime(2011, 1, 1);
-            for (var i = 0; i < 50; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr["ID"] = i;
-                dr["Name"] = "UserName" + i;
-                dr["Birthday"] = baseDate.AddDays(i);
-                //dr["NumberCol"] = "NuberCol"+(i);
-                dt.Rows.Add(dr);
-            }
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        SqlCommand command = new SqlCommand(queryString, connection);
+        //        command.Parameters.AddWithValue("@id", id);
 
-            return dt;
+        //        try
+        //        {
+        //            connection.Open();
+        //            SqlDataReader reader = command.ExecuteReader();
 
-        } //迴圈建立多筆資料
+        //            StudentAccountViewModel model = null;
+
+        //            while (reader.Read())
+        //            {
+        //                model = new StudentAccountViewModel();
+        //                model.ID = (Guid)reader["ID"];
+        //                model.Name = (string)reader["Name"];
+        //                model.Title = (string)reader["Title"];
+        //                model.Account = (string)reader["Account"];
+        //                model.UserLevel = (int)reader["UserLevel"];
+        //                model.PWD = (string)reader["PWD"];
+        //                model.Email = (string)reader["Email"];
+        //                model.Phone = (string)reader["Phone"];
+        //            }
+
+        //            reader.Close();
+
+        //            return model;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //}
+
+
+
+
     }
 }

@@ -56,8 +56,8 @@
 </style>
 <div class="container" >
     <ul>
-        <li><a href="#">新增管理人</a></li>
-        <li><a href="#">管理人資料維護</a></li>
+        <li><a href="ManagerRegion.aspx">新增管理人</a></li>
+        <li><a href="ManagerUpdate.aspx">管理人資料維護</a></li>
         <li><a href="#">課程處理</a></li>
-        <li><a href="#">學生資料維護</a></li>
+        <li><a href="ManagerStList.aspx">學生資料維護</a></li>
     </ul>

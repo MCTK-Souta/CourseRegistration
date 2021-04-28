@@ -7,7 +7,7 @@
 <header style="background-color: rgb(80, 80, 80,1); height: 75px">
     <div style="display: inline;">
         <div style="float: left;">
-            <a href="student_main.aspx" style="font-size: 20px">
+            <a href="/login.aspx" style="font-size: 20px">
                 <img src="../images/LOGO-removebg-preview.png" width="150" />課程報名系統
             </a>
         </div>
