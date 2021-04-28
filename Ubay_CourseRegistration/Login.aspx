@@ -35,7 +35,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 					<span class="login100-form-title p-b-26">
-                        <a href="student/Student_main.aspx"><img src="images/LOGO-removebg-preview.png" width="100" /></a>
+                        <a href="Login.aspx"><img src="images/LOGO-removebg-preview.png" width="100" /></a>
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "請輸入帳號">

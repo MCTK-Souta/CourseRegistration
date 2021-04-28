@@ -15,12 +15,14 @@ namespace Ubay_CourseRegistration
                 "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
             string queryString =
-                $@" SELECT * FROM Account_summary WHERE Account = @account;";
+                $@" SELECT * FROM Account_summary 
+                    WHERE Account = @account ;";
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@account", account);
+                
 
 
                 try

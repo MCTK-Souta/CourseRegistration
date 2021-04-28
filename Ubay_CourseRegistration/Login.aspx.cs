@@ -15,9 +15,11 @@ namespace Ubay_CourseRegistration
         private string _goToManager = "Managers/ManagerMainPage.aspx";
         private string _goToStudent = "Students/StudentMainPage.aspx";
 
+        private const string _sessionKey = "IsLogined";
+        private const string _sessionKey_Account = "Account";
         protected void Page_Load(object sender, EventArgs e)
         {
-            //_goToStudent = Request.RawUrl;
+
 
             if (LoginHelper.HasLogined())
             {
@@ -38,14 +40,8 @@ namespace Ubay_CourseRegistration
             
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
             conn.Open();
-            SqlConnection con = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
-            con.Open();
-
             SqlCommand Typecheck = new SqlCommand("Select * From Account_summary Where Type=1 AND Account='" + txtAccount.Text + "'", conn);
-            //SqlCommand Typcheck = new SqlCommand("Select * From Account_summary Where Type=2 AND Account='" + txtAccount.Text + "'", con);
             SqlDataReader Typechk = Typecheck.ExecuteReader();
-            //SqlDataReader Typchk = Typcheck.ExecuteReader();
-
             
             if (isSuccess)
             {
