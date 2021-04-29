@@ -48,6 +48,11 @@ namespace Ubay_CourseRegistration
                 this.ltMessage.Text = "Success";
                 this.PlaceHolder1.Visible = false;
 
+                //將帳號存入Session
+                Session["Account"] = txtAccount.Text;
+                Session["IsLogined"] = true;
+                Session["Acc_sum_ID"] = DBAccountManager.GetUserAccount(txtAccount.Text).Rows[0]["Acc_sum_ID"];
+
                 if (Typechk.Read())
                 {
                     Response.Redirect(this._goToManager);

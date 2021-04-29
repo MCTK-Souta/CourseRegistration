@@ -11,7 +11,8 @@ namespace Ubay_CourseRegistration.Managers
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //取得存在SESSION的帳號名稱
+            ltAccount.Text = (string)Session["Account"];
         }
     }
 }

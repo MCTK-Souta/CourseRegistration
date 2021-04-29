@@ -13,10 +13,10 @@
         </div>
         <br />
         
-        <asp:PlaceHolder ID="PlaceHolder1" runat="server" >
-            <a href="../Login.aspx" style="float: right;font-size:20px;">登入</a>
+        <asp:PlaceHolder ID="PlaceHolder1" runat="server" Visible="false">
+            <a href="../StudentMainPage.aspx" style="float: right;font-size:20px;">登入</a>
         </asp:PlaceHolder>
-        <asp:PlaceHolder ID="PlaceHolder2" runat="server" Visible="false">
+        <asp:PlaceHolder ID="PlaceHolder2" runat="server" Visible="true">
             <div style="float: right;font-size:20px;">
             歡迎:<asp:Literal ID="ltAccount" runat="server" ></asp:Literal>
             <br />
