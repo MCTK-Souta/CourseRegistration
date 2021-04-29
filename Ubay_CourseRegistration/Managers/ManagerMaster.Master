@@ -23,7 +23,7 @@
         <div class="container2">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
-        </div>
+        </div></div>
         <div>
             <uc1:ManagerControlFooter runat="server" ID="ManagerControlFooter" />
         </div>
