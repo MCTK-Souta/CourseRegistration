@@ -11,6 +11,15 @@ namespace Ubay_CourseRegistration.Students
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            int Type = 1;
+            if (Session["Type"] != null)
+            {
+                Type = (int)Session["Type"];
+            }
+            if (Type == 1)
+            {
+                Response.Redirect("~/Login.aspx"); 
+            }
 
             if (!LoginHelper.HasLogined())
             {

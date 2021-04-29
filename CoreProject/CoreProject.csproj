@@ -47,6 +47,8 @@
     <Compile Include="Helpers\DBAccountManager.cs" />
     <Compile Include="Helpers\DBBase.cs" />
     <Compile Include="Helpers\LoginHelper.cs" />
+    <Compile Include="Helpers\LoginInfo.cs" />
+    <Compile Include="Helpers\UserLevel.cs" />
     <Compile Include="Helpers\PagingHelper.cs" />
     <Compile Include="Managers\ManagerManagers.cs" />
     <Compile Include="Managers\StudentManagers.cs" />

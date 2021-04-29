@@ -64,7 +64,6 @@ namespace Ubay_CourseRegistration.Utility
                 {
                     connection.Open();
                     int totalChangeRows = command.ExecuteNonQuery();
-                    //HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
                     HttpContext.Current.Response.Write("<script>alert('新增成功!');</script>");
                 }
 
@@ -75,7 +74,7 @@ namespace Ubay_CourseRegistration.Utility
             }
         } //新增管理人(勿更改)
 
-        public static DataTable ReadTestTable1DT(string Account)
+        public static AccountModel GetAccount(string Account)
 
         {
             string connectionstring =
@@ -84,7 +83,6 @@ namespace Ubay_CourseRegistration.Utility
             string queryString =
                 $@" SELECT * FROM Account_summary
                     WHERE Account = @Account";
-            //ORDER BY ID DESC;";
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
@@ -97,10 +95,19 @@ namespace Ubay_CourseRegistration.Utility
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
 
-                    DataTable dt = new DataTable();
-                    dt.Load(reader);
+
+                    AccountModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new AccountModel();
+                        model.Acc_sum_ID = (Guid)reader["Acc_sum_ID"];
+                        model.Account = (string)reader["Account"]; 
+                        model.password = (string)reader["password"];
+                        model.Type = (bool)reader["Type"];
+                    }
                     reader.Close();
-                    return dt;
+                    return model;
                 }
 
                 catch (Exception ex)

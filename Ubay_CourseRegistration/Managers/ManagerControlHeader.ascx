@@ -20,7 +20,7 @@
             <div style="float: right;font-size:20px;">
             歡迎:<asp:Literal ID="ltAccount" runat="server" ></asp:Literal>
             <br />
-            <a href="../Login.aspx" style="float: right;">登出</a></div>
+            <a href="../Login.aspx" style="float: right;" runat="server" onserverclick="logout">登出</a></div>
         </asp:PlaceHolder>
     </div>
 </header>
