@@ -17,7 +17,7 @@ namespace Ubay_CourseRegistration.Students
         readonly PagedDataSource _pgsource = new PagedDataSource();
         static DateTime datetime = DateTime.Now;
         int _firstIndex, _lastIndex;
-        string _ID = "F9B00778-B226-4F73-B525-FB923E4DB80F";
+        string _ID ;
         public string _month { get; set; } = "";
         private int _pageSize = 10;
 
@@ -39,6 +39,8 @@ namespace Ubay_CourseRegistration.Students
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            _ID = Session["Acc_sum_ID"].ToString();
             if (Page.IsPostBack) return;
             BindDataIntoRepeater();
 
@@ -220,7 +222,7 @@ namespace Ubay_CourseRegistration.Students
 
             //Response.Redirect("StudentCourseRecord.aspx" + template);
 
-            
+            BindDataIntoRepeater();
 
         }
 
@@ -235,8 +237,10 @@ namespace Ubay_CourseRegistration.Students
                     datetime = datetime.AddMonths(-1);
                     break;
             }
-            CreateCalendar();
+            
             Response.Redirect($"StudentCourseRecord.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+
+            CreateCalendar();
         }
 
 
@@ -295,18 +299,31 @@ namespace Ubay_CourseRegistration.Students
             {
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
+                List<TempClass> _tempClassList = new List<TempClass>();
+                //[1,2,3]
+
                 foreach (DataRow r in dt_course.Rows)
                 {
-                    if (DateTime.Parse(r["StartDate"].ToString()) == DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}"))
-                    {
-                        dr[1] = r["C_Name"].ToString();
-                        dr[2] = r["Place_Name"].ToString();
-                        dr[3] = r["StartTime"].ToString();
-                    }
-                        
-                    
-
+                    //if (DateTime.Parse(r["StartDate"].ToString()) = _currentDay)
+                    //{
+                    //dr[1] = r["C_Name"].ToString();
+                    //dr[2] = r["Place_Name"].ToString();
+                    //dr[3] = r["StartTime"].ToString();
+                    //}
+                    TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {r["StartTime"]}");
+                    if (!_tempClassList.Contains(_tempclass))
+                        _tempClassList.Add(_tempclass);
                 }
+                string _tmpstr = string.Empty;
+
+                foreach (TempClass tempclass in _tempClassList)
+                {
+                    if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
+                    {
+                        _tmpstr += $"{tempclass.ClassName}<br>";
+                    }
+                }
+                dr[1] = _tmpstr;
                 dt_calendar.Rows.Add(dr);
             }
 
@@ -319,4 +336,31 @@ namespace Ubay_CourseRegistration.Students
                 Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
         }
     }
+
+    class TempClass
+    {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
+        public string ClassName { get; set; }
+
+        public TempClass() { }
+        public TempClass(DateTime startdate, DateTime enddate, string classname)
+        {
+            StartDate = startdate;
+            EndDate = enddate;
+            ClassName = classname;
+            DayOfWeek = startdate.DayOfWeek;
+        }
+
+        public bool Check(DateTime date)
+        {
+            if (date.DayOfWeek != DayOfWeek)
+                return false;
+            if (date >= StartDate && date <= EndDate)
+                return true;
+            return false;
+        }
+    }
+
 }

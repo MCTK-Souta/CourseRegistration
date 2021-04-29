@@ -43,8 +43,8 @@
                 <asp:ListItem Text="林三" Value="3"></asp:ListItem>
             </asp:DropDownList>
             開課時間:
-            <asp:TextBox runat="server" ID="txtStartDate1" placeholder="最小值"></asp:TextBox>~
-            <asp:TextBox runat="server" ID="txtStartDate2" placeholder="最大值"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtStartDate1" TextMode="Date" placeholder="from"></asp:TextBox>~
+            <asp:TextBox runat="server" ID="txtStartDate2" TextMode="Date" placeholder="to"></asp:TextBox>
              </p>
              <p >
             教室: <asp:TextBox runat="server" ID="txtPlace" Width="5%"></asp:TextBox> 
@@ -158,10 +158,12 @@
                     </asp:Table>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <div style="width:100px; height:100px">
+                    <asp:Panel runat="server" ID="Panel1" ScrollBars="Auto" Height="100">
+                          <div style="width:100px;">
                         <div style="text-align:center; vertical-align:top;"><label><%#Eval("Date")%></label></div>
-                        <div style="text-align:left; vertical-align:top; height:100%"><h4><%#Eval("Course")%><%#Eval("Place")%><%#Eval("StartTime","{0:hh}") %></h4></div>
+                        <div style="text-align:left; vertical-align:top; height:100%"><h5><%#Eval("Course")%><%#Eval("StartTime") %></h5></div>
                     </div>
+                     </asp:Panel>
                 </ItemTemplate>
             </asp:DataList>
             </div>

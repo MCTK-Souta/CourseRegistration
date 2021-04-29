@@ -12,7 +12,7 @@ namespace CoreProject.Helpers
     {
         public DataTable GetDataTable(string dbCommand, List<SqlParameter> parameters)
         {
-            string connectionString = this.GetConnectionString();
+            string connectionString = GetConnectionString();
 
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -40,7 +40,7 @@ namespace CoreProject.Helpers
 
         public object GetScale(string dbCommand, List<SqlParameter> parameters)
         {
-            string connectionString = this.GetConnectionString();
+            string connectionString = GetConnectionString();
 
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -104,7 +104,7 @@ namespace CoreProject.Helpers
         }
 
         //private string GetConnectionString()
-        public string GetConnectionString()
+        public static string GetConnectionString()
         {
             var manage = System.Configuration.ConfigurationManager.ConnectionStrings["systemDataBase"];
 
