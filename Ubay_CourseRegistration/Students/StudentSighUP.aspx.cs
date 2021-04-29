@@ -27,7 +27,7 @@ namespace Ubay_CourseRegistration.Students
 
         protected void Button_StRegion(object sender, EventArgs e)
         {
-            var Managers = new DBAccountManager();
+            var Managers = new DBAccountManager(); 
             StudentInfoModel stmodel = new StudentInfoModel();
             AccountModel acmodel = new AccountModel();
             var StManagers = new StudentManagers();

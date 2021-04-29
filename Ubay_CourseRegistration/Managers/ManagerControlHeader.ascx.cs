@@ -14,5 +14,10 @@ namespace Ubay_CourseRegistration.Managers
             //取得存在SESSION的帳號名稱
             ltAccount.Text = (string)Session["Account"];
         }
+        protected void logout(object sender, EventArgs e)
+        {
+            Session.RemoveAll();
+            Response.Redirect("~/Login.aspx");
+        }
     }
 }

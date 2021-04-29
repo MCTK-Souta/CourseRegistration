@@ -17,6 +17,14 @@ namespace Ubay_CourseRegistration
 
         private const string _sessionKey = "IsLogined";
         private const string _sessionKey_Account = "Account";
+        protected void Page_Init(object sender, EventArgs e)
+        {
+            if(this.IsPostBack)
+            {
+                Session.RemoveAll();
+            }
+        }
+            
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -55,10 +63,12 @@ namespace Ubay_CourseRegistration
 
                 if (Typechk.Read())
                 {
+                    Session["Type"] = 1;
                     Response.Redirect(this._goToManager);
                 }
                 else
                 {
+                    Session["Type"] = 0;
                     Response.Redirect(this._goToStudent);
                 }
 

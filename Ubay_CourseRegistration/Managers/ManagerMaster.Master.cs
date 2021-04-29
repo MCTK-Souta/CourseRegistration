@@ -11,10 +11,24 @@ namespace Ubay_CourseRegistration.Managers
     {
         protected void Page_Init(object sender, EventArgs e)
         {
+            int Type = -1;
+            if (Session["Type"] != null)
+            {
+                Type = (int)Session["Type"];
+            }
+
+
+
+            if (Type != 1)
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+
             if (!LoginHelper.HasLogined())
             {
                 Response.Redirect("~/Login.aspx");
             }
+
         }
     }
 }

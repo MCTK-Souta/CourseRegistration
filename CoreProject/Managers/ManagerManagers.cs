@@ -102,7 +102,7 @@ namespace Ubay_CourseRegistration.Utility
                     {
                         model = new AccountModel();
                         model.Acc_sum_ID = (Guid)reader["Acc_sum_ID"];
-                        model.Account = (string)reader["Account"];
+                        model.Account = (string)reader["Account"]; 
                         model.password = (string)reader["password"];
                         model.Type = (bool)reader["Type"];
                     }

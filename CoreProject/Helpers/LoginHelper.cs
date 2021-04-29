@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using CoreProject.Helpers;
+using CoreProject.Models;
 
 namespace Ubay_CourseRegistration
 {
@@ -35,6 +37,10 @@ namespace Ubay_CourseRegistration
                 return true;
 
             //Get user account from DB
+
+            LoginInfo Logmodel = new LoginInfo();
+            Account_summaryModel asmodel = new Account_summaryModel();
+
             DataTable dt = DBAccountManager.GetUserAccount(account);
 
             if (dt == null || dt.Rows.Count == 0)
@@ -42,11 +48,7 @@ namespace Ubay_CourseRegistration
                 return false;
             }
 
-            //bool isAccountRight = string.Compare("admin", account, true) == 0;
-            //bool isPasswordRight = string.Compare("Ys123", pwd) == 0;
             string dbPwd = dt.Rows[0].Field<string>("password");
-            //string dbFName = dt.Rows[0].Field<string>("Manager_FirstName");
-            //string dbLName = dt.Rows[0].Field<string>("Manager_LastName");
             bool isPasswordRight = string.Compare(dbPwd, pwd) == 0;
 
             //if (isAccountRight && isPasswordRight)
@@ -71,8 +73,7 @@ namespace Ubay_CourseRegistration
         {
             if (!LoginHelper.HasLogined())
                 return;
-            HttpContext.Current.Session.Remove(_sessionKey);
-            HttpContext.Current.Session.Remove(_sessionKey_Account);
+            HttpContext.Current.Session.RemoveAll();
 
         }
 
