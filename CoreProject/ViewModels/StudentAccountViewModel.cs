@@ -20,7 +20,7 @@ namespace CoreProject.ViewModels
         public string School_ID { get; set; }
         public string Experience { get; set; }
         public string ExYear { get; set; }
-        public string gender { get; set; }
+        public bool gender { get; set; }
         public string PassNumber { get; set; }
         public string PassPic { get; set; }
 

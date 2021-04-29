@@ -139,9 +139,10 @@ namespace Ubay_CourseRegistration.Utility
                     (
                         SELECT 
                             ROW_NUMBER() OVER(ORDER BY Student.Idn) AS RowNumber,
+                            Student.Student_ID,
                             Student.S_FirstName+Student.S_LastName AS 姓名,
                             Student.gender AS 性別,
-                            Student.Idn AS 身分證字號,
+                            Student.Idn AS 身份證字號,
 							Student.CellPhone AS 手機,
                             Student.Address AS 地址
                         FROM Student
@@ -150,7 +151,7 @@ namespace Ubay_CourseRegistration.Utility
                         {filterConditions}
                     ) AS TempT
                     WHERE RowNumber > {pageSize * (currentPage - 1)}
-                    ORDER BY 身分證字號
+                    ORDER BY 身份證字號
                     ";
 
             string countQuery =
@@ -178,13 +179,12 @@ namespace Ubay_CourseRegistration.Utility
             foreach (DataRow dr in dt.Rows)
             {
                 StudentAccountViewModel model = new StudentAccountViewModel();
-                model.Student_ID = (Guid)dr["ID"];
-                model.S_FirstName = (string)dr["S_FirstName"];
-                model.S_LastName = (string)dr["S_LastName"];
-                model.gender = (string)dr["gender"];
-                model.Idn = (string)dr["Idn"];
-                model.CellPhone = (string)dr["CellPhone"];
-                model.Address = (string)dr["Address"];
+                model.Student_ID = (Guid)dr["Student_ID"];
+                model.S_FirstName = (string)dr["姓名"];
+                model.gender = (bool)dr["性別"];
+                model.Idn = (string)dr["身份證字號"];
+                model.CellPhone = (string)dr["手機"];
+                model.Address = (string)dr["地址"];
 
 
                 list.Add(model);
@@ -198,6 +198,33 @@ namespace Ubay_CourseRegistration.Utility
             return list;
         }
 
+        public void DeleteStudentViewModel(Guid id)
+        {
+            string dbCommandText =
+                $@" DELETE AccountInfos WHERE ID = @id;
+                    DELETE Accounts WHERE ID = @id;
+                ";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@id", id),
+            };
+
+            this.ExecuteNonQuery(dbCommandText, parameters);
+        }
+
+        public string GetgenderName(bool gender)
+        {
+            switch (gender)
+            {
+                case false:
+                    return "男";
+                case true:
+                    return "女";
+                default:
+                    return "";
+            }
+        }
 
         //public StudentAccountViewModel GetAccountViewModel(Guid id)
         //{

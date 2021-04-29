@@ -10,7 +10,7 @@
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
-                姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
+                姓氏：<asp:TextBox runat="server" ID="fname" ></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -38,8 +38,8 @@
 
                 性別：               
                 <asp:RadioButtonList ID="gender" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
-                    <asp:ListItem Text="男" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="女" Value="1"></asp:ListItem>
+                    <asp:ListItem Text="男" Value="False"></asp:ListItem>
+                    <asp:ListItem Text="女" Value="True"></asp:ListItem>
                 </asp:RadioButtonList>
 
             </div>
@@ -56,7 +56,7 @@
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10"></asp:TextBox><br />
+                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10" ></asp:TextBox><br />
                 <asp:RegularExpressionValidator ID="revPhone" runat="server" ForeColor="Red"
                     ErrorMessage="手機號碼格式錯誤" ControlToValidate="phone"
                     ValidationExpression="((\d{10})|(((\(\d{2}\))|(\d{2}-))?\d{4}(-)?\d{3}(\d)?))">
@@ -77,7 +77,7 @@
                 </asp:RadioButtonList>
                 &nbsp;&nbsp;<asp:Label ID="yearshow" Visible="false" runat="server">年數：</asp:Label>
                 <asp:DropDownList ID="exyear" runat="server" RepeatLayout="Flow" Visible="false">
-                    <asp:ListItem Text="請選擇" Value="Null"></asp:ListItem>
+                    <asp:ListItem Text="請選擇" Value=""></asp:ListItem>
                     <asp:ListItem Text="未滿一年" Value="0"></asp:ListItem>
                     <asp:ListItem Text="1年" Value="1"></asp:ListItem>
                     <asp:ListItem Text="2年" Value="2"></asp:ListItem>

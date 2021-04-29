@@ -1,131 +1,134 @@
-﻿using CoreProject.Managers;
+﻿using CoreProject.Helpers;
+using CoreProject.Managers;
+using CoreProject.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Ubay_CourseRegistration.Utility;
 
 namespace Ubay_CourseRegistration.Managers
 {
     public partial class ManagerStList : System.Web.UI.Page
     {
-        //const int _pageSize = 10;
+        const int _pageSize = 10;
 
 
-        //internal class PagingLink
-        //{
-        //    public string Name { get; set; }
-        //    public string Link { get; set; }
-        //    public string Title { get; set; }
-        //}
+        internal class PagingLink
+        {
+            public string name { get; set; }
+            public string Link { get; set; }
+            public string Idn { get; set; }
+        }
 
 
 
-        //protected void Page_Load(object sender, EventArgs e)
-        //{
-        //    if (!this.IsPostBack)
-        //    {
-        //        this.LoadGridView();
-        //        this.RestoreParameters();
-        //    }
-        //}
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!this.IsPostBack)
+            {
+                this.LoadGridView();
+                this.RestoreParameters();
+            }
+        }
 
-        //private void RestoreParameters()
-        //{
-        //    string name = Request.QueryString["name"];
-        //    string levelText = Request.QueryString["level"];
+        private void RestoreParameters()
+        {
+            string name = Request.QueryString["name"];
+            string idn = Request.QueryString["idn"];
 
-        //    if (!string.IsNullOrEmpty(name))
-        //        this.txtName.Text = name;
+            if (!string.IsNullOrEmpty(name))
+                this.txtName.Text = name;
 
-        //    if (!string.IsNullOrEmpty(levelText))
-        //        this.rdblLevel.SelectedValue = levelText;
-        //}
+            if (!string.IsNullOrEmpty(idn))
+                this.txtIdn.Text = idn;
+        }
 
-        //private string GetQueryString(bool includePage, int? pageIndex)
-        //{
-        //    //----- Get Query string parameters -----
-        //    string page = Request.QueryString["Page"];
-        //    string name = Request.QueryString["name"];
-        //    string levelText = Request.QueryString["level"];
-        //    //----- Get Query string parameters -----
-
-
-        //    List<string> conditions = new List<string>();
-
-        //    if (!string.IsNullOrEmpty(page) && includePage)
-        //        conditions.Add("Page=" + page);
-
-        //    if (!string.IsNullOrEmpty(name))
-        //        conditions.Add("Name=" + name);
-
-        //    if (!string.IsNullOrEmpty(levelText))
-        //        conditions.Add("Level=" + levelText);
-
-        //    if (pageIndex.HasValue)
-        //        conditions.Add("Page=" + pageIndex.Value);
-
-        //    string retText =
-        //        (conditions.Count > 0)
-        //            ? "?" + string.Join("&", conditions)
-        //            : string.Empty;
-
-        //    return retText;
-        //}
+        private string GetQueryString(bool includePage, int? pageIndex)
+        {
+            //----- Get Query string parameters -----
+            string page = Request.QueryString["Page"];
+            string name = Request.QueryString["name"];
+            string idn = Request.QueryString["idn"];
+            //----- Get Query string parameters -----
 
 
-        //private void LoadGridView()
-        //{
-        //    //----- Get Query string parameters -----
-        //    string page = Request.QueryString["Page"];
-        //    int pIndex = 0;
-        //    if (string.IsNullOrEmpty(page))
-        //        pIndex = 1;
-        //    else
-        //    {
-        //        int.TryParse(page, out pIndex);
+            List<string> conditions = new List<string>();
 
-        //        if (pIndex <= 0)
-        //            pIndex = 1;
-        //    }
+            if (!string.IsNullOrEmpty(page) && includePage)
+                conditions.Add("Page=" + page);
 
-        //    string name = Request.QueryString["name"];
-        //    string levelText = Request.QueryString["level"];
+            if (!string.IsNullOrEmpty(name))
+                conditions.Add("name=" + name);
 
-        //    int? level = null;
-        //    if (!string.IsNullOrEmpty(levelText))
-        //    {
-        //        int temp;
-        //        if (int.TryParse(levelText, out temp))
-        //            level = temp;
-        //    }
-        //    //----- Get Query string parameters -----
+            if (!string.IsNullOrEmpty(idn))
+                conditions.Add("Idn=" + idn);
+
+            if (pageIndex.HasValue)
+                conditions.Add("Page=" + pageIndex.Value);
+
+            string retText =
+                (conditions.Count > 0)
+                    ? "?" + string.Join("&", conditions)
+                    : string.Empty;
+
+            return retText;
+        }
 
 
-        //    int totalSize = 0;
+        private void LoadGridView()
+        {
+            //----- Get Query string parameters -----
+            string page = Request.QueryString["Page"];
+            int pIndex = 0;
+            if (string.IsNullOrEmpty(page))
+                pIndex = 1;
+            else
+            {
+                int.TryParse(page, out pIndex);
 
-        //    var manager = new AccountManager();
-        //    var list = manager.GetAccountViewModels(name, level, out totalSize, pIndex, _pageSize);
-        //    int pages = PagingHelper.CalculatePages(totalSize, _pageSize);
+                if (pIndex <= 0)
+                    pIndex = 1;
+            }
 
-        //    List<PagingLink> pagingList = new List<PagingLink>();
-        //    for (var i = 1; i <= pages; i++)
-        //    {
-        //        pagingList.Add(new PagingLink()
-        //        {
-        //            Link = $"MamberList.aspx{this.GetQueryString(false, i)}",
-        //            Name = $"{i}",
-        //            Title = $"前往第 {i} 頁"
-        //        });
-        //    }
+            string name = Request.QueryString["name"];
+            string idn = Request.QueryString["idn"];
 
-        //    this.repPaging.DataSource = pagingList;
-        //    this.repPaging.DataBind();
+            //int? level = null;
+            //if (!string.IsNullOrEmpty(idn))
+            //{
+            //    int temp;
+            //    if (int.TryParse(idn, out temp))
+            //        level = temp;
+            //}
+            //----- Get Query string parameters -----
 
-        //    this.GridView1.DataSource = list;
-        //    this.GridView1.DataBind();
-        //}
+
+            int totalSize = 0;
+
+            var manager = new ManagerManagers();
+            var list = manager.GetStudentViewModels(name, idn, out totalSize, pIndex, _pageSize);
+            int pages = PagingHelper.CalculatePages(totalSize, _pageSize);
+
+            List<PagingLink> pagingList = new List<PagingLink>();
+            for (var i = 1; i <= pages; i++)
+            {
+                pagingList.Add(new PagingLink()
+                {
+                    Link = $"ManagerStList.aspx{this.GetQueryString(false, i)}",
+                    name = $"{i}",
+                    Idn = $"前往第 {i} 頁"
+                });
+            }
+
+            this.repPaging.DataSource = pagingList;
+            this.repPaging.DataBind();
+
+            this.GridView1.DataSource = list;
+            this.GridView1.DataBind();
+        }
 
         //protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         //{
@@ -137,8 +140,8 @@ namespace Ubay_CourseRegistration.Managers
         //        Guid id;
         //        if (Guid.TryParse(arg, out id))
         //        {
-        //            var manager = new StudentManagers();
-        //            manager.DeleteAccountViewModel(id);
+        //            var manager = new ManagerManagers();
+        //            manager.DeleteStudentViewModel(id);
 
         //            this.LoadGridView();
         //            this.lblMsg.Text = "已刪除。";
@@ -146,21 +149,36 @@ namespace Ubay_CourseRegistration.Managers
         //    }
         //}
 
-        //protected void btnSearch_Click(object sender, EventArgs e)
-        //{
-        //    string name = this.txtName.Text;
-        //    string level = this.rdblLevel.Text;
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string name = this.txtName.Text;
+            string idn = this.txtIdn.Text;
 
 
-        //    string template = "?Page=1";
+            string template = "?Page=1";
 
-        //    if (!string.IsNullOrEmpty(name))
-        //        template += "&name=" + name;
+            if (!string.IsNullOrEmpty(name))
+                template += "&name=" + name;
 
-        //    if (!string.IsNullOrEmpty(level))
-        //        template += "&level=" + level;
+            if (!string.IsNullOrEmpty(idn))
+                template += "&idn=" + idn;
 
-        //    Response.Redirect("MamberList.aspx" + template);
-        //}
+            Response.Redirect("ManagerStList.aspx" + template);
+        }
+
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            ManagerManagers manager = new ManagerManagers();
+
+            if (e.Row.RowType == DataControlRowType.DataRow || e.Row.RowType == DataControlRowType.Separator)
+            {
+                StudentAccountViewModel mode = e.Row.DataItem as StudentAccountViewModel;
+                Literal ltgender = e.Row.FindControl("gender") as Literal;
+
+                string val = manager.GetgenderName(mode.gender);
+                ltgender.Text = val;
+            }
+        }
+
     }
 }

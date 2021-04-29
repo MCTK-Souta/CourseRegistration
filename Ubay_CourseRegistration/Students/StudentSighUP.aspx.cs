@@ -87,7 +87,7 @@ namespace Ubay_CourseRegistration.Students
                     this.lbmsg.Text = "密碼不可為空";
                     return;
                 }
-                stmodel.gender = this.gender.Text;
+                stmodel.gender = Convert.ToBoolean(this.gender.Text);
                 stmodel.Birthday = Convert.ToDateTime(this.birthday.Text);
                 stmodel.Email = this.email.Text.Trim();
                 stmodel.CellPhone = this.phone.Text.Trim();

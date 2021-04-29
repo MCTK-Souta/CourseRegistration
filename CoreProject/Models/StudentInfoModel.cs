@@ -20,7 +20,7 @@ namespace CoreProject.Models
         public string School_ID { get; set; }
         public string Experience { get; set; }
         public string ExYear { get; set; }
-        public string gender { get; set; }
+        public bool gender { get; set; }
         public string PassNumber { get; set; }
         public string PassPic { get; set; }
         public Guid b_empno { get; set; }
