@@ -44,6 +44,27 @@ namespace Ubay_CourseRegistration.Students
             if (Page.IsPostBack) return;
             BindDataIntoRepeater();
 
+            //用來帶入查詢教師的下拉選單內容
+            string connectionstring =
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                ddlTeacher.DataSource = dt;
+                ddlTeacher.DataTextField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_Name";
+                ddlTeacher.DataBind();
+            }
+            connection.Close();
+
+
+
             var _post = Request.QueryString["datetime"];
             //var asdflkhjalsd = Request.QueryString["coursetime"];
             //var sadfas = Request.QueryString["course12time"];
