@@ -12,7 +12,7 @@ namespace Ubay_CourseRegistration.Utility
 {
     public class ManagerManagers : DBBase
     {
-        public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime)
+        public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime,Guid Creator)
         {
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
@@ -26,7 +26,7 @@ namespace Ubay_CourseRegistration.Utility
                 INSERT INTO Manager
                     (Manager_ID,Manager_FirstName,Manager_LastName,Department,Account,b_date,b_empno)
                 VALUES
-                    (@GUID,@Firstname,@Lastname,@Department,@Account,@createtime,@GUID);
+                    (@GUID,@Firstname,@Lastname,@Department,@Account,@createtime,@Creator);
                 ";
 
 
@@ -44,6 +44,7 @@ namespace Ubay_CourseRegistration.Utility
                 command.Parameters.AddWithValue("@Pwdcheck", asmodel.Pwdcheck);
                 command.Parameters.AddWithValue("@Type", acmodel.Type);
                 command.Parameters.AddWithValue("@createtime", createtime);
+                command.Parameters.AddWithValue("@Creator", Creator);
 
                 //List<SqlParameter> parameters = new List<SqlParameter>()
                 //{
