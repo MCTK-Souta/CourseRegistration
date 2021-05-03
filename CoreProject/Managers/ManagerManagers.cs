@@ -8,7 +8,8 @@ using System.Web;
 using CoreProject.Helpers;
 using CoreProject.ViewModels;
 
-namespace Ubay_CourseRegistration.Utility
+
+namespace Ubay_CourseRegistration.Managers
 {
     public class ManagerManagers : DBBase
     {
@@ -234,114 +235,247 @@ namespace Ubay_CourseRegistration.Utility
             }
         }
 
-        //public StudentAccountViewModel GetAccountViewModel(Guid id)
-        //{
-        //    string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=SampleProject; Integrated Security=true";
-        //    string queryString =
-        //        $@" SELECT 
-        //                Accounts.ID,
-        //                Accounts.Name AS Account,
-        //                Accounts.UserLevel,
-        //                Accounts.PWD,
-        //                Accounts.Email,
-        //                AccountInfos.Name,
-        //                AccountInfos.Title,
-        //                AccountInfos.Phone
-        //            FROM Accounts
-        //            JOIN AccountInfos
-        //                ON Accounts.ID = AccountInfos.ID
-        //            WHERE Accounts.ID = @id
-        //        ";
-
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        SqlCommand command = new SqlCommand(queryString, connection);
-        //        command.Parameters.AddWithValue("@id", id);
-
-        //        try
-        //        {
-        //            connection.Open();
-        //            SqlDataReader reader = command.ExecuteReader();
-
-        //            StudentAccountViewModel model = null;
-
-        //            while (reader.Read())
-        //            {
-        //                model = new StudentAccountViewModel();
-        //                model.ID = (Guid)reader["ID"];
-        //                model.Name = (string)reader["Name"];
-        //                model.Title = (string)reader["Title"];
-        //                model.Account = (string)reader["Account"];
-        //                model.UserLevel = (int)reader["UserLevel"];
-        //                model.PWD = (string)reader["PWD"];
-        //                model.Email = (string)reader["Email"];
-        //                model.Phone = (string)reader["Phone"];
-        //            }
-
-        //            reader.Close();
-
-        //            return model;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //}
-
-        public void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
+        public StudentAccountViewModel GetStudentViewModel(Guid id)
         {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
-
+            string connectionString = GetConnectionString();
             string queryString =
-                $@"UPDATE  TestTable1 SET
-                    ID=@ID,Name=@Name,Birthday=@Birthday,NumberCol=@NumberCol
-                WHERE
-                    ID=@ID;";
+                $@" SELECT 
+                    Student.Student_ID,
+                    Student.S_FirstName,
+                    Student.S_LastName,
+                    Student.Birthday,
+                    Student.idn,
+                    Student.Email,
+                    Student.Address,
+                    Student.CellPhone,
+                    Student.Education,
+                    Student.School_ID,
+                    Student.Experience,
+                    Student.ExYear,
+                    Student.gender,
+                    Student.PassNumber,
+                    Student.PassPic,
+                    Account_summary.password
+                    FROM Student
+                    JOIN Account_summary
+                        ON Student.Student_ID = Account_summary.Acc_sum_ID
+                    WHERE Student.Student_ID = @id
+                ";
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-
-                command.Parameters.AddWithValue("@GUID", acmodel.Acc_sum_ID);
-                command.Parameters.AddWithValue("@Firstname", asmodel.firstname);
-                command.Parameters.AddWithValue("@Lastname", asmodel.lastname);
-                command.Parameters.AddWithValue("@Department", asmodel.department);
-                command.Parameters.AddWithValue("@Account", acmodel.Account);
-                command.Parameters.AddWithValue("@Password", acmodel.password);
-                command.Parameters.AddWithValue("@Pwdcheck", asmodel.Pwdcheck);
-                command.Parameters.AddWithValue("@Type", acmodel.Type);
-                command.Parameters.AddWithValue("@createtime", createtime);
-                command.Parameters.AddWithValue("@Creator", Creator);
-
-                //List<SqlParameter> parameters = new List<SqlParameter>()
-                //{
-                //    new SqlParameter("@GUID", acmodel.Acc_sum_ID),
-                //    new SqlParameter("@Firstname", asmodel.firstname),
-                //    new SqlParameter("@Lastname", asmodel.lastname),
-                //    new SqlParameter("@Department", asmodel.department),
-                //    new SqlParameter("@Account", acmodel.Account),
-                //    new SqlParameter("@Password", acmodel.Password),
-                //    new SqlParameter("@Pwdcheck", asmodel.Pwdcheck),
-                //    new SqlParameter("@Pwdcheck", acmodel.Type),
-                //    new SqlParameter("@createtime", createtime)
-                //};
-
-
+                command.Parameters.AddWithValue("@id", id);
 
                 try
                 {
                     connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
-                    HttpContext.Current.Response.Write("<script>alert('新增成功!');</script>");
-                }
+                    SqlDataReader reader = command.ExecuteReader();
 
+                    StudentAccountViewModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new StudentAccountViewModel();
+                        model.Student_ID = (Guid)reader["Student_ID"];
+                        model.S_FirstName = (string)reader["S_FirstName"];
+                        model.S_LastName = (string)reader["S_LastName"];
+                        model.Birthday = (DateTime)reader["Birthday"];
+                        model.Idn = (string)reader["Idn"];
+                        model.Email = (string)reader["Email"];
+                        model.Address = (string)reader["Address"];
+                        model.CellPhone = (string)reader["CellPhone"];
+                        model.Education = (string)reader["Education"];
+                        model.School_ID = (string)reader["School_ID"];
+                        model.Experience = (string)reader["Experience"];
+                        model.ExYear = (string)reader["ExYear"];
+                        model.gender = (bool)reader["gender"];
+                        model.PassNumber = (string)reader["PassNumber"];
+                        model.PassPic = (string)reader["PassPic"];
+
+                        model.password = (string)reader["password"];
+                    }
+
+                    reader.Close();
+
+                    return model;
+                }
                 catch (Exception ex)
                 {
-                    HttpContext.Current.Response.Write(ex.Message);
+                    throw;
                 }
+            }
+        }
 
-            } //修改
+        public void CreatStudent(StudentAccountViewModel model)
+        {
+
+            Guid student_id = Guid.NewGuid();
+
+
+            string queryString =
+                $@" INSERT INTO Account_summary
+                    (Acc_sum_ID,Account,password,Type)
+                VALUES
+                    (@Acc_sum_ID,@Account,@password,@Type);
+
+
+                INSERT INTO Student
+                    (Student_ID,S_FirstName,S_LastName,Birthday,idn,Email,Address,CellPhone,Education,School_ID,
+                        Experience,ExYear,gender,PassNumber,PassPic,b_empno,b_date)
+                    
+                VALUES
+                    (@Student_ID,@S_FirstName,@S_LastName,@Birthday,@idn,@Email,@Address,@CellPhone,@Education,@School_ID,
+                        @Experience,@ExYear,@gender,@PassNumber,@PassPic,@b_empno,@b_date);
+
+";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+
+            new SqlParameter("@Student_ID", student_id),
+            new SqlParameter("@S_FirstName", model.S_FirstName),
+            new SqlParameter("@S_LastName", model.S_LastName),
+            new SqlParameter("@Birthday", model.Birthday),
+            new SqlParameter("@idn", model.Idn),
+            new SqlParameter("@Email", model.Email),
+            new SqlParameter("@Address", model.Address),
+            new SqlParameter("@CellPhone", model.CellPhone),
+            new SqlParameter("@Education", model.Education),
+            new SqlParameter("@School_ID", model.School_ID),
+            new SqlParameter("@Experience", model.Experience),
+            new SqlParameter("@ExYear", model.ExYear),
+            new SqlParameter("@gender", model.gender),
+            new SqlParameter("@PassNumber",model.PassNumber),
+            new SqlParameter("@PassPic",model.PassPic),
+            new SqlParameter("@b_empno", model.b_empno),
+            new SqlParameter("@b_date", model.b_date),
+
+            new SqlParameter("@Acc_sum_ID", student_id),
+            new SqlParameter("@Account", model.Idn),
+            new SqlParameter("@password", model.password),
+            new SqlParameter("@Type", false)
+            };
+
+            this.ExecuteNonQuery(queryString, parameters);
+
+        }
+
+        public void UpdataStudent(StudentAccountViewModel model)
+        {
+
+            Guid student_id = Guid.NewGuid();
+
+
+            string queryString =
+                $@" UPDATE Account_summary
+                    SET 
+                        Account = @Account, 
+                        password = @password, 
+                    WHERE
+                        Acc_sum_ID = @Acc_sum_ID;
+
+                 UPDATE Student
+                    SET 
+                        S_FirstName = @S_FirstName, 
+                        S_LastName = @S_LastName, 
+                        Birthday = @Birthday, 
+                        idn = @idn, 
+                        Email = @Email, 
+                        Address = @Address, 
+                        CellPhone = @CellPhone, 
+                        Education = @Education, 
+                        School_ID = @School_ID, 
+                        Experience = @Experience, 
+                        ExYear = @ExYear, 
+                        gender = @gender, 
+                        PassNumber = @PassNumber, 
+                        PassPic = @PassPic, 
+                        e_empno = @e_empno, 
+                        e_date = @e_date, 
+                    WHERE
+                        Student_ID = @Student_ID;
+                    ";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+
+        //public void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
+        //{
+        //    string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
+            new SqlParameter("@Student_ID", student_id),
+            new SqlParameter("@S_FirstName", model.S_FirstName),
+            new SqlParameter("@S_LastName", model.S_LastName),
+            new SqlParameter("@Birthday", model.Birthday),
+            new SqlParameter("@idn", model.Idn),
+            new SqlParameter("@Email", model.Email),
+            new SqlParameter("@Address", model.Address),
+            new SqlParameter("@CellPhone", model.CellPhone),
+            new SqlParameter("@Education", model.Education),
+            new SqlParameter("@School_ID", model.School_ID),
+            new SqlParameter("@Experience", model.Experience),
+            new SqlParameter("@ExYear", model.ExYear),
+            new SqlParameter("@gender", model.gender),
+            new SqlParameter("@PassNumber",model.PassNumber),
+            new SqlParameter("@PassPic",model.PassPic),
+            new SqlParameter("@e_empno", model.e_empno),
+            new SqlParameter("@e_date", DateTime.Now),
+
+        //    string queryString =
+        //        $@"UPDATE  TestTable1 SET
+        //            ID=@ID,Name=@Name,Birthday=@Birthday,NumberCol=@NumberCol
+        //        WHERE
+        //            ID=@ID;";
+
+
+        //    List<SqlParameter> parameters = new List<SqlParameter>()
+        //    {
+
+        //    new SqlParameter("@Student_ID", student_id),
+        //    new SqlParameter("@S_FirstName", model.S_FirstName),
+        //    new SqlParameter("@S_LastName", model.S_LastName),
+        //    new SqlParameter("@Birthday", model.Birthday),
+        //    new SqlParameter("@idn", model.Idn),
+        //    new SqlParameter("@Email", model.Email),
+        //    new SqlParameter("@Address", model.Address),
+        //    new SqlParameter("@CellPhone", model.CellPhone),
+        //    new SqlParameter("@Education", model.Education),
+        //    new SqlParameter("@School_ID", model.School_ID),
+        //    new SqlParameter("@Experience", model.Experience),
+        //    new SqlParameter("@ExYear", model.ExYear),
+        //    new SqlParameter("@gender", model.gender),
+        //    new SqlParameter("@PassNumber",model.PassNumber),
+        //    new SqlParameter("@PassPic",model.PassPic),
+        //    new SqlParameter("@b_empno", b_empno),
+        //    new SqlParameter("@b_date", model.b_date),
+
+        //    new SqlParameter("@Acc_sum_ID", student_id),
+        //    new SqlParameter("@Account", model.Idn),
+        //    new SqlParameter("@password", acmodel.password),
+        //    new SqlParameter("@Type", false)
+        //    };
+
+        //    foreach (var item in parameters)
+        //    {
+        //        parameters.Add(new SqlParameter(item.ParameterName, item.Value));
+        //    }
+
+        //    command.Parameters.AddRange(parameters2.ToArray());
+
+
+        //    try
+        //        {
+        //            connection.Open();
+        //            int totalChangeRows = command.ExecuteNonQuery();
+        //            HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
+        //        }
+
+        //        catch (Exception ex)
+        //        {
+        //            HttpContext.Current.Response.Write(ex.Message);
+        //        }
+            
+        //} //修改
 
         public AccountViewModel GetAccountViewModel(Guid id)
         {
