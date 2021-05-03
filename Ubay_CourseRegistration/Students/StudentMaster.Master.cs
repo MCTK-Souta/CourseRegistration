@@ -18,6 +18,7 @@ namespace Ubay_CourseRegistration.Students
             }
             if (Type == 1)
             {
+                HttpContext.Current.Session.RemoveAll();
                 Response.Redirect("~/Login.aspx"); 
             }
 

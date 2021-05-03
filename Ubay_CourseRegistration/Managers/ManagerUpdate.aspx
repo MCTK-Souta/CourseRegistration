@@ -13,9 +13,11 @@
             <br/>
             <div>單位：<asp:TextBox runat="server" ID="txtDepartment"></asp:TextBox></div>
             <br />
-            <div>舊密碼：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
+            <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
             <br />
-            <div>新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPassword"></asp:TextBox></div>
+            <div>舊密碼：<asp:TextBox runat="server" ID="txtPassword"></asp:TextBox></div>
+            <br />
+            <div>新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtNewPassword"></asp:TextBox></div>
             <br />
             <div style="margin-left: -65px;">
                 再次確認新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck"></asp:TextBox><br />

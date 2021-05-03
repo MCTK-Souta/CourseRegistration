@@ -34,6 +34,9 @@ namespace Ubay_CourseRegistration.Managers
             string createtime = asmodel.datetime.ToString("yyyy/MM/dd HH:mm:ss"); // 轉成字串
             acmodel.Type = true;
 
+            Guid Creator;
+            Creator = (Guid)Session["Acc_sum_ID"];
+
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
             conn.Open();
 
@@ -57,7 +60,7 @@ namespace Ubay_CourseRegistration.Managers
             else
             {
                 this.WarningMsg.Text = "新增成功";
-                ManagerManagers.InsertAdminTablel(acmodel, asmodel, createtime);
+                ManagerManagers.InsertAdminTablel(acmodel, asmodel, createtime, Creator);
             }
         }
     }
