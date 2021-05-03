@@ -23,7 +23,8 @@ namespace CoreProject.ViewModels
         public bool gender { get; set; }
         public string PassNumber { get; set; }
         public string PassPic { get; set; }
-
+        public Guid b_empno { get; set; }
+        public DateTime b_date { get; set; }
         public Guid? e_empno { get; set; }
         public DateTime? e_date { get; set; }
         public Guid? d_empno { get; set; }

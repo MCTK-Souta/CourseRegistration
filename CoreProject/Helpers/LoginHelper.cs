@@ -81,12 +81,12 @@ namespace Ubay_CourseRegistration
         /// 取得已登入者的資訊，如果還沒登入回傳空字串
         /// </summary>
         /// <returns></returns>
-        public static string GetCurrentUserInfo()
+        public static LoginInfo GetCurrentUserInfo()
         {
             if (!LoginHelper.HasLogined())
-                return string.Empty;
+                return null;
 
-            return HttpContext.Current.Session[_sessionKey_Account] as string;
+            return HttpContext.Current.Session[_sessionKey_Account] as LoginInfo;
         }
     }
 }

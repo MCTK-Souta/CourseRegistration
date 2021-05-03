@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Ubay_CourseRegistration.Utility;
 
 namespace Ubay_CourseRegistration.Managers
 {

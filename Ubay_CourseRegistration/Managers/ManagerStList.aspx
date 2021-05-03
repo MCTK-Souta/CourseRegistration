@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>
+    <div style="margin:20px;">
         <h1 style="margin: 0,auto; left: 85%; position: relative;">學生資料維護</h1>
         <a href="MemberDetail.aspx">新增</a>
 
