@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Ubay_CourseRegistration.Utility;
 
 namespace Ubay_CourseRegistration.Managers
 {
@@ -33,6 +32,7 @@ namespace Ubay_CourseRegistration.Managers
             //AccountModel acmodel = new AccountModel();
             //acmodel.Acc_sum_ID = Guid.NewGuid();
             //asmodel.firstname = this.txtFirstname.Text;
+
             //asmodel.lastname = this.txtLastname.Text;
             //asmodel.department = this.txtDepartment.Text;
             //acmodel.Account = this.txtAccount.Text;

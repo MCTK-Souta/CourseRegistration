@@ -51,7 +51,7 @@ namespace Ubay_CourseRegistration.Managers
         private void LoadAccount(Guid id)
         {
             var manager = new ManagerManagers();
-            var model = manager.GetAccountViewModel(id);
+            var model = manager.GetStudentViewModel(id);
             var DBManagers = new DBAccountManager();
             if (model == null)
                 Response.Redirect("~/Managers/ManagerStList.aspx");
@@ -118,7 +118,7 @@ namespace Ubay_CourseRegistration.Managers
                 if (!Guid.TryParse(qsID, out temp))
                     return;
 
-                manager.GetAccountViewModel(temp);
+                manager.GetStudentViewModel(temp);
             }
             else
             {
@@ -168,7 +168,10 @@ namespace Ubay_CourseRegistration.Managers
 
 
             if (this.IsUpdateMode())
+            {
+                model.e_empno = (Guid)Session["Acc_sum_ID"];
                 manager.UpdataStudent(model);
+            }
             else
             {
                 try
