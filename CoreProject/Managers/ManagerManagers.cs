@@ -13,7 +13,7 @@ namespace Ubay_CourseRegistration.Managers
 {
     public class ManagerManagers : DBBase
     {
-        public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime,Guid Creator)
+        public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
         {
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
@@ -104,7 +104,7 @@ namespace Ubay_CourseRegistration.Managers
                     {
                         model = new AccountModel();
                         model.Acc_sum_ID = (Guid)reader["Acc_sum_ID"];
-                        model.Account = (string)reader["Account"]; 
+                        model.Account = (string)reader["Account"];
                         model.password = (string)reader["password"];
                         model.Type = (bool)reader["Type"];
                     }
@@ -400,9 +400,6 @@ namespace Ubay_CourseRegistration.Managers
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
 
-        //public void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
-        //{
-        //    string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
             new SqlParameter("@Student_ID", student_id),
             new SqlParameter("@S_FirstName", model.S_FirstName),
             new SqlParameter("@S_LastName", model.S_LastName),
@@ -421,11 +418,7 @@ namespace Ubay_CourseRegistration.Managers
             new SqlParameter("@e_empno", model.e_empno),
             new SqlParameter("@e_date", DateTime.Now),
 
-        //    string queryString =
-        //        $@"UPDATE  TestTable1 SET
-        //            ID=@ID,Name=@Name,Birthday=@Birthday,NumberCol=@NumberCol
-        //        WHERE
-        //            ID=@ID;";
+
             new SqlParameter("@Acc_sum_ID", student_id),
             new SqlParameter("@Account", model.Idn),
             new SqlParameter("@password", model.password),
@@ -434,54 +427,9 @@ namespace Ubay_CourseRegistration.Managers
 
             this.ExecuteNonQuery(queryString, parameters);
 
-            //    List<SqlParameter> parameters = new List<SqlParameter>()
-            //    {
-
-            //    new SqlParameter("@Student_ID", student_id),
-            //    new SqlParameter("@S_FirstName", model.S_FirstName),
-            //    new SqlParameter("@S_LastName", model.S_LastName),
-            //    new SqlParameter("@Birthday", model.Birthday),
-            //    new SqlParameter("@idn", model.Idn),
-            //    new SqlParameter("@Email", model.Email),
-            //    new SqlParameter("@Address", model.Address),
-            //    new SqlParameter("@CellPhone", model.CellPhone),
-            //    new SqlParameter("@Education", model.Education),
-            //    new SqlParameter("@School_ID", model.School_ID),
-            //    new SqlParameter("@Experience", model.Experience),
-            //    new SqlParameter("@ExYear", model.ExYear),
-            //    new SqlParameter("@gender", model.gender),
-            //    new SqlParameter("@PassNumber",model.PassNumber),
-            //    new SqlParameter("@PassPic",model.PassPic),
-            //    new SqlParameter("@b_empno", b_empno),
-            //    new SqlParameter("@b_date", model.b_date),
-
-            //    new SqlParameter("@Acc_sum_ID", student_id),
-            //    new SqlParameter("@Account", model.Idn),
-            //    new SqlParameter("@password", acmodel.password),
-            //    new SqlParameter("@Type", false)
-            //    };
-
-            //    foreach (var item in parameters)
-            //    {
-            //        parameters.Add(new SqlParameter(item.ParameterName, item.Value));
-            //    }
-
-            //    command.Parameters.AddRange(parameters2.ToArray());
+        }
 
 
-            //    try
-            //        {
-            //            connection.Open();
-            //            int totalChangeRows = command.ExecuteNonQuery();
-            //            HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
-            //        }
-
-            //        catch (Exception ex)
-            //        {
-            //            HttpContext.Current.Response.Write(ex.Message);
-            //        }
-
-        } //修改
 
         public AccountViewModel GetAccountViewModel(Guid id)
         {
@@ -526,5 +474,72 @@ namespace Ubay_CourseRegistration.Managers
                 }
             }
         }
+
+        //修改
+        //public void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
+        //{
+        //    string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
+        //    string queryString =
+        //        $@"UPDATE  TestTable1 SET
+        //                    ID=@ID,Name=@Name,Birthday=@Birthday,NumberCol=@NumberCol
+        //                WHERE
+        //                    ID=@ID;";
+        //    Guid student_id = Guid.NewGuid();
+
+
+        //    List<SqlParameter> parameters = new List<SqlParameter>()
+        //            {
+
+        //            new SqlParameter("@Student_ID", student_id),
+        //            new SqlParameter("@S_FirstName", model.S_FirstName),
+        //            new SqlParameter("@S_LastName", model.S_LastName),
+        //            new SqlParameter("@Birthday", model.Birthday),
+        //            new SqlParameter("@idn", model.Idn),
+        //            new SqlParameter("@Email", model.Email),
+        //            new SqlParameter("@Address", model.Address),
+        //            new SqlParameter("@CellPhone", model.CellPhone),
+        //            new SqlParameter("@Education", model.Education),
+        //            new SqlParameter("@School_ID", model.School_ID),
+        //            new SqlParameter("@Experience", model.Experience),
+        //            new SqlParameter("@ExYear", model.ExYear),
+        //            new SqlParameter("@gender", model.gender),
+        //            new SqlParameter("@PassNumber",model.PassNumber),
+        //            new SqlParameter("@PassPic",model.PassPic),
+        //            new SqlParameter("@b_empno", b_empno),
+        //            new SqlParameter("@b_date", model.b_date),
+
+        //            new SqlParameter("@Acc_sum_ID", student_id),
+        //            new SqlParameter("@Account", model.Idn),
+        //            new SqlParameter("@password", acmodel.password),
+        //            new SqlParameter("@Type", false)
+        //            };
+
+        //    foreach (var item in parameters)
+        //    {
+        //        parameters.Add(new SqlParameter(item.ParameterName, item.Value));
+        //    }
+
+        //    command.Parameters.AddRange(parameters2.ToArray());
+
+
+        //    try
+        //    {
+        //        connection.Open();
+        //        int totalChangeRows = command.ExecuteNonQuery();
+        //        HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        HttpContext.Current.Response.Write(ex.Message);
+        //    }
+        //}
+
+
+
+
+
     }
 }
+
+
