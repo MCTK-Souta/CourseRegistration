@@ -15,6 +15,15 @@ namespace Ubay_CourseRegistration.Managers
     {
 
         /// <summary>
+        /// Label1 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+
+        /// <summary>
         /// fname 控制項。
         /// </summary>
         /// <remarks>
@@ -195,15 +204,6 @@ namespace Ubay_CourseRegistration.Managers
         protected global::System.Web.UI.WebControls.FileUpload passpic;
 
         /// <summary>
-        /// lbmsg 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbmsg;
-
-        /// <summary>
         /// region 控制項。
         /// </summary>
         /// <remarks>
@@ -211,5 +211,14 @@ namespace Ubay_CourseRegistration.Managers
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button region;
+
+        /// <summary>
+        /// lbmsg 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbmsg;
     }
 }

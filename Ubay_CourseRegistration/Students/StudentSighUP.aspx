@@ -56,7 +56,7 @@
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10" ></asp:TextBox><br />
+                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone"  oninput="if(value.length>10)value=value.slice(0,10)" ></asp:TextBox><br />
                 <asp:RegularExpressionValidator ID="revPhone" runat="server" ForeColor="Red"
                     ErrorMessage="手機號碼格式錯誤" ControlToValidate="phone"
                     ValidationExpression="((\d{10})|(((\(\d{2}\))|(\d{2}-))?\d{4}(-)?\d{3}(\d)?))">

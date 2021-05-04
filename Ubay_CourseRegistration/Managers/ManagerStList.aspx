@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div style="margin:20px;">
         <h1 style="margin: 0,auto; left: 85%; position: relative;">學生資料維護</h1>
-        <a href="MemberDetail.aspx">新增</a>
+        <a href="ManagerStDetail.aspx">新增</a>
 
         <div>
             進階搜尋：
@@ -23,8 +23,8 @@
             <Columns>
                 <asp:TemplateField HeaderText="姓名">
                     <ItemTemplate>
-                        <a href="MemberDetail.aspx?ID=<%# Eval("Student_ID") %>">
-                            <%# Eval("S_FirstName") %>
+                        <a href="ManagerStDetail.aspx?Student_ID=<%# Eval("Student_ID") %>">
+                            <%# Eval("S_FirstName") %><%# Eval("S_LastName") %>
                         </a>
                     </ItemTemplate>
                 </asp:TemplateField>

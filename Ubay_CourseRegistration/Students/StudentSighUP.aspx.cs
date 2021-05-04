@@ -96,7 +96,6 @@ namespace Ubay_CourseRegistration.Students
                 {
                     if(this.exyear.SelectedItem.Text== "請選擇")
                     {
-                        stmodel.Experience = null;
                         stmodel.ExYear = null;
                         this.lbmsg.Visible = true;
                         this.lbmsg.Text = "需選擇年數";
@@ -104,14 +103,14 @@ namespace Ubay_CourseRegistration.Students
                     }
                     else
                     {
-                        stmodel.Experience = this.experience.Text;
-                        stmodel.ExYear = this.exyear.Text;
+                        stmodel.Experience = Convert.ToInt32( this.experience.Text);
+                        stmodel.ExYear = Convert.ToInt32(this.exyear.Text);
 
                     }
                 }
                 else
                 {
-                    stmodel.Experience = this.experience.Text;
+                    stmodel.Experience = Convert.ToInt32(this.experience.Text);
                     stmodel.ExYear = null;
 
                 }
@@ -130,7 +129,7 @@ namespace Ubay_CourseRegistration.Students
                     else
                     {
                         stmodel.Education = this.education.Text;
-                        stmodel.School_ID = this.school.Text;
+                        stmodel.School_ID = Convert.ToInt32( this.school.Text);
 
                     }
                 }

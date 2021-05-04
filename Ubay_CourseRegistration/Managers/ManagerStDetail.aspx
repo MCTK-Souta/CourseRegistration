@@ -1,13 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Managers/ManagerMaster.Master" AutoEventWireup="true" CodeBehind="ManagerStDetail.aspx.cs" Inherits="Ubay_CourseRegistration.Managers.ManagerStDetail" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <div>
-        <h1 style="margin: 0,auto; left: 45%; position: relative;">註冊帳戶</h1>
+    <div>
+        <asp:Label ID="Label1" runat="server" Text="修改學生資料" Style="margin: 0,auto; left: 45%; position: relative;" Font-Size="20pt"></asp:Label><br />
+        <br />
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
-                姓氏：<asp:TextBox runat="server" ID="fname" ></asp:TextBox><br />
+                姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -28,8 +30,8 @@
             <div>
                 新密碼：<asp:TextBox runat="server" TextMode="Password" ID="newpwd"></asp:TextBox>
             </div>
-            <div style="margin-left: -65px;">
-                <p style="color: red; display: inline">*</p>
+            <br />
+            <div style="margin-left: -75px;">
                 再次確認新密碼：<asp:TextBox runat="server" TextMode="Password" ID="renewpwd"></asp:TextBox><br />
             </div>
             <br />
@@ -56,7 +58,7 @@
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" MaxLength="10" ></asp:TextBox><br />
+                手機：<asp:TextBox runat="server" TextMode="Number" ID="phone" oninput="if(value.length>10)value=value.slice(0,10)"></asp:TextBox><br />
                 <asp:RegularExpressionValidator ID="revPhone" runat="server" ForeColor="Red"
                     ErrorMessage="手機號碼格式錯誤" ControlToValidate="phone"
                     ValidationExpression="((\d{10})|(((\(\d{2}\))|(\d{2}-))?\d{4}(-)?\d{3}(\d)?))">
@@ -72,8 +74,8 @@
                 <p style="color: red; display: inline">*</p>
                 有無程式經驗：
                 <asp:RadioButtonList ID="experience" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow" OnSelectedIndexChanged="experience_SelectedIndexChanged" AutoPostBack="true">
-                    <asp:ListItem Text="無" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="有" Value="1"></asp:ListItem>
+                    <asp:ListItem Text="無" Value="False"></asp:ListItem>
+                    <asp:ListItem Text="有" Value="True"></asp:ListItem>
                 </asp:RadioButtonList>
                 &nbsp;&nbsp;<asp:Label ID="yearshow" Visible="false" runat="server">年數：</asp:Label>
                 <asp:DropDownList ID="exyear" runat="server" RepeatLayout="Flow" Visible="false">
@@ -112,12 +114,15 @@
             <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
             <br />
             <br />
+
+            <br />
+            <asp:Button ID="region" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="btnSave_Click" /><br />
+            <br />
+            <br />
             <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
             <br />
             <br />
-            <asp:Button ID="region" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="Button_StRegion" /><br />
-            <br />
-            <br />
+
         </div>
     </div>
 </asp:Content>

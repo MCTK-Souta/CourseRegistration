@@ -149,7 +149,8 @@ namespace Ubay_CourseRegistration.Managers
                         SELECT 
                             ROW_NUMBER() OVER(ORDER BY Student.Idn) AS RowNumber,
                             Student.Student_ID,
-                            Student.S_FirstName+Student.S_LastName AS 姓名,
+                            Student.S_FirstName,
+                            Student.S_LastName,
                             Student.gender AS 性別,
                             Student.Idn AS 身份證字號,
 							Student.CellPhone AS 手機,
@@ -189,7 +190,8 @@ namespace Ubay_CourseRegistration.Managers
             {
                 StudentAccountViewModel model = new StudentAccountViewModel();
                 model.Student_ID = (Guid)dr["Student_ID"];
-                model.S_FirstName = (string)dr["姓名"];
+                model.S_FirstName = (string)dr["S_FirstName"];
+                model.S_LastName = (string)dr["S_LastName"];
                 model.gender = (bool)dr["性別"];
                 model.Idn = (string)dr["身份證字號"];
                 model.CellPhone = (string)dr["手機"];
@@ -285,10 +287,10 @@ namespace Ubay_CourseRegistration.Managers
                         model.Email = (string)reader["Email"];
                         model.Address = (string)reader["Address"];
                         model.CellPhone = (string)reader["CellPhone"];
-                        model.Education = (string)reader["Education"];
-                        model.School_ID = (string)reader["School_ID"];
-                        model.Experience = (string)reader["Experience"];
-                        model.ExYear = (string)reader["ExYear"];
+                        model.Education = (byte)reader["Education"];
+                        model.School_ID = (int)reader["School_ID"];
+                        model.Experience = (bool)reader["Experience"];
+                        model.ExYear = (byte)reader["ExYear"];
                         model.gender = (bool)reader["gender"];
                         model.PassNumber = (string)reader["PassNumber"];
                         model.PassPic = (string)reader["PassPic"];
@@ -307,8 +309,16 @@ namespace Ubay_CourseRegistration.Managers
             }
         }
 
+        private bool HasAccount(string account)
+        {
+            return false;
+        }
         public void CreatStudent(StudentAccountViewModel model)
         {
+            if (this.HasAccount(model.Account))
+            {
+                throw new Exception($"Account [{model.Account}] has been created.");
+            }
 
             Guid student_id = Guid.NewGuid();
 
@@ -349,7 +359,7 @@ namespace Ubay_CourseRegistration.Managers
             new SqlParameter("@PassNumber",model.PassNumber),
             new SqlParameter("@PassPic",model.PassPic),
             new SqlParameter("@b_empno", model.b_empno),
-            new SqlParameter("@b_date", model.b_date),
+            new SqlParameter("@b_date", DateTime.Now),
 
             new SqlParameter("@Acc_sum_ID", student_id),
             new SqlParameter("@Account", model.Idn),
@@ -371,7 +381,7 @@ namespace Ubay_CourseRegistration.Managers
                 $@" UPDATE Account_summary
                     SET 
                         Account = @Account, 
-                        password = @password, 
+                        password = @password 
                     WHERE
                         Acc_sum_ID = @Acc_sum_ID;
 
@@ -392,7 +402,7 @@ namespace Ubay_CourseRegistration.Managers
                         PassNumber = @PassNumber, 
                         PassPic = @PassPic, 
                         e_empno = @e_empno, 
-                        e_date = @e_date, 
+                        e_date = @e_date 
                     WHERE
                         Student_ID = @Student_ID;
                     ";

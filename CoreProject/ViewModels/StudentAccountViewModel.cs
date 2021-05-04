@@ -16,10 +16,10 @@ namespace CoreProject.ViewModels
         public string Email { get; set; }
         public string Address { get; set; }
         public string CellPhone { get; set; }
-        public string Education { get; set; }
-        public string School_ID { get; set; }
-        public string Experience { get; set; }
-        public string ExYear { get; set; }
+        public int Education { get; set; }
+        public int? School_ID { get; set; }
+        public bool Experience { get; set; }
+        public int? ExYear { get; set; }
         public bool gender { get; set; }
         public string PassNumber { get; set; }
         public string PassPic { get; set; }
