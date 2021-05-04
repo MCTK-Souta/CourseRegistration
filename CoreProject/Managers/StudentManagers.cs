@@ -200,6 +200,7 @@ namespace CoreProject.Managers
 
             if (!string.IsNullOrEmpty(Price1) && !string.IsNullOrEmpty(Price2))
             {
+                
                 int tempPrice1  = int.Parse(Price1);
                 int tempPrice2 = int.Parse(Price2);
 

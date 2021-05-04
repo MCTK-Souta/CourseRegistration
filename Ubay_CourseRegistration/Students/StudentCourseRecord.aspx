@@ -49,8 +49,8 @@
              <p >
             教室: <asp:TextBox runat="server" ID="txtPlace" Width="5%"></asp:TextBox> 
             價格:
-            <asp:TextBox runat="server" ID="TxtPrice1" placeholder="最小值"></asp:TextBox>~
-            <asp:TextBox runat="server" ID="TxtPrice2" placeholder="最大值"></asp:TextBox>
+            <asp:TextBox runat="server" ID="TxtPrice1" placeholder="最小值" TextMode="Number"></asp:TextBox>~
+            <asp:TextBox runat="server" ID="TxtPrice2" placeholder="最大值" TextMode="Number"></asp:TextBox>
 
             <asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click" />
         </p>
