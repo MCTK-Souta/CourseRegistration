@@ -50,7 +50,6 @@ namespace Ubay_CourseRegistration.Managers
                 try
                 {
                     connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
                     HttpContext.Current.Response.Write("<script>alert('新增成功!');</script>");
                 }
 
@@ -61,7 +60,7 @@ namespace Ubay_CourseRegistration.Managers
             }
         } //新增管理人(勿更改)
 
-        public static AccountModel GetAccount(string Account)
+        public AccountModel GetAccount(string Account)
 
         {
             string connectionstring =
@@ -88,10 +87,8 @@ namespace Ubay_CourseRegistration.Managers
                     while (reader.Read())
                     {
                         model = new AccountModel();
-                        model.Acc_sum_ID = (Guid)reader["Acc_sum_ID"];
                         model.Account = (string)reader["Account"];
-                        model.password = (string)reader["password"];
-                        model.Type = (bool)reader["Type"];
+
                     }
                     reader.Close();
                     return model;
@@ -402,25 +399,15 @@ namespace Ubay_CourseRegistration.Managers
             new SqlParameter("@e_empno", model.e_empno),
             new SqlParameter("@e_date", DateTime.Now),
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 066c5b5f409aa91ed461483e75b3cae1bd1ac3c0
             new SqlParameter("@Acc_sum_ID", student_id),
             new SqlParameter("@Account", model.Idn),
             new SqlParameter("@password", model.password),
             new SqlParameter("@Type", false)
             };
-
-<<<<<<< HEAD
-        } //修改學生資料
-=======
             this.ExecuteNonQuery(queryString, parameters);
+        } //修改學生資料
+    
 
-        }
-
-
->>>>>>> 066c5b5f409aa91ed461483e75b3cae1bd1ac3c0
 
         public AccountViewModel GetAccountViewModel(Guid id)
         {
@@ -466,7 +453,7 @@ namespace Ubay_CourseRegistration.Managers
             }
         }
 
-<<<<<<< HEAD
+
          
         public static void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string updatetime, Guid editor)
         {
@@ -486,6 +473,7 @@ namespace Ubay_CourseRegistration.Managers
                             Department = @Department, 
                             Account = @Account, 
                             e_empno = @editor, 
+
                             e_date = @updatetime
                         WHERE
                             Manager_ID = @Acc_sum_ID;
@@ -495,7 +483,7 @@ namespace Ubay_CourseRegistration.Managers
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
 
-                command.Parameters.AddWithValue("@Acc_sum_ID", acmodel.Acc_sum_ID);
+                command.Parameters.AddWithValue("@Acc_sum_ID", editor);
                 command.Parameters.AddWithValue("@Firstname", asmodel.firstname);
                 command.Parameters.AddWithValue("@Lastname", asmodel.lastname);
                 command.Parameters.AddWithValue("@Department", asmodel.department);
@@ -507,7 +495,7 @@ namespace Ubay_CourseRegistration.Managers
                 try
                 {
                     connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
                     HttpContext.Current.Response.Write("<script>alert('修改成功!');</script>");
                 }
 

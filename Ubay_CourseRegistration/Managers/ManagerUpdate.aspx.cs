@@ -33,7 +33,6 @@ namespace Ubay_CourseRegistration.Managers
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
             acmodel.Account = this.txtAccount.Text;
-            string oldpassword = this.txtPassword.Text;
             acmodel.password = this.txtNewPassword.Text;
             asmodel.Pwdcheck = this.txtPwdcheck.Text;
             asmodel.datetime = DateTime.Now; // 取得現在時間
@@ -45,7 +44,7 @@ namespace Ubay_CourseRegistration.Managers
 
             SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
             conn.Open();
-            var Managers = new DBAccountManager();
+            var Managers = new ManagerManagers();
 
             SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + txtPassword.Text + "'", conn);
             SqlDataReader pwdchk = passwordcheck.ExecuteReader();
