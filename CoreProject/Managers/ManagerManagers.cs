@@ -47,25 +47,9 @@ namespace Ubay_CourseRegistration.Managers
                 command.Parameters.AddWithValue("@createtime", createtime);
                 command.Parameters.AddWithValue("@Creator", Creator);
 
-                //List<SqlParameter> parameters = new List<SqlParameter>()
-                //{
-                //    new SqlParameter("@GUID", acmodel.Acc_sum_ID),
-                //    new SqlParameter("@Firstname", asmodel.firstname),
-                //    new SqlParameter("@Lastname", asmodel.lastname),
-                //    new SqlParameter("@Department", asmodel.department),
-                //    new SqlParameter("@Account", acmodel.Account),
-                //    new SqlParameter("@Password", acmodel.Password),
-                //    new SqlParameter("@Pwdcheck", asmodel.Pwdcheck),
-                //    new SqlParameter("@Pwdcheck", acmodel.Type),
-                //    new SqlParameter("@createtime", createtime)
-                //};
-
-
-
                 try
                 {
                     connection.Open();
-                    int totalChangeRows = command.ExecuteNonQuery();
                     HttpContext.Current.Response.Write("<script>alert('新增成功!');</script>");
                 }
 
@@ -76,7 +60,7 @@ namespace Ubay_CourseRegistration.Managers
             }
         } //新增管理人(勿更改)
 
-        public static AccountModel GetAccount(string Account)
+        public AccountModel GetAccount(string Account)
 
         {
             string connectionstring =
@@ -103,10 +87,8 @@ namespace Ubay_CourseRegistration.Managers
                     while (reader.Read())
                     {
                         model = new AccountModel();
-                        model.Acc_sum_ID = (Guid)reader["Acc_sum_ID"];
                         model.Account = (string)reader["Account"];
-                        model.password = (string)reader["password"];
-                        model.Type = (bool)reader["Type"];
+
                     }
                     reader.Close();
                     return model;
@@ -122,7 +104,7 @@ namespace Ubay_CourseRegistration.Managers
 
         }
 
-
+         
         public List<StudentAccountViewModel> GetStudentViewModels(
       string name, string Idn, out int totalSize, int currentPage = 1, int pageSize = 10)
         {
@@ -384,8 +366,7 @@ namespace Ubay_CourseRegistration.Managers
                         password = @password 
                     WHERE
                         Acc_sum_ID = @Acc_sum_ID;
-
-                 UPDATE Student
+                    UPDATE Student
                     SET 
                         S_FirstName = @S_FirstName, 
                         S_LastName = @S_LastName, 
@@ -428,17 +409,14 @@ namespace Ubay_CourseRegistration.Managers
             new SqlParameter("@e_empno", model.e_empno),
             new SqlParameter("@e_date", DateTime.Now),
 
-
             new SqlParameter("@Acc_sum_ID", student_id),
             new SqlParameter("@Account", model.Idn),
             new SqlParameter("@password", model.password),
             new SqlParameter("@Type", false)
             };
-
             this.ExecuteNonQuery(queryString, parameters);
-
-        }
-
+        } //修改學生資料
+    
 
 
         public AccountViewModel GetAccountViewModel(Guid id)
@@ -485,70 +463,58 @@ namespace Ubay_CourseRegistration.Managers
             }
         }
 
-        //修改
-        //public void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
-        //{
-        //    string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=CSharpLession; Integrated Security=true";
-        //    string queryString =
-        //        $@"UPDATE  TestTable1 SET
-        //                    ID=@ID,Name=@Name,Birthday=@Birthday,NumberCol=@NumberCol
-        //                WHERE
-        //                    ID=@ID;";
-        //    Guid student_id = Guid.NewGuid();
 
+         
+        public static void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string updatetime, Guid editor)
+        {
+            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
-        //    List<SqlParameter> parameters = new List<SqlParameter>()
-        //            {
+            string queryString =
+                $@"UPDATE  Account_summary 
+                        SET
+                            Account=@Account,
+                            password=@password
+                        WHERE
+                            Acc_sum_ID = @Acc_sum_ID
+                        UPDATE Manager
+                        SET 
+                            Manager_FirstName = @Firstname, 
+                            Manager_LastName = @Lastname  , 
+                            Department = @Department, 
+                            Account = @Account, 
+                            e_empno = @editor, 
 
-        //            new SqlParameter("@Student_ID", student_id),
-        //            new SqlParameter("@S_FirstName", model.S_FirstName),
-        //            new SqlParameter("@S_LastName", model.S_LastName),
-        //            new SqlParameter("@Birthday", model.Birthday),
-        //            new SqlParameter("@idn", model.Idn),
-        //            new SqlParameter("@Email", model.Email),
-        //            new SqlParameter("@Address", model.Address),
-        //            new SqlParameter("@CellPhone", model.CellPhone),
-        //            new SqlParameter("@Education", model.Education),
-        //            new SqlParameter("@School_ID", model.School_ID),
-        //            new SqlParameter("@Experience", model.Experience),
-        //            new SqlParameter("@ExYear", model.ExYear),
-        //            new SqlParameter("@gender", model.gender),
-        //            new SqlParameter("@PassNumber",model.PassNumber),
-        //            new SqlParameter("@PassPic",model.PassPic),
-        //            new SqlParameter("@b_empno", b_empno),
-        //            new SqlParameter("@b_date", model.b_date),
+                            e_date = @updatetime
+                        WHERE
+                            Manager_ID = @Acc_sum_ID;
+                ";
 
-        //            new SqlParameter("@Acc_sum_ID", student_id),
-        //            new SqlParameter("@Account", model.Idn),
-        //            new SqlParameter("@password", acmodel.password),
-        //            new SqlParameter("@Type", false)
-        //            };
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
 
-        //    foreach (var item in parameters)
-        //    {
-        //        parameters.Add(new SqlParameter(item.ParameterName, item.Value));
-        //    }
+                command.Parameters.AddWithValue("@Acc_sum_ID", editor);
+                command.Parameters.AddWithValue("@Firstname", asmodel.firstname);
+                command.Parameters.AddWithValue("@Lastname", asmodel.lastname);
+                command.Parameters.AddWithValue("@Department", asmodel.department);
+                command.Parameters.AddWithValue("@Account", acmodel.Account);
+                command.Parameters.AddWithValue("@password", acmodel.password);
+                command.Parameters.AddWithValue("@editor", editor);
+                command.Parameters.AddWithValue("@updatetime", updatetime);
 
-        //    command.Parameters.AddRange(parameters2.ToArray());
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    HttpContext.Current.Response.Write("<script>alert('修改成功!');</script>");
+                }
 
-
-        //    try
-        //    {
-        //        connection.Open();
-        //        int totalChangeRows = command.ExecuteNonQuery();
-        //        HttpContext.Current.Response.Write("Total change" + totalChangeRows + "Rows");
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        HttpContext.Current.Response.Write(ex.Message);
-        //    }
-        //}
-
-
-
-
-
+                catch (Exception ex)
+                {
+                    HttpContext.Current.Response.Write(ex.Message);
+                }
+            } 
+        }   //修改管理人
     }
 }
 

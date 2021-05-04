@@ -15,7 +15,7 @@
             <br />
             <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
             <br />
-            <div>舊密碼：<asp:TextBox runat="server" ID="txtPassword"></asp:TextBox></div>
+            <div>舊密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPassword"></asp:TextBox></div>
             <br />
             <div>新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtNewPassword"></asp:TextBox></div>
             <br />
