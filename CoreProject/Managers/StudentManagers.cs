@@ -127,6 +127,76 @@ namespace CoreProject.Managers
             return this.GetDataTable(cmd, parameters);
         }
 
+        /// <summary>
+        /// 搜尋課程
+        /// </summary>
+        /// <param name="Student_ID">ID</param>
+        /// <param name="Course_ID">課程ID</param>
+        /// <param name="C_Name">課程名稱</param>
+        /// <param name="StartDate">開課時間</param>
+        /// <param name="EndDate">結束時間</param>
+        /// <param name="Place_Name">教室</param>
+        /// <param name="Price1">最小價格</param>
+        /// <param name="Price2">最大價格</param>
+        /// <returns></returns>
+        public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2)
+        {
+            string cmd = "SELECT * FROM Registration_record INNER JOIN Course ON Registration_record.Course_ID=Course.Course_ID INNER JOIN Teacher ON Course.Teacher_ID=Teacher.Teacher_ID INNER JOIN Place ON Course.Place_ID=Place.Place_ID WHERE ";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            if (string.IsNullOrEmpty(Student_ID))
+            {
+                cmd += "Student_ID = @Student_ID AND ";
+                parameters.Add(new SqlParameter("@Student_ID", Student_ID));
+            }
+            if (!string.IsNullOrEmpty(Course_ID))
+            {
+                cmd += "Registration_record.Course_ID = @Course_ID AND ";
+                parameters.Add(new SqlParameter("@Course_ID", Course_ID));
+            }
+            if (!string.IsNullOrEmpty(C_Name))
+            {
+                cmd += "Course.C_Name = @C_Name AND ";
+                parameters.Add(new SqlParameter("@C_Name", C_Name));
+            }
+            ////教師姓名
+            //if(!string.IsNullOrEmpty(ddlTeacher.Text))
+            //{
+            //    cmd += "Course.C_Name = @C_Name AND ";
+            //    parameters.Add(new SqlParameter("@C_Name", ddlTeacher.Text));
+            //}
+            if (!string.IsNullOrEmpty(StartDate))
+            {
+                cmd += "Course.StartDate >= @StartDate AND ";
+                parameters.Add(new SqlParameter("@StartDate", StartDate));
+            }
+            if (!string.IsNullOrEmpty(EndDate))
+            {
+                cmd += "Course.EndDate <= @EndDate AND ";
+                parameters.Add(new SqlParameter("@EndDate", EndDate));
+            }
+            if (!string.IsNullOrEmpty(Place_Name))
+            {
+                cmd += "Place.Place_Name = @Place_Name AND ";
+                parameters.Add(new SqlParameter("@Place_Name", Place_Name));
+            }
+            if (!string.IsNullOrEmpty(Price1))
+            {
+                cmd += "Course.Price >= @Price1 AND ";
+                parameters.Add(new SqlParameter("@Price1", Price1));
+
+            }
+            if (!string.IsNullOrEmpty(Price2))
+            {
+                cmd += "Course.Price <= @Price2 AND ";
+                parameters.Add(new SqlParameter("@Price2", Price2));
+            }
+            if (cmd.EndsWith(" WHERE "))
+                cmd = cmd.Remove(cmd.Length - 7, 7);
+            else
+                cmd = cmd.Remove(cmd.Length - 5, 5);
+            return GetDataTable(cmd, parameters); ;
+        }
+
 
     }
 }

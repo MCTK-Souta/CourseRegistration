@@ -64,12 +64,7 @@ namespace Ubay_CourseRegistration.Students
             connection.Close();
 
 
-
             var _post = Request.QueryString["datetime"];
-            //var asdflkhjalsd = Request.QueryString["coursetime"];
-            //var sadfas = Request.QueryString["course12time"];
-            //var asdf = Request.QueryString["eee"];
-            //var afdsf = Request.QueryString["ffff"];
             if (_post != null)
                 datetime = DateTime.Parse(_post);
             TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
@@ -77,45 +72,6 @@ namespace Ubay_CourseRegistration.Students
         }
 
         //連接報名紀錄資料表，帶入報名學生及報名課程資料 (此段功能已移至StudentManager  待測試)
-        public DataTable GetDataTable()
-        {
-            string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-
-            string queryString =
-             $@" SELECT * 
-                FROM Registration_record
-                    INNER JOIN Student
-                    ON Registration_record.Student_ID=Student.Student_ID
-                INNER JOIN Course 
-                ON Registration_record.Course_ID=Course.Course_ID
-		            INNER JOIN Teacher
-		            ON Teacher.Teacher_ID=Course.Teacher_ID
-		            INNER JOIN Place
-		            ON Place.Place_ID=Course.Place_ID
-                WHERE Registration_record.Student_ID ='F9B00778-B226-4F73-B525-FB923E4DB80F';";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-
-                SqlCommand command = new SqlCommand(queryString, connection);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    DataTable dt = new DataTable();
-                    dt.Load(reader);
-                    reader.Close();
-
-                    return dt;
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            }
-        }
 
         private void BindDataIntoRepeater()
         {
@@ -218,32 +174,17 @@ namespace Ubay_CourseRegistration.Students
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            string course_id = this.txtCourseID.Text;
-            string courseName = this.txtCourseName.Text;
-            string teacher_id = this.ddlTeacher.Text;
-            string StartDate = this.txtStartDate1.Text;
-            string StarDate2 = this.txtStartDate2.Text;
-            string place_id = this.txtPlace.Text;
-            string minPrice = this.TxtPrice1.Text;
-            string maxPrice = this.TxtPrice2.Text;
-
-            string template = "?Page=1";
-
-            if (!string.IsNullOrEmpty(course_id))
-                template += "&course_id=" + course_id;
-
-            if (!string.IsNullOrEmpty(courseName))
-                template += "&courseName=" + courseName;
-
-            if (!string.IsNullOrEmpty(teacher_id))
-                template += "&teacher_id=" + teacher_id;
-
-            if (!string.IsNullOrEmpty(place_id))
-                template += "&place_id=" + place_id;
-
-            //Response.Redirect("StudentCourseRecord.aspx" + template);
-
-            BindDataIntoRepeater();
+            rptResult.DataSource = _studentManagers.SearchCouser(
+                            _ID,
+                            txtCourseID.Text,
+                            txtCourseName.Text,
+                            txtStartDate1.Text,
+                            txtStartDate2.Text,
+                            txtPlace.Text,
+                            TxtPrice1.Text,
+                            TxtPrice2.Text
+                            );
+            rptResult.DataBind();
 
         }
 
@@ -321,16 +262,10 @@ namespace Ubay_CourseRegistration.Students
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
                 List<TempClass> _tempClassList = new List<TempClass>();
-                //[1,2,3]
+
 
                 foreach (DataRow r in dt_course.Rows)
                 {
-                    //if (DateTime.Parse(r["StartDate"].ToString()) = _currentDay)
-                    //{
-                    //dr[1] = r["C_Name"].ToString();
-                    //dr[2] = r["Place_Name"].ToString();
-                    //dr[3] = r["StartTime"].ToString();
-                    //}
                     TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {r["StartTime"]}");
                     if (!_tempClassList.Contains(_tempclass))
                         _tempClassList.Add(_tempclass);
