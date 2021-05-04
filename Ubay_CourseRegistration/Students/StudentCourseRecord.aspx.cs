@@ -54,12 +54,19 @@ namespace Ubay_CourseRegistration.Students
             DataTable dt = new DataTable();
             SqlDataAdapter ad = new SqlDataAdapter(command);
             ad.Fill(dt);
+
+
+
+
             if (dt.Rows.Count > 0)
             {
                 ddlTeacher.DataSource = dt;
                 ddlTeacher.DataTextField = "Teacher_Name";
-                ddlTeacher.DataValueField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_ID";
                 ddlTeacher.DataBind();
+                //用來搜尋全部教師選項的空值
+                ddlTeacher.Items.Insert(0, "");
+                ddlTeacher.SelectedIndex = 0;
             }
             connection.Close();
 
@@ -71,7 +78,7 @@ namespace Ubay_CourseRegistration.Students
             CreateCalendar();
         }
 
-        //連接報名紀錄資料表，帶入報名學生及報名課程資料 (此段功能已移至StudentManager  待測試)
+
 
         private void BindDataIntoRepeater()
         {
@@ -174,6 +181,7 @@ namespace Ubay_CourseRegistration.Students
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+
             rptResult.DataSource = _studentManagers.SearchCouser(
                             _ID,
                             txtCourseID.Text,
@@ -182,8 +190,9 @@ namespace Ubay_CourseRegistration.Students
                             txtStartDate2.Text,
                             txtPlace.Text,
                             TxtPrice1.Text,
-                            TxtPrice2.Text
-                            );
+                            TxtPrice2.Text,
+                            ddlTeacher.SelectedValue
+                            ); ;
             rptResult.DataBind();
 
         }

@@ -37,12 +37,12 @@
             課程名稱:<asp:TextBox runat="server" ID="txtCourseName"></asp:TextBox> 
             教師: 
             <asp:DropDownList runat="server" ID="ddlTeacher">
-                <asp:ListItem Text="All" Value=""></asp:ListItem>
+<%--            <asp:ListItem Text="All" Value=""></asp:ListItem>
                 <asp:ListItem Text="陳一" Value="1"></asp:ListItem>
                 <asp:ListItem Text="李二" Value="2"></asp:ListItem>
-                <asp:ListItem Text="林三" Value="3"></asp:ListItem>
+                <asp:ListItem Text="林三" Value="3"></asp:ListItem>--%>
             </asp:DropDownList>
-            開課時間:
+            授課時間:
             <asp:TextBox runat="server" ID="txtStartDate1" TextMode="Date" placeholder="from"></asp:TextBox>~
             <asp:TextBox runat="server" ID="txtStartDate2" TextMode="Date" placeholder="to"></asp:TextBox>
              </p>

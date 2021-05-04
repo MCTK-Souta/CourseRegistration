@@ -127,7 +127,7 @@ namespace CoreProject.Managers
             return this.GetDataTable(cmd, parameters);
         }
 
-        /// <summary>
+                /// <summary>
         /// 搜尋課程
         /// </summary>
         /// <param name="Student_ID">ID</param>
@@ -139,7 +139,7 @@ namespace CoreProject.Managers
         /// <param name="Price1">最小價格</param>
         /// <param name="Price2">最大價格</param>
         /// <returns></returns>
-        public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2)
+        public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2,string ddlTeacher)
         {
             string cmd = "SELECT * FROM Registration_record INNER JOIN Course ON Registration_record.Course_ID=Course.Course_ID INNER JOIN Teacher ON Course.Teacher_ID=Teacher.Teacher_ID INNER JOIN Place ON Course.Place_ID=Place.Place_ID WHERE ";
             List<SqlParameter> parameters = new List<SqlParameter>();
@@ -150,42 +150,78 @@ namespace CoreProject.Managers
             }
             if (!string.IsNullOrEmpty(Course_ID))
             {
-                cmd += "Registration_record.Course_ID = @Course_ID AND ";
-                parameters.Add(new SqlParameter("@Course_ID", Course_ID));
+                cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
+                parameters.Add(new SqlParameter("@Course_ID", $"%{Course_ID}%"));
             }
             if (!string.IsNullOrEmpty(C_Name))
             {
-                cmd += "Course.C_Name = @C_Name AND ";
-                parameters.Add(new SqlParameter("@C_Name", C_Name));
+                cmd += "Course.C_Name LIKE @C_Name AND ";
+                parameters.Add(new SqlParameter("@C_Name", $"%{C_Name}%"));
             }
-            ////教師姓名
-            //if(!string.IsNullOrEmpty(ddlTeacher.Text))
-            //{
-            //    cmd += "Course.C_Name = @C_Name AND ";
-            //    parameters.Add(new SqlParameter("@C_Name", ddlTeacher.Text));
-            //}
-            if (!string.IsNullOrEmpty(StartDate))
+            //教師id
+            if (!string.IsNullOrEmpty(ddlTeacher))
+            {
+                cmd += "Teacher.Teacher_ID = @Teacher_ID AND ";
+                parameters.Add(new SqlParameter("@Teacher_ID", ddlTeacher));
+            }
+
+            if (!string.IsNullOrEmpty(StartDate) && !string.IsNullOrEmpty(EndDate))
+            {
+                DateTime tempDate1 = DateTime.Parse(StartDate);
+                DateTime tempDate2 = DateTime.Parse(EndDate);
+
+                if (tempDate1 > tempDate2)
+                {
+                    DateTime temp = tempDate1;
+                    tempDate1 = tempDate2;
+                    tempDate2 = temp;
+                }
+                cmd += "Course.StartDate >= @StartDate AND ";
+                parameters.Add(new SqlParameter("@StartDate", tempDate1));
+                cmd += "Course.EndDate <= @EndDate AND ";
+                parameters.Add(new SqlParameter("@EndDate", tempDate2));
+            }
+            else if (!string.IsNullOrEmpty(StartDate))
             {
                 cmd += "Course.StartDate >= @StartDate AND ";
                 parameters.Add(new SqlParameter("@StartDate", StartDate));
             }
-            if (!string.IsNullOrEmpty(EndDate))
+            else if (!string.IsNullOrEmpty(EndDate))
             {
                 cmd += "Course.EndDate <= @EndDate AND ";
                 parameters.Add(new SqlParameter("@EndDate", EndDate));
             }
+
             if (!string.IsNullOrEmpty(Place_Name))
             {
-                cmd += "Place.Place_Name = @Place_Name AND ";
-                parameters.Add(new SqlParameter("@Place_Name", Place_Name));
+                cmd += "Place.Place_Name LIKE @Place_Name AND ";
+                parameters.Add(new SqlParameter("@Place_Name", $"%{Place_Name}%"));
             }
-            if (!string.IsNullOrEmpty(Price1))
+
+            if (!string.IsNullOrEmpty(Price1) && !string.IsNullOrEmpty(Price2))
+            {
+                int tempPrice1  = int.Parse(Price1);
+                int tempPrice2 = int.Parse(Price2);
+
+                if (tempPrice1 > tempPrice2)
+                {
+                    int temp = tempPrice1;
+                    tempPrice1 = tempPrice2;
+                    tempPrice2 = temp;
+                }
+                cmd += "Course.Price >= @Price1 AND ";
+                parameters.Add(new SqlParameter("@Price1", tempPrice1));
+                cmd += "Course.Price <= @Price2 AND ";
+                parameters.Add(new SqlParameter("@Price2", tempPrice2));
+
+            }
+            else if (!string.IsNullOrEmpty(Price1))
             {
                 cmd += "Course.Price >= @Price1 AND ";
                 parameters.Add(new SqlParameter("@Price1", Price1));
 
             }
-            if (!string.IsNullOrEmpty(Price2))
+            else if (!string.IsNullOrEmpty(Price2))
             {
                 cmd += "Course.Price <= @Price2 AND ";
                 parameters.Add(new SqlParameter("@Price2", Price2));
