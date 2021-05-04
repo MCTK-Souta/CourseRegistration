@@ -58,6 +58,6 @@
     <ul>
         <li><a href="StudentInfo.aspx">個人資料</a></li>
         <li><a href="StudentCourseRecord.aspx">歷史報名紀錄</a></li>
-        <li><a href="#">報名新課程</a></li>
+        <li><a href="StudentAddCourse.aspx">報名新課程</a></li>
         <li><a href="#">退課</a></li>
     </ul>

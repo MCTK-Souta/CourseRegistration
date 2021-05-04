@@ -128,7 +128,7 @@ namespace CoreProject.Managers
         }
 
                 /// <summary>
-        /// 搜尋課程
+        /// 搜尋學生已選課程
         /// </summary>
         /// <param name="Student_ID">ID</param>
         /// <param name="Course_ID">課程ID</param>
@@ -235,5 +235,132 @@ namespace CoreProject.Managers
         }
 
 
+
+        public DataTable StudentAddCourse(string ID)
+        {
+            string cmd = @" SELECT *
+                            FROM Course
+                                INNER JOIN Teacher
+		                        ON Teacher.Teacher_ID=Course.Teacher_ID
+		                        INNER JOIN Place
+		                        ON Place.Place_ID=Course.Place_ID
+	                                WHERE Course.Course_ID NOT IN
+		                            (SELECT Registration_record.Course_ID
+		                            FROM Registration_record
+			                            WHERE Registration_record.Student_ID=@ID 
+                                        AND Registration_record.d_date IS NULL)
+                                        AND Course.StartDate>GETDATE();";
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",ID)
+            };
+            return this.GetDataTable(cmd, parameters);
+        }
+
+        public DataTable SearchCouserAdd(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher)
+        {
+            string cmd = @"SELECT *
+                            FROM Course
+                                INNER JOIN Teacher
+		                        ON Teacher.Teacher_ID=Course.Teacher_ID
+		                        INNER JOIN Place
+		                        ON Place.Place_ID=Course.Place_ID
+	                                WHERE Course.Course_ID NOT IN
+		                            (SELECT Registration_record.Course_ID
+		                            FROM Registration_record
+			                            WHERE Registration_record.Student_ID=@ID 
+                                        AND Registration_record.d_date IS NULL)
+                                        AND Course.StartDate>GETDATE() AND ";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            //if (string.IsNullOrEmpty(Student_ID))
+            //{
+            //    cmd += "Student_ID = @Student_ID AND ";
+            //    parameters.Add(new SqlParameter("@Student_ID", Student_ID));
+            //}
+            if (!string.IsNullOrEmpty(Course_ID))
+            {
+                cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
+                parameters.Add(new SqlParameter("@Course_ID", $"%{Course_ID}%"));
+            }
+            if (!string.IsNullOrEmpty(C_Name))
+            {
+                cmd += "Course.C_Name LIKE @C_Name AND ";
+                parameters.Add(new SqlParameter("@C_Name", $"%{C_Name}%"));
+            }
+            //教師id
+            if (!string.IsNullOrEmpty(ddlTeacher))
+            {
+                cmd += "Teacher.Teacher_ID = @Teacher_ID AND ";
+                parameters.Add(new SqlParameter("@Teacher_ID", ddlTeacher));
+            }
+
+            if (!string.IsNullOrEmpty(StartDate) && !string.IsNullOrEmpty(EndDate))
+            {
+                DateTime tempDate1 = DateTime.Parse(StartDate);
+                DateTime tempDate2 = DateTime.Parse(EndDate);
+
+                if (tempDate1 > tempDate2)
+                {
+                    DateTime temp = tempDate1;
+                    tempDate1 = tempDate2;
+                    tempDate2 = temp;
+                }
+                cmd += "Course.StartDate >= @StartDate AND ";
+                parameters.Add(new SqlParameter("@StartDate", tempDate1));
+                cmd += "Course.EndDate <= @EndDate AND ";
+                parameters.Add(new SqlParameter("@EndDate", tempDate2));
+            }
+            else if (!string.IsNullOrEmpty(StartDate))
+            {
+                cmd += "Course.StartDate >= @StartDate AND ";
+                parameters.Add(new SqlParameter("@StartDate", StartDate));
+            }
+            else if (!string.IsNullOrEmpty(EndDate))
+            {
+                cmd += "Course.EndDate <= @EndDate AND ";
+                parameters.Add(new SqlParameter("@EndDate", EndDate));
+            }
+
+            if (!string.IsNullOrEmpty(Place_Name))
+            {
+                cmd += "Place.Place_Name LIKE @Place_Name AND ";
+                parameters.Add(new SqlParameter("@Place_Name", $"%{Place_Name}%"));
+            }
+
+            if (!string.IsNullOrEmpty(Price1) && !string.IsNullOrEmpty(Price2))
+            {
+
+                int tempPrice1 = int.Parse(Price1);
+                int tempPrice2 = int.Parse(Price2);
+
+                if (tempPrice1 > tempPrice2)
+                {
+                    int temp = tempPrice1;
+                    tempPrice1 = tempPrice2;
+                    tempPrice2 = temp;
+                }
+                cmd += "Course.Price >= @Price1 AND ";
+                parameters.Add(new SqlParameter("@Price1", tempPrice1));
+                cmd += "Course.Price <= @Price2 AND ";
+                parameters.Add(new SqlParameter("@Price2", tempPrice2));
+
+            }
+            else if (!string.IsNullOrEmpty(Price1))
+            {
+                cmd += "Course.Price >= @Price1 AND ";
+                parameters.Add(new SqlParameter("@Price1", Price1));
+
+            }
+            else if (!string.IsNullOrEmpty(Price2))
+            {
+                cmd += "Course.Price <= @Price2 AND ";
+                parameters.Add(new SqlParameter("@Price2", Price2));
+            }
+            if (cmd.EndsWith(" WHERE "))
+                cmd = cmd.Remove(cmd.Length - 7, 7);
+            else
+                cmd = cmd.Remove(cmd.Length - 5, 5);
+            return GetDataTable(cmd, parameters); ;
+        }
     }
 }
