@@ -21,6 +21,49 @@ namespace Ubay_CourseRegistration.Students
         public string _month { get; set; } = "";
         private int _pageSize = 10;
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            _ID = Session["Acc_sum_ID"].ToString();
+            if (Page.IsPostBack) return;
+            BindDataIntoRepeater();
+
+            //查詢教師
+            ReadTeacherTable();
+
+
+            var _post = Request.QueryString["datetime"];
+            if (_post != null)
+                datetime = DateTime.Parse(_post);
+            TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
+            CreateCalendar();
+        }
+
+        private void BindDataIntoRepeater()
+        {
+            var dtt = _studentManagers.GetStudentCourseRecord(_ID);
+            _pgsource.DataSource = dtt.DefaultView;
+            _pgsource.AllowPaging = true;
+            // 要在Repeater顯示的項目數 
+            _pgsource.PageSize = _pageSize;
+            _pgsource.CurrentPageIndex = CurrentPage;
+            //維持顯示 Total pages
+            ViewState["TotalPages"] = _pgsource.PageCount;
+            // 顯示現在頁數之於總頁數  Example: "Page 1 of 10"
+            lblpage.Text = "Page " + (CurrentPage + 1) + " of " + _pgsource.PageCount;
+            //First, Last, Previous, Next 按鈕的使用控制
+            lbPrevious.Enabled = !_pgsource.IsFirstPage;
+            lbNext.Enabled = !_pgsource.IsLastPage;
+            lbFirst.Enabled = !_pgsource.IsFirstPage;
+            lbLast.Enabled = !_pgsource.IsLastPage;
+
+            // Bind資料進Repeater
+            rptResult.DataSource = _pgsource;
+            rptResult.DataBind();
+
+            //呼叫Repeater分頁
+            HandlePaging();
+        }
 
         private int CurrentPage
         {
@@ -37,71 +80,6 @@ namespace Ubay_CourseRegistration.Students
                 ViewState["CurrentPage"] = value;
             }
         }
-        protected void Page_Load(object sender, EventArgs e)
-        {
-
-            _ID = Session["Acc_sum_ID"].ToString();
-            if (Page.IsPostBack) return;
-            BindDataIntoRepeater();
-
-            //用來帶入查詢教師的下拉選單內容
-            string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-            SqlConnection connection = new SqlConnection(connectionstring);
-            SqlCommand command = new SqlCommand(queryString, connection);
-            connection.Open();
-            DataTable dt = new DataTable();
-            SqlDataAdapter ad = new SqlDataAdapter(command);
-            ad.Fill(dt);
-
-            if (dt.Rows.Count > 0)
-            {
-                ddlTeacher.DataSource = dt;
-                ddlTeacher.DataTextField = "Teacher_Name";
-                ddlTeacher.DataValueField = "Teacher_ID";
-                ddlTeacher.DataBind();
-                //用來搜尋全部教師選項的空值
-                ddlTeacher.Items.Insert(0, "");
-                ddlTeacher.SelectedIndex = 0;
-            }
-            connection.Close();
-
-
-            var _post = Request.QueryString["datetime"];
-            if (_post != null)
-                datetime = DateTime.Parse(_post);
-            TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
-            CreateCalendar();
-        }
-
-
-
-        private void BindDataIntoRepeater()
-        {
-            var dtt = _studentManagers.GetStudentCourseRecord(_ID);
-            _pgsource.DataSource = dtt.DefaultView;
-            _pgsource.AllowPaging = true;
-            // Number of items to be displayed in the Repeater
-            _pgsource.PageSize = _pageSize;
-            _pgsource.CurrentPageIndex = CurrentPage;
-            // Keep the Total pages in View State
-            ViewState["TotalPages"] = _pgsource.PageCount;
-            // Example: "Page 1 of 10"
-            lblpage.Text = "Page " + (CurrentPage + 1) + " of " + _pgsource.PageCount;
-            // Enable First, Last, Previous, Next buttons
-            lbPrevious.Enabled = !_pgsource.IsFirstPage;
-            lbNext.Enabled = !_pgsource.IsLastPage;
-            lbFirst.Enabled = !_pgsource.IsFirstPage;
-            lbLast.Enabled = !_pgsource.IsLastPage;
-
-            // Bind data into repeater
-            rptResult.DataSource = _pgsource;
-            rptResult.DataBind();
-
-            // Call the function to do paging
-            HandlePaging();
-        }
 
         private void HandlePaging()
         {
@@ -115,17 +93,17 @@ namespace Ubay_CourseRegistration.Students
             else
                 _lastIndex = 10;
 
-            // Check last page is greater than total page then reduced it to total no. of page is last index
+            // 檢查最後一頁是否大於總頁數，然後將其設為總頁數
             if (_lastIndex > Convert.ToInt32(ViewState["TotalPages"]))
             {
                 _lastIndex = Convert.ToInt32(ViewState["TotalPages"]);
                 _firstIndex = _lastIndex - 10;
             }
-
+            //如果第一頁索引小於0時 將他設回0
             if (_firstIndex < 0)
                 _firstIndex = 0;
 
-            // Now creating page number based on above first and last page index
+            //根據前面的first 和 last page索引，建立頁碼
             for (var i = _firstIndex; i < _lastIndex; i++)
             {
                 var dr = dtt.NewRow();
@@ -138,6 +116,8 @@ namespace Ubay_CourseRegistration.Students
             rptPaging.DataBind();
         }
 
+
+        #region repeater下方頁碼按鈕功能
         protected void rptPaging_ItemCommand(object source, DataListCommandEventArgs e)
         {
             if (!e.CommandName.Equals("newPage")) return;
@@ -176,6 +156,35 @@ namespace Ubay_CourseRegistration.Students
             lnkPage.BackColor = Color.FromName("#F75C2F");
         }
 
+        #endregion
+
+        public  DataTable ReadTeacherTable()
+        {
+            //帶入查詢教師的下拉選單內容
+            string connectionstring =
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                ddlTeacher.DataSource = dt;
+                ddlTeacher.DataTextField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_ID";
+                ddlTeacher.DataBind();
+                //搜尋全部教師選項的空值
+                ddlTeacher.Items.Insert(0, "");
+                ddlTeacher.SelectedIndex = 0;
+            }
+            connection.Close();
+            return dt;
+        }
+
         protected void btnSearch_Click(object sender, EventArgs e)
         {
 
@@ -194,6 +203,7 @@ namespace Ubay_CourseRegistration.Students
 
         }
 
+        //月曆的上、下一月功能
         protected void NextMonth_Click(object sender, EventArgs e)
         {
             switch (((Button)sender).CommandName)
@@ -211,40 +221,6 @@ namespace Ubay_CourseRegistration.Students
             CreateCalendar();
         }
 
-
-
-        protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
-        {
-            DataTable dt_calendar = new DataTable();
-            //DataTable dt_course = new DataTable();
-            dt_calendar.Columns.Add(new DataColumn("Date"));
-            dt_calendar.Columns.Add(new DataColumn("Course"));
-            dt_calendar.Columns.Add(new DataColumn("Place"));
-            dt_calendar.Columns.Add(new DataColumn("StartTime"));
-            int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
-            //填滿空格
-            for (int i = 0; i < ii; i++)
-                dt_calendar.Rows.Add("");
-
-            //產生該月的日期列表
-            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
-            {
-                DataRow dr = dt_calendar.NewRow();
-                dr[0] = i.ToString();
-                dr[1] = "";
-                dr[2] = "";
-                dr[3] = "";
-
-                dt_calendar.Rows.Add(dr);
-            }
-
-            //資料綁定
-            Calendar.DataSource = dt_calendar;
-            Calendar.DataBind();
-
-            //設定當天顏色
-            Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
-        }
 
         protected void CreateCalendar()//int InYear, int InMonth)
         {
@@ -296,6 +272,39 @@ namespace Ubay_CourseRegistration.Students
             //設定當天顏色
             if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
                 Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
+        }
+
+        protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
+        {
+            DataTable dt_calendar = new DataTable();
+            //DataTable dt_course = new DataTable();
+            dt_calendar.Columns.Add(new DataColumn("Date"));
+            dt_calendar.Columns.Add(new DataColumn("Course"));
+            dt_calendar.Columns.Add(new DataColumn("Place"));
+            dt_calendar.Columns.Add(new DataColumn("StartTime"));
+            int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
+            //填滿空格
+            for (int i = 0; i < ii; i++)
+                dt_calendar.Rows.Add("");
+
+            //產生該月的日期列表
+            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
+            {
+                DataRow dr = dt_calendar.NewRow();
+                dr[0] = i.ToString();
+                dr[1] = "";
+                dr[2] = "";
+                dr[3] = "";
+
+                dt_calendar.Rows.Add(dr);
+            }
+
+            //資料綁定
+            Calendar.DataSource = dt_calendar;
+            Calendar.DataBind();
+
+            //設定當天顏色
+            Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
         }
     }
 

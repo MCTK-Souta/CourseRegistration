@@ -51,6 +51,15 @@ namespace Ubay_CourseRegistration.Managers
         protected global::System.Web.UI.WebControls.TextBox idn;
 
         /// <summary>
+        /// passview 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label passview;
+
+        /// <summary>
         /// pwd 控制項。
         /// </summary>
         /// <remarks>
@@ -202,6 +211,15 @@ namespace Ubay_CourseRegistration.Managers
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload passpic;
+
+        /// <summary>
+        /// Image1 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image1;
 
         /// <summary>
         /// region 控制項。

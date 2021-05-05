@@ -5,6 +5,7 @@ using CoreProject.ViewModels;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -75,20 +76,35 @@ namespace Ubay_CourseRegistration.Managers
             this.fname.Text = model.S_FirstName;
             this.lname.Text = model.S_LastName;
             this.idn.Text = model.Idn;
+            this.passview.Visible = false;
+            this.pwd.Text = model.password;
             this.gender.SelectedValue = model.gender.ToString();
-            this.birthday.Text = model.Birthday.ToString();
+            this.birthday.Text = model.Birthday.ToString("yyyy-MM-dd");
             this.email.Text = model.Email;
             this.phone.Text = model.CellPhone;
             this.address.Text = model.Address;
             this.experience.SelectedValue = model.Experience.ToString();
+            if(model.Experience == true)
+            {
+                this.exyear.Visible = true;
+                this.yearshow.Visible = true;
+
+            }
             this.exyear.Text = model.ExYear.ToString();
             this.education.Text = model.Education.ToString();
+            if(model.Education.ToString()=="3"|| model.Education.ToString() == "4")
+            {
+                this.schoolshow.Visible = true;
+                this.school.Visible = true;
+            }
             var schoolint = Convert.ToInt32(this.school.Text);
             this.school.SelectedValue = model.School_ID.ToString();
             this.psn.Text = model.PassNumber;
-            string passpic = this.GetNewFileName(this.passpic);
-            if (!string.IsNullOrEmpty(passpic))
-                model.PassPic = passpic;
+            if (!string.IsNullOrEmpty(model.PassPic))
+            {
+                this.Image1.ImageUrl = _saveFolder + model.PassPic;
+                this.Image1.Visible = true;
+            }
 
 
         }
@@ -120,19 +136,38 @@ namespace Ubay_CourseRegistration.Managers
 
             if (this.IsUpdateMode())
             {
-                if (!string.IsNullOrEmpty(this.newpwd.Text) &&
+                //if(DBmanager.Chackpwd(this.idn.Text,this.pwd.Text) != null)
+                //{
+                //    model.password = null;
+                //    this.lbmsg.Text = "請輸入舊密碼";
+                //    this.lbmsg.Visible = true;
+                //    return;
+                //}
+                //else
+                //{
+                //    model.password = this.pwd.Text;
+                //}
+                
+
+                if (!string.IsNullOrEmpty(this.newpwd.Text) ||
                 !string.IsNullOrEmpty(this.renewpwd.Text))
                 {
-                    if (model.password == this.renewpwd.Text)
+
+                    if (this.newpwd.Text==this.renewpwd.Text)
                     {
                         model.password = this.renewpwd.Text.Trim();
                     }
                     else
                     {
-                        this.lbmsg.Text = "密碼和原密碼不一致";
+                        model.password = null;
+                        this.lbmsg.Text = "新密碼和確認新密碼不一致";
                         this.lbmsg.Visible = true;
                         return;
                     }
+                }
+                else
+                {
+                    model.password = this.pwd.Text;
                 }
             }
             else
@@ -144,6 +179,20 @@ namespace Ubay_CourseRegistration.Managers
 
                     return;
                 }
+                else
+                {
+                    if(this.newpwd.Text==this.renewpwd.Text)
+                    {
+                        model.password = this.renewpwd.Text.Trim();
+                    }
+                    else
+                    {
+                        model.password = null;
+                        this.lbmsg.Text = "新密碼與確認新密碼不一致";
+                        this.lbmsg.Visible = true;
+                    }
+                }
+
 
                 if (DBmanager.GetAccount(this.idn.Text.Trim()) != null)
                 {
@@ -152,25 +201,58 @@ namespace Ubay_CourseRegistration.Managers
 
                     return;
                 }
-                model.Idn = this.idn.Text.Trim();
-                model.password = this.pwd.Text.Trim();
             }
-            model.S_FirstName = this.fname.Text.Trim();
-            model.S_LastName = this.lname.Text.Trim();
-            model.Email = this.email.Text.Trim();
-            model.CellPhone = this.phone.Text.Trim();
 
-            model.gender = Convert.ToBoolean(this.gender.Text);
-            model.Birthday = Convert.ToDateTime(this.birthday.Text);
-            model.Email = this.email.Text.Trim();
-            model.CellPhone = this.phone.Text.Trim();
-            model.Address = this.address.Text.Trim();
+            if (this.fname.Text != string.Empty &&
+                this.lname.Text != string.Empty &&
+                this.idn.Text != string.Empty &&
+                this.gender.Text != string.Empty &&
+                this.birthday.Text != string.Empty &&
+                this.email.Text != string.Empty &&
+                this.phone.Text != string.Empty &&
+                this.address.Text != string.Empty &&
+                this.experience.Text != string.Empty &&
+                this.education.Text != string.Empty)
+            {
+                model.S_FirstName = this.fname.Text.Trim();
+                model.S_LastName = this.lname.Text.Trim();
+                model.Idn = this.idn.Text.Trim();
+                model.Email = this.email.Text.Trim();
+                model.CellPhone = this.phone.Text.Trim();
+                model.gender = Convert.ToBoolean(this.gender.SelectedValue);
+                model.Birthday = Convert.ToDateTime(this.birthday.Text);
+                model.Email = this.email.Text.Trim();
+                model.CellPhone = this.phone.Text.Trim();
+                model.Address = this.address.Text.Trim();
+                model.PassNumber = this.psn.Text.Trim();
+                if(string.IsNullOrEmpty(this.Image1.ImageUrl))
+                {
+                    string pic1 = this.GetNewFileName(this.passpic);
+                    if (!string.IsNullOrEmpty(pic1))
+                        model.PassPic = pic1;
+                }
+                else
+                {
+                    string img1 = this.Image1.ImageUrl;
+                    model.PassPic = Path.GetFileName(img1);
+                }
+
+
+            }
+            else
+            {
+                this.lbmsg.Text = "*欄位不可為空";
+                this.lbmsg.Visible = true;
+                return;
+            }
+
+
             if (this.experience.SelectedItem.Text == "有")
             {
                 if (this.exyear.SelectedItem.Text == "請選擇")
                 {
 
-                    model.ExYear = null;
+                    model.ExYear = 0;
                     this.lbmsg.Visible = true;
                     this.lbmsg.Text = "需選擇年數";
                     return;
@@ -185,7 +267,7 @@ namespace Ubay_CourseRegistration.Managers
             else
             {
                 model.Experience = Convert.ToBoolean(this.experience.SelectedItem.Value);
-                model.ExYear = null;
+                model.ExYear = 0;
 
             }
 
@@ -194,7 +276,7 @@ namespace Ubay_CourseRegistration.Managers
                 if (this.school.SelectedItem.Text == "請選擇")
                 {
 
-                    model.School_ID = null;
+                    model.School_ID = Convert.ToInt32(this.school.Text);
                     this.lbmsg.Visible = true;
                     this.lbmsg.Text = "需選擇學校";
 
@@ -210,25 +292,35 @@ namespace Ubay_CourseRegistration.Managers
             else
             {
                 model.Education = Convert.ToInt32(this.education.Text);
-                model.School_ID = null;
+                model.School_ID = 0;
             }
 
-            model.PassNumber = this.psn.Text.Trim();
 
-            model.PassPic = this.GetNewFileName(this.passpic);
 
 
             if (this.IsUpdateMode())
             {
+                string qsID = Request.QueryString["Student_ID"];
+
+                Guid temp;
+                if (!Guid.TryParse(qsID, out temp))
+                    return;
+                model.Student_ID = temp;
                 model.e_empno = (Guid)Session["Acc_sum_ID"];
                 manager.UpdataStudent(model);
+                this.lbmsg.Text = "更改成功";
+                this.lbmsg.Visible = true;
             }
             else
             {
                 try
                 {
+
+
                     model.b_empno = (Guid)Session["Acc_sum_ID"];
                     manager.CreatStudent(model);
+                    this.lbmsg.Text = "新增成功";
+                    this.lbmsg.Visible = true;
                 }
                 catch (Exception ex)
                 {
@@ -237,8 +329,7 @@ namespace Ubay_CourseRegistration.Managers
                     return;
                 }
             }
-            this.lbmsg.Text = "新增成功";
-            this.lbmsg.Visible = true;
+
 
         }
 

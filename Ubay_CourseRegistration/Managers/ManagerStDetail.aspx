@@ -3,13 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>
+    <div style="align-content:center">
         <asp:Label ID="Label1" runat="server" Text="修改學生資料" Style="margin: 0,auto; left: 45%; position: relative;" Font-Size="20pt"></asp:Label><br />
         <br />
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
-                姓氏：<asp:TextBox runat="server" ID="fname"></asp:TextBox><br />
+                姓氏：<asp:TextBox runat="server" ID="fname" ></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -22,11 +22,10 @@
                 帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn"></asp:TextBox><br />
             </div>
             <br />
-            <div>
+            <asp:Label ID="passview" runat="server" Text="Label">
                 <p style="color: red; display: inline">*</p>
-                密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd"></asp:TextBox><br />
-            </div>
-            <br />
+                #密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd"></asp:TextBox>
+            </asp:Label>
             <div>
                 新密碼：<asp:TextBox runat="server" TextMode="Password" ID="newpwd"></asp:TextBox>
             </div>
@@ -79,11 +78,11 @@
                 </asp:RadioButtonList>
                 &nbsp;&nbsp;<asp:Label ID="yearshow" Visible="false" runat="server">年數：</asp:Label>
                 <asp:DropDownList ID="exyear" runat="server" RepeatLayout="Flow" Visible="false">
-                    <asp:ListItem Text="請選擇" Value=""></asp:ListItem>
-                    <asp:ListItem Text="未滿一年" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="1年" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="2年" Value="2"></asp:ListItem>
-                    <asp:ListItem Text="3年(含)以上" Value="3"></asp:ListItem>
+                    <asp:ListItem Text="請選擇" Value="0"></asp:ListItem>
+                    <asp:ListItem Text="未滿一年" Value="1"></asp:ListItem>
+                    <asp:ListItem Text="1年" Value="2"></asp:ListItem>
+                    <asp:ListItem Text="2年" Value="3"></asp:ListItem>
+                    <asp:ListItem Text="3年(含)以上" Value="4"></asp:ListItem>
                 </asp:DropDownList>
             </div>
             <br />
@@ -111,7 +110,12 @@
                 護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox>
             </div>
             <br />
-            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
+            <div style="margin-left: -65px;">
+                上傳護照照片：<asp:FileUpload ID="passpic" runat="server" />
+                <div style="display:inherit">
+                <asp:Image ID="Image1"   runat="server" Visible="false" Width="150" Height="150" />
+                </div>
+            </div>
             <br />
             <br />
 
