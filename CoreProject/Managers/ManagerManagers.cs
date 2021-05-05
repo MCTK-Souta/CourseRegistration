@@ -427,9 +427,14 @@ namespace Ubay_CourseRegistration.Managers
                         Manager.Manager_FirstName,
                         Manager.Manager_LastName,
                         Manager.Department,
-                        Manager.Account
+                        Manager.Account,
+                        Account_summary.password
                     FROM Manager 
-                    WHERE Manager.Manager_ID = @id;";
+                    INNER JOIN Account_summary 
+                    ON Account_summary.Acc_sum_ID=Manager.Manager_ID
+                    WHERE Account_summary.Acc_sum_ID = @id;
+          
+                ";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -450,6 +455,7 @@ namespace Ubay_CourseRegistration.Managers
                         model.lastname = (string)reader["Manager_LastName"];
                         model.department = (string)reader["Department"];
                         model.Account = (string)reader["Account"];
+                        model.password = (string)reader["password"];
                     }
 
                     reader.Close();
@@ -464,7 +470,7 @@ namespace Ubay_CourseRegistration.Managers
         }
 
 
-         
+        
         public static void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string updatetime, Guid editor)
         {
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
@@ -472,8 +478,8 @@ namespace Ubay_CourseRegistration.Managers
             string queryString =
                 $@"UPDATE  Account_summary 
                         SET
-                            Account=@Account,
-                            password=@password
+                            Account = @Account,
+                            password = @password
                         WHERE
                             Acc_sum_ID = @Acc_sum_ID
                         UPDATE Manager
@@ -483,7 +489,6 @@ namespace Ubay_CourseRegistration.Managers
                             Department = @Department, 
                             Account = @Account, 
                             e_empno = @editor, 
-
                             e_date = @updatetime
                         WHERE
                             Manager_ID = @Acc_sum_ID;

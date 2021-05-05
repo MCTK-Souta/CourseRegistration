@@ -12,5 +12,6 @@ namespace CoreProject.Models
         public string lastname { get; set; }
         public string department { get; set; }
         public string Account { get; set; }
+        public string password { get; set; }
     }
 }

@@ -15,13 +15,11 @@
             <br />
             <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
             <br />
-            <div>舊密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPassword"></asp:TextBox></div>
+            <div>舊密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPassword"></asp:TextBox>(若不更改密碼則無需填寫)</div>
             <br />
-            <div>新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtNewPassword"></asp:TextBox></div>
+            <div>新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtNewPassword"></asp:TextBox>(若不更改密碼則無需填寫)</div>
             <br />
-            <div style="margin-left: -65px;">
-                再次確認新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck"></asp:TextBox><br />
-            </div>
+            <div>再次確認新密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck"></asp:TextBox>(若不更改密碼則無需填寫</div>
             <br />
             <br />
 
