@@ -13,5 +13,10 @@ namespace Ubay_CourseRegistration.Managers
         {
 
         }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
