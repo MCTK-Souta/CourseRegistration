@@ -11,16 +11,15 @@ using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Students
 {
-    public partial class StudentCourseRecord : System.Web.UI.Page
+    public partial class StudentAddCourse : System.Web.UI.Page
     {
         StudentManagers _studentManagers = new StudentManagers();
         readonly PagedDataSource _pgsource = new PagedDataSource();
         static DateTime datetime = DateTime.Now;
         int _firstIndex, _lastIndex;
-        string _ID ;
+        string _ID;
         public string _month { get; set; } = "";
         private int _pageSize = 10;
-
 
         private int CurrentPage
         {
@@ -37,12 +36,13 @@ namespace Ubay_CourseRegistration.Students
                 ViewState["CurrentPage"] = value;
             }
         }
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
             _ID = Session["Acc_sum_ID"].ToString();
             if (Page.IsPostBack) return;
             BindDataIntoRepeater();
+
 
             //用來帶入查詢教師的下拉選單內容
             string connectionstring =
@@ -69,17 +69,21 @@ namespace Ubay_CourseRegistration.Students
 
 
             var _post = Request.QueryString["datetime"];
+
             if (_post != null)
                 datetime = DateTime.Parse(_post);
             TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
-        }
 
+            dt_cart.Columns.Add("Course_ID", typeof(string));
+            dt_cart.Columns.Add("C_Name", typeof(string));
+            dt_cart.Columns.Add("Price", typeof(int));
+        }
 
 
         private void BindDataIntoRepeater()
         {
-            var dtt = _studentManagers.GetStudentCourseRecord(_ID);
+            var dtt = _studentManagers.StudentAddCourse(_ID);
             _pgsource.DataSource = dtt.DefaultView;
             _pgsource.AllowPaging = true;
             // Number of items to be displayed in the Repeater
@@ -176,23 +180,7 @@ namespace Ubay_CourseRegistration.Students
             lnkPage.BackColor = Color.FromName("#F75C2F");
         }
 
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
 
-            rptResult.DataSource = _studentManagers.SearchCouser(
-                            _ID,
-                            txtCourseID.Text,
-                            txtCourseName.Text,
-                            txtStartDate1.Text,
-                            txtStartDate2.Text,
-                            txtPlace.Text,
-                            TxtPrice1.Text,
-                            TxtPrice2.Text,
-                            ddlTeacher.SelectedValue
-                            ); ;
-            rptResult.DataBind();
-
-        }
 
         protected void NextMonth_Click(object sender, EventArgs e)
         {
@@ -205,8 +193,8 @@ namespace Ubay_CourseRegistration.Students
                     datetime = datetime.AddMonths(-1);
                     break;
             }
-            
-            Response.Redirect($"StudentCourseRecord.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+
+            Response.Redirect($"StudentAddCourse.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
 
             CreateCalendar();
         }
@@ -246,16 +234,93 @@ namespace Ubay_CourseRegistration.Students
             Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
         }
 
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            dt_courses = _studentManagers.SearchCouserAdd(
+              _ID,
+              txtCourseID.Text,
+              txtCourseName.Text,
+              txtStartDate1.Text,
+              txtStartDate2.Text,
+              txtPlace.Text,
+              TxtPrice1.Text,
+              TxtPrice2.Text,
+              ddlTeacher.SelectedValue
+              );
+            rptResult.DataSource = dt_courses;
+            rptResult.DataBind();
+        }
+
+
+
+
+        #region 新增的項目
+        static DataTable dt_courses = new DataTable();
+        static DataTable dt_cart = new DataTable();
+        protected void ShowRemark(object sender, CommandEventArgs e)
+        {
+            DataRow dr = GetCurrentCourse(e.CommandArgument.ToString())[0];
+            Remarks.Text = (string)dr["Remarks"];
+        }
+        protected void AddCourseCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox ckbox = (CheckBox)sender;
+            DataRow result = GetCurrentCourse(ckbox.Text)[0];
+            if (ckbox.Checked)
+            {
+                DataRow dr = dt_cart.NewRow();
+                dr["Course_ID"] = result["Course_ID"];
+                dr["C_Name"] = result["C_Name"];
+                dr["Price"] = result["Price"];
+                dt_cart.Rows.Add(dr);
+            }
+            else
+            {
+                DataRow[] rows = new DataRow[dt_cart.Rows.Count];
+                dt_cart.Rows.CopyTo(rows, 0);
+                foreach (DataRow row in rows)
+                    if (row["Course_ID"].ToString() == ckbox.Text)
+                        dt_cart.Rows.Remove(row);
+            }
+            Repeater1.DataSource = dt_cart;
+            Repeater1.DataBind();
+        }
+        protected List<DataRow> GetCurrentCourse(string Course_ID)
+        {
+            List<DataRow> results = dt_courses.AsEnumerable().Where(d =>
+            {
+                return d["Course_ID"].ToString() == Course_ID;
+            }).ToList();
+            return results;
+        }
+        protected int TotalPrice()
+        {
+            int totalprice = 0;
+            foreach (DataRow dr in dt_cart.Rows)
+                totalprice += (int)dr["Price"];
+            return totalprice;
+        }
+        protected void btnCheckout_Click(object sender, EventArgs e)
+        {
+            //先將dt_cart存到資料庫，然後產生訂單編號=>TotalPrice();
+            //再將產生訂單編號跟總金額傳到金流的網頁結帳
+            //結帳後再將資料庫裡的購物清單加到選課清單後刪除
+
+        }
+        #endregion
+
+
         protected void CreateCalendar()//int InYear, int InMonth)
         {
-            DataTable dt_course = _studentManagers.GetStudentCourseRecord(_ID);
+            DataTable dt_course = _studentManagers.StudentAddCourse(_ID);
             DataTable dt_calendar = new DataTable();
 
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
             dt_calendar.Columns.Add(new DataColumn("Place"));
             dt_calendar.Columns.Add(new DataColumn("StartTime"));
-            
+
 
             int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
             //填滿空格
@@ -268,10 +333,11 @@ namespace Ubay_CourseRegistration.Students
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
                 List<TempClass> _tempClassList = new List<TempClass>();
-
+                //[1,2,3]
 
                 foreach (DataRow r in dt_course.Rows)
                 {
+
                     TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {r["StartTime"]}");
                     if (!_tempClassList.Contains(_tempclass))
                         _tempClassList.Add(_tempclass);
@@ -297,32 +363,7 @@ namespace Ubay_CourseRegistration.Students
             if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
                 Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
         }
+
+
     }
-
-    class TempClass
-    {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DayOfWeek DayOfWeek { get; set; }
-        public string ClassName { get; set; }
-
-        public TempClass() { }
-        public TempClass(DateTime startdate, DateTime enddate, string classname)
-        {
-            StartDate = startdate;
-            EndDate = enddate;
-            ClassName = classname;
-            DayOfWeek = startdate.DayOfWeek;
-        }
-
-        public bool Check(DateTime date)
-        {
-            if (date.DayOfWeek != DayOfWeek)
-                return false;
-            if (date >= StartDate && date <= EndDate)
-                return true;
-            return false;
-        }
-    }
-
 }

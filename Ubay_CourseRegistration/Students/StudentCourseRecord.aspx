@@ -22,25 +22,19 @@
       <div role ="dialog" class="el_dialog" style ="margin-top: 15vh;width:1160px;">
         <div class="el_dialog_header">
             <%--歷史報名紀錄分頁標題--%> 
-            <h1 style="margin: 0,auto; left: 60%; position: relative; width: 100%;">歷史報名紀錄</h1>
+            <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">歷史報名紀錄</h1>
         </div>
 
         <div class="el_dialog_body">
             <div>
-            <%--搜尋框--%>
-
-<%--            <input type="search" class="search_key" accesskey="S" name="key" id="Key" value="搜尋" autocomplete="off" style="margin:0,auto;left:20%;position:relative;">--%>
-
+            <%--搜尋--%>
     <div style="margin:0,auto;left:20%;position:relative;">
         <p > 
             課程ID: <asp:TextBox runat="server" ID="txtCourseID" Width="5%"></asp:TextBox> 
             課程名稱:<asp:TextBox runat="server" ID="txtCourseName"></asp:TextBox> 
             教師: 
             <asp:DropDownList runat="server" ID="ddlTeacher">
-<%--            <asp:ListItem Text="All" Value=""></asp:ListItem>
-                <asp:ListItem Text="陳一" Value="1"></asp:ListItem>
-                <asp:ListItem Text="李二" Value="2"></asp:ListItem>
-                <asp:ListItem Text="林三" Value="3"></asp:ListItem>--%>
+
             </asp:DropDownList>
             授課時間:
             <asp:TextBox runat="server" ID="txtStartDate1" TextMode="Date" placeholder="from"></asp:TextBox>~
@@ -128,7 +122,6 @@
         </div>
             <%--顯示登入的學生已選過的課程紀錄月曆--%>
             <div style="left:20%;position:relative;width:900px;">
-                <%--<div id='calendar' ></div>--%>
 
             <asp:Table Width="100%" runat="server">
                 <asp:TableRow>
