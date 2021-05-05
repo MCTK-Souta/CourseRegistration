@@ -95,6 +95,44 @@ namespace Ubay_CourseRegistration
             }
         }
 
+        public AccountModel Chackpwd(string Account,string pwd)
+        {
+            string connectionString = GetConnectionString();
+            string queryString =
+                $@" SELECT * FROM Account_summary
+                    WHERE Account = @Account AND password= @password;
+                ";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@Account", Account);
+                command.Parameters.AddWithValue("@password", pwd);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    AccountModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new AccountModel();
+                        model.password = (string)reader["password"];
+                    }
+
+                    reader.Close();
+
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+
         /// <summary>
         /// 身分證驗證
         /// </summary>

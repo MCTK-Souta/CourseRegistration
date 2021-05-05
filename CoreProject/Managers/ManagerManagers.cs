@@ -313,7 +313,7 @@ namespace Ubay_CourseRegistration.Managers
 
 
                 INSERT INTO Student
-                    (Student_ID,S_FirstName,S_LastName,Birthday,idn,Email,Address,CellPhone,Education,School_ID,
+                    (Student_ID,S_FirstName,S_LastName,Birthday,Idn,Email,Address,CellPhone,Education,School_ID,
                         Experience,ExYear,gender,PassNumber,PassPic,b_empno,b_date)
                     
                 VALUES
@@ -356,7 +356,7 @@ namespace Ubay_CourseRegistration.Managers
         public void UpdataStudent(StudentAccountViewModel model)
         {
 
-            Guid student_id = Guid.NewGuid();
+          
 
 
             string queryString =
@@ -366,12 +366,13 @@ namespace Ubay_CourseRegistration.Managers
                         password = @password 
                     WHERE
                         Acc_sum_ID = @Acc_sum_ID;
+
                     UPDATE Student
                     SET 
                         S_FirstName = @S_FirstName, 
                         S_LastName = @S_LastName, 
                         Birthday = @Birthday, 
-                        idn = @idn, 
+                        Idn = @idn, 
                         Email = @Email, 
                         Address = @Address, 
                         CellPhone = @CellPhone, 
@@ -390,8 +391,13 @@ namespace Ubay_CourseRegistration.Managers
 
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
+            new SqlParameter("@Acc_sum_ID", model.Student_ID),
+            new SqlParameter("@Account", model.Idn),
+            new SqlParameter("@password", model.password),
+            new SqlParameter("@Type", false),
 
-            new SqlParameter("@Student_ID", student_id),
+
+            new SqlParameter("@Student_ID", model.Student_ID),
             new SqlParameter("@S_FirstName", model.S_FirstName),
             new SqlParameter("@S_LastName", model.S_LastName),
             new SqlParameter("@Birthday", model.Birthday),
@@ -407,12 +413,8 @@ namespace Ubay_CourseRegistration.Managers
             new SqlParameter("@PassNumber",model.PassNumber),
             new SqlParameter("@PassPic",model.PassPic),
             new SqlParameter("@e_empno", model.e_empno),
-            new SqlParameter("@e_date", DateTime.Now),
+            new SqlParameter("@e_date", DateTime.Now)
 
-            new SqlParameter("@Acc_sum_ID", student_id),
-            new SqlParameter("@Account", model.Idn),
-            new SqlParameter("@password", model.password),
-            new SqlParameter("@Type", false)
             };
             this.ExecuteNonQuery(queryString, parameters);
         } //修改學生資料
