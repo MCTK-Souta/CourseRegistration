@@ -19,7 +19,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-      <div role ="dialog" class="el_dialog" style ="margin-top: 15vh;width:1160px;">
+      <div role ="dialog" class="el_dialog" style ="margin:5vh 0vh 5vh 0vh ; width:1160px;">
         <div class="el_dialog_header">
             <%--歷史報名紀錄分頁標題--%> 
             <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">歷史報名紀錄</h1>
@@ -28,7 +28,7 @@
         <div class="el_dialog_body">
             <div>
             <%--搜尋--%>
-    <div style="margin:0,auto;left:20%;position:relative;">
+        <div style="margin:0,auto;left:20%;position:relative;">
         <p > 
             課程ID: <asp:TextBox runat="server" ID="txtCourseID" Width="5%"></asp:TextBox> 
             課程名稱:<asp:TextBox runat="server" ID="txtCourseName"></asp:TextBox> 
@@ -53,7 +53,7 @@
 
             <%--顯示學生所有歷史課程--%>
             <div style="margin:0,auto;left:20%;position:relative;">
-                            <div>
+                <div>
                 <asp:Repeater ID="rptResult" runat="server">
                     <HeaderTemplate>
                         <table class="auto-style1">
@@ -85,6 +85,7 @@
             </div>
 
             <div style="margin-top: 20px;">
+                <%--Repeater的跳頁控制--%>
                 <table style="margin:0,auto;left:20%;position:relative; width: 600px;">
                     <tr>
                         <td>
@@ -117,8 +118,6 @@
                 </table>
             </div>       
         </div>
-
-            
         </div>
             <%--顯示登入的學生已選過的課程紀錄月曆--%>
             <div style="left:20%;position:relative;width:900px;">
