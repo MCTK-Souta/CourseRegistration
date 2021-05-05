@@ -241,23 +241,23 @@ namespace Ubay_CourseRegistration.Managers
             string connectionString = GetConnectionString();
             string queryString =
                 $@" SELECT 
-                    Student.Student_ID,
-                    Student.S_FirstName,
-                    Student.S_LastName,
-                    Student.Birthday,
-                    Student.idn,
-                    Student.Email,
-                    Student.Address,
-                    Student.CellPhone,
-                    Student.Education,
-                    Student.School_ID,
-                    Student.Experience,
-                    Student.ExYear,
-                    Student.gender,
-                    Student.PassNumber,
-                    Student.PassPic,
-                    Student.d_empno
-                    Account_summary.password
+                        Student.Student_ID,
+                        Student.S_FirstName,
+                        Student.S_LastName,
+                        Student.Birthday,
+                        Student.idn,
+                        Student.Email,
+                        Student.Address,
+                        Student.CellPhone,
+                        Student.Education,
+                        Student.School_ID,
+                        Student.Experience,
+                        Student.ExYear,
+                        Student.gender,
+                        Student.PassNumber,
+                        Student.PassPic,
+                        Student.d_empno
+                        Account_summary.password
                     FROM Student
                     JOIN Account_summary
                         ON Student.Student_ID = Account_summary.Acc_sum_ID
