@@ -68,7 +68,7 @@ namespace Ubay_CourseRegistration.Managers
 
             string queryString =
                 $@" SELECT * FROM Account_summary
-                    WHERE Account = @Account";
+                    WHERE Account = @Account AND d_empno IS NULL ";
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
@@ -136,13 +136,14 @@ namespace Ubay_CourseRegistration.Managers
                             Student.gender AS 性別,
                             Student.Idn AS 身份證字號,
 							Student.CellPhone AS 手機,
-                            Student.Address AS 地址
+                            Student.Address AS 地址,
+                            Student.d_empno
                         FROM Student
                         JOIN Account_summary
                         ON Student.Student_ID = Account_summary.Acc_sum_ID
                         {filterConditions}
                     ) AS TempT
-                    WHERE RowNumber > {pageSize * (currentPage - 1)}
+                    WHERE RowNumber > {pageSize * (currentPage - 1)} AND d_empno IS NULL
                     ORDER BY 身份證字號
                     ";
 
@@ -191,16 +192,27 @@ namespace Ubay_CourseRegistration.Managers
             return list;
         }
 
-        public void DeleteStudentViewModel(Guid id)
+        /// <summary>
+        /// 刪除學生(加入刪除者、刪除時間) 需(學生ID、登入者ID)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="destoryer"></param>
+        public void DeleteStudentViewModel(Guid id,Guid destoryer)
         {
             string dbCommandText =
-                $@" DELETE AccountInfos WHERE ID = @id;
-                    DELETE Accounts WHERE ID = @id;
+                $@" UPDATE Student
+                    SET 
+                        d_empno = @d_empno, 
+                        d_date = @d_date 
+                    WHERE
+                        Student_ID = @Student_ID;
                 ";
 
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
-                new SqlParameter("@id", id),
+                new SqlParameter("@Student_ID", id),
+                new SqlParameter("@d_empno", destoryer),
+                new SqlParameter("@d_date", DateTime.Now)
             };
 
             this.ExecuteNonQuery(dbCommandText, parameters);
@@ -219,6 +231,11 @@ namespace Ubay_CourseRegistration.Managers
             }
         }
 
+        /// <summary>
+        /// 讀取學生資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public StudentAccountViewModel GetStudentViewModel(Guid id)
         {
             string connectionString = GetConnectionString();
@@ -239,11 +256,12 @@ namespace Ubay_CourseRegistration.Managers
                     Student.gender,
                     Student.PassNumber,
                     Student.PassPic,
+                    Student.d_empno
                     Account_summary.password
                     FROM Student
                     JOIN Account_summary
                         ON Student.Student_ID = Account_summary.Acc_sum_ID
-                    WHERE Student.Student_ID = @id
+                    WHERE Student.Student_ID = @id AND d_empno IS NULL
                 ";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -295,6 +313,11 @@ namespace Ubay_CourseRegistration.Managers
         {
             return false;
         }
+
+        /// <summary>
+        /// 新增學生資料
+        /// </summary>
+        /// <param name="model"></param>
         public void CreatStudent(StudentAccountViewModel model)
         {
             if (this.HasAccount(model.Account))
@@ -352,11 +375,12 @@ namespace Ubay_CourseRegistration.Managers
             this.ExecuteNonQuery(queryString, parameters);
 
         }
-
+        /// <summary>
+        /// 修改學生資料
+        /// </summary>
+        /// <param name="model"></param>
         public void UpdataStudent(StudentAccountViewModel model)
         {
-
-          
 
 
             string queryString =
@@ -417,7 +441,7 @@ namespace Ubay_CourseRegistration.Managers
 
             };
             this.ExecuteNonQuery(queryString, parameters);
-        } //修改學生資料
+        } 
     
 
 

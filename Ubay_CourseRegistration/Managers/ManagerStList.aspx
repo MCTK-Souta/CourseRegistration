@@ -19,7 +19,7 @@
         </p>
         </div>
 
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="GridView1_RowDataBound">
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="GridView1_RowDataBound" OnRowCommand="GridView1_RowCommand">
             <Columns>
                 <asp:TemplateField HeaderText="姓名">
                     <ItemTemplate>
@@ -42,7 +42,7 @@
                 <asp:TemplateField HeaderText="Act">
                     <ItemTemplate>
                         <asp:Button runat="server" ID="btnDelete" Text="Del" CommandName="DeleteItem"
-                            CommandArgument='<%# Eval("Student_ID") %>' OnClientClick="return confirm('Are you sure?');" />
+                            CommandArgument='<%# Eval("Student_ID") %>' OnClientClick="return confirm('確定刪除嗎?');" />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -50,9 +50,10 @@
 
         <asp:Repeater runat="server" ID="repPaging">
             <ItemTemplate>
-                <a href="<%# Eval("Link") %>" title="<%# Eval("Idn") %>">Page-<%# Eval("Idn") %></a>
+                <a href="<%# Eval("Link") %>" title="<%# Eval("Idn") %>">第<%# Eval("Idn") %></a>
             </ItemTemplate>
         </asp:Repeater>
+        <br />
         <asp:Label runat="server" ID="lblMsg" ForeColor="Red"></asp:Label>
     </div>
 

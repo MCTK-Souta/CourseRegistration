@@ -120,7 +120,7 @@
             <br />
 
             <br />
-            <asp:Button ID="region" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="btnSave_Click" /><br />
+            <asp:Button ID="region" runat="server" Text="確認更改" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="btnSave_Click" /><br />
             <br />
             <br />
             <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
