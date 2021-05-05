@@ -118,7 +118,7 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     Link = $"ManagerStList.aspx{this.GetQueryString(false, i)}",
                     name = $"{i}",
-                    Idn = $"前往第 {i} 頁"
+                    Idn = $" {i} 頁"
                 });
             }
 
@@ -165,6 +165,26 @@ namespace Ubay_CourseRegistration.Managers
             Response.Redirect("ManagerStList.aspx" + template);
         }
 
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            string cmdName = e.CommandName;
+            string arg = e.CommandArgument.ToString();
+
+            if (cmdName == "DeleteItem")
+            {
+                Guid id;
+                if (Guid.TryParse(arg, out id))
+                {
+                    var manager = new ManagerManagers();
+                    Guid delete = (Guid)Session["Acc_sum_ID"];
+                    manager.DeleteStudentViewModel(id,delete);
+
+                    this.LoadGridView();
+                    this.lblMsg.Text = "已刪除。";
+                    this.lblMsg.Visible = true;
+                }
+            }
+        }
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             ManagerManagers manager = new ManagerManagers();
@@ -177,6 +197,7 @@ namespace Ubay_CourseRegistration.Managers
                 string val = manager.GetgenderName(mode.gender);
                 ltgender.Text = val;
             }
+
         }
 
     }

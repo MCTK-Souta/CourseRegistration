@@ -18,8 +18,14 @@ namespace Ubay_CourseRegistration
                 "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
 
             string queryString =
-                $@" SELECT * FROM Account_summary 
-                    WHERE Account = @account ;";
+                $@" SELECT *
+                    FROM Account_summary 
+                    LEFT  OUTER JOIN Manager
+                    ON Manager.Account  = Account_summary.Account 
+					LEFT  OUTER JOIN Student
+                    ON   Account_summary.Account = Student.Idn  
+                    WHERE Account_summary.Account = 
+                    @account AND Student.d_empno IS NULL AND Manager.d_empno IS NULL ;";
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
