@@ -4,6 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
+        <a href="ManagerSearch.aspx" style="font-size:25px;">管理人查修</a>
         <br />
         <h1 style="margin: 0,auto; left: 165%; position: relative;">新增管理人資料</h1>
         <br />

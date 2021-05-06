@@ -93,6 +93,7 @@
     <Content Include="Managers\ManagerControlFooter.ascx" />
     <Content Include="Managers\ManagerControlHeader.ascx" />
     <Content Include="Managers\ManagerControlLeft.ascx" />
+    <Content Include="Managers\ManagerSearch.aspx" />
     <Content Include="Managers\ManagerStDetail.aspx" />
     <Content Include="Managers\ManagerStList.aspx" />
     <Content Include="Managers\ManagerUpdate.aspx" />
@@ -182,6 +183,13 @@
     </Compile>
     <Compile Include="Managers\ManagerControlLeft.ascx.designer.cs">
       <DependentUpon>ManagerControlLeft.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\ManagerSearch.aspx.cs">
+      <DependentUpon>ManagerSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerSearch.aspx.designer.cs">
+      <DependentUpon>ManagerSearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="Managers\ManagerStDetail.aspx.cs">
       <DependentUpon>ManagerStDetail.aspx</DependentUpon>
