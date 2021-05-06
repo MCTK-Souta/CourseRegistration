@@ -96,6 +96,7 @@
     <Content Include="Managers\ManagerStDetail.aspx" />
     <Content Include="Managers\ManagerStList.aspx" />
     <Content Include="Managers\ManagerUpdate.aspx" />
+    <Content Include="Students\SighUPControlHeader.ascx" />
     <Content Include="Students\StudentAddCourse.aspx" />
     <Content Include="Students\StudentControlFooter.ascx" />
     <Content Include="Students\StudentControlHeader.ascx" />
@@ -211,6 +212,13 @@
       <DependentUpon>ManagerMaster.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Students\SighUPControlHeader.ascx.cs">
+      <DependentUpon>SighUPControlHeader.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\SighUPControlHeader.ascx.designer.cs">
+      <DependentUpon>SighUPControlHeader.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Students\StudentAddCourse.aspx.cs">
       <DependentUpon>StudentAddCourse.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

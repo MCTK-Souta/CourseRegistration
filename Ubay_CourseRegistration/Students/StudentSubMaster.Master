@@ -1,7 +1,8 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="StudentSubMaster.master.cs" Inherits="Ubay_CourseRegistration.Students.StudentSubMaster" %>
 
-<%@ Register Src="~/Students/StudentControlHeader.ascx" TagPrefix="uc1" TagName="StudentControlHeader" %>
+<%@ Register Src="~/Students/SighUPControlHeader.ascx" TagPrefix="uc1" TagName="SighUPControlHeader" %>
 <%@ Register Src="~/Students/StudentControlFooter.ascx" TagPrefix="uc1" TagName="StudentControlFooter" %>
+
 
 
 
@@ -16,7 +17,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <uc1:StudentControlHeader runat="server" id="StudentControlHeader" />
+        <uc1:SighUPControlHeader runat="server" ID="SighUPControlHeader" />
                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         <uc1:StudentControlFooter runat="server" id="StudentControlFooter" />

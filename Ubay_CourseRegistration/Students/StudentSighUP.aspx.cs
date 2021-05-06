@@ -140,8 +140,17 @@ namespace Ubay_CourseRegistration.Students
                 }
 
                 stmodel.PassNumber = this.psn.Text.Trim();
+                if (this.GetNewFileName(this.passpic) == "檔案類型錯誤")
+                {
+                    stmodel.PassPic = null;
+                    this.lbmsg.Text = "檔案僅接受.jpg, .png, .bmp, .gif";
+                    this.lbmsg.Visible = true;
+                    return;
+                }
+                {
+                    stmodel.PassPic = this.GetNewFileName(this.passpic);
+                }
 
-                stmodel.PassPic = this.GetNewFileName(this.passpic);
                 stmodel.b_date = DateTime.Now;
 
                 StManagers.StudentSigh_UP(stmodel, acmodel);
@@ -169,7 +178,11 @@ namespace Ubay_CourseRegistration.Students
             string fileExt = System.IO.Path.GetExtension(fileName);
 
             if (!_allowExts.Contains(fileExt.ToLower()))
-                return string.Empty;
+            {
+
+                return "檔案類型錯誤";
+
+            }
 
 
             string path = Server.MapPath(_saveFolder);

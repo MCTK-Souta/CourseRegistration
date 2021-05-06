@@ -496,7 +496,13 @@ namespace Ubay_CourseRegistration.Managers
         }
 
 
-        
+        /// <summary>
+        /// 修改管理人
+        /// </summary>
+        /// <param name="acmodel"></param>
+        /// <param name="asmodel"></param>
+        /// <param name="updatetime"></param>
+        /// <param name="editor"></param>
         public static void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string updatetime, Guid editor)
         {
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
@@ -545,7 +551,7 @@ namespace Ubay_CourseRegistration.Managers
                     HttpContext.Current.Response.Write(ex.Message);
                 }
             } 
-        }   //修改管理人
+        } 
     }
 }
 

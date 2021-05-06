@@ -109,7 +109,7 @@
                 護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox>
             </div>
             <br />
-            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
+            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server"  /></div>
             <br />
             <br />
             <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
