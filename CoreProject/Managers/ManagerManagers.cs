@@ -257,7 +257,7 @@ namespace Ubay_CourseRegistration.Managers
                         Student.gender,
                         Student.PassNumber,
                         Student.PassPic,
-                        Student.d_empno
+                        Student.d_empno,
                         Account_summary.password
                     FROM Student
                     JOIN Account_summary

@@ -23,6 +23,7 @@ namespace Ubay_CourseRegistration.Students
                 repwd.Attributes.Add("value", repwd.Text);
 
             }
+            
         }
 
         protected void Button_StRegion(object sender, EventArgs e)
@@ -111,7 +112,7 @@ namespace Ubay_CourseRegistration.Students
                 else
                 {
                     stmodel.Experience = Convert.ToInt32(this.experience.Text);
-                    stmodel.ExYear = null;
+                    stmodel.ExYear = Convert.ToInt32(this.exyear.Text);
 
                 }
 
@@ -136,7 +137,7 @@ namespace Ubay_CourseRegistration.Students
                 else
                 {
                     stmodel.Education = this.education.Text;
-                    stmodel.School_ID = null;
+                    stmodel.School_ID = Convert.ToInt32(this.school.Text);
                 }
 
                 stmodel.PassNumber = this.psn.Text.Trim();
