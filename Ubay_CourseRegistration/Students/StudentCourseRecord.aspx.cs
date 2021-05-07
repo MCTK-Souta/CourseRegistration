@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -233,9 +234,9 @@ namespace Ubay_CourseRegistration.Students
             dt_calendar.Columns.Add(new DataColumn("StartTime"));
             
 
-            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
+            int j = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
             //填滿空格
-            for (int i = 0; i < ii; i++)
+            for (int i = 0; i < j; i++)
                 dt_calendar.Rows.Add("");
 
             //產生該月的日期列表
@@ -248,7 +249,8 @@ namespace Ubay_CourseRegistration.Students
 
                 foreach (DataRow r in dt_course.Rows)
                 {
-                    TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {r["StartTime"]}");
+                    Regex regex = new Regex(@"\d{2}:\d{2}");
+                    TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
                     if (!_tempClassList.Contains(_tempclass))
                         _tempClassList.Add(_tempclass);
                 }
@@ -271,7 +273,7 @@ namespace Ubay_CourseRegistration.Students
 
             //設定當天顏色
             if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
-                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
+                Calendar.Items[datetime.Day + j - 1].BackColor = Color.LightPink;
         }
 
         protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
@@ -282,9 +284,9 @@ namespace Ubay_CourseRegistration.Students
             dt_calendar.Columns.Add(new DataColumn("Course"));
             dt_calendar.Columns.Add(new DataColumn("Place"));
             dt_calendar.Columns.Add(new DataColumn("StartTime"));
-            int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
+            int j = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
             //填滿空格
-            for (int i = 0; i < ii; i++)
+            for (int i = 0; i < j; i++)
                 dt_calendar.Rows.Add("");
 
             //產生該月的日期列表
@@ -304,7 +306,7 @@ namespace Ubay_CourseRegistration.Students
             Calendar.DataBind();
 
             //設定當天顏色
-            Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
+            Calendar.Items[DateTime.Now.Day + j - 1].BackColor = Color.LightPink;
         }
     }
 

@@ -23,7 +23,7 @@
     <div role="dialog" class="el_dialog" style="margin-top: 15vh; width: 1160px;">
         <div class="el_dialog_header">
             <%--學生選課分頁標題--%>
-            <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">選課</h1>
+            <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">報名新課程</h1>
         </div>
 
         <div class="el_dialog_body">
@@ -76,7 +76,7 @@
                                         <asp:CheckBox ID="AddCourseCheckBox" runat="server" Text='<%#Eval("Course_ID") %>' AutoPostBack="true" OnCheckedChanged="AddCourseCheckBox_CheckedChanged"/>
                                     </td>
                                     <td>
-                                        <asp:Button ID="Button1" runat="server" Text="簡介" OnCommand="ShowRemark" BorderStyle="None" CommandArgument='<%#Eval("Course_ID") %>' />
+                                        <asp:Button ID="Button1" runat="server" Text=<%#Eval("C_Name") %> OnCommand="ShowRemark" BorderStyle="None" CommandArgument='<%#Eval("Course_ID") %>' />
                                         <%#Eval("C_Name") %>
                                     </td>
                                     <td><%#Eval("Teacher_FirstName") %> <%#Eval("Teacher_LastName") %></td>
@@ -96,7 +96,7 @@
                                 <itemtemplate>
                         <div><tr><td><%#Eval("Remarks") %></td></tr></div>
                     </itemtemplate>--%>
-                                <asp:Label ID="Remarks" runat="server" Text=""></asp:Label>
+                               <asp:Label ID="Remarks" runat="server"></asp:Label>
                             </FooterTemplate>
                         </asp:Repeater>
                         <br />
@@ -128,7 +128,7 @@
                             </FooterTemplate>
                         </asp:Repeater>
                         <div>選課總金額:<%=TotalPrice() %></div>
-                        <div><asp:Button runat="server" ID="btnCheckout" Text="Checkout" OnClick="btnCheckout_Click" /></div>
+                        <div><asp:Button runat="server" ID="btnCheckout" Text="確定選課" OnClick="btnCheckout_Click" /></div>
                     </div>
 
 

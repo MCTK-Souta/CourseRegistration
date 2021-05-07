@@ -43,30 +43,8 @@ namespace Ubay_CourseRegistration.Students
             if (Page.IsPostBack) return;
             BindDataIntoRepeater();
 
-
-            //用來帶入查詢教師的下拉選單內容
-            string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-            SqlConnection connection = new SqlConnection(connectionstring);
-            SqlCommand command = new SqlCommand(queryString, connection);
-            connection.Open();
-            DataTable dt = new DataTable();
-            SqlDataAdapter ad = new SqlDataAdapter(command);
-            ad.Fill(dt);
-
-            if (dt.Rows.Count > 0)
-            {
-                ddlTeacher.DataSource = dt;
-                ddlTeacher.DataTextField = "Teacher_Name";
-                ddlTeacher.DataValueField = "Teacher_ID";
-                ddlTeacher.DataBind();
-                //用來搜尋全部教師選項的空值
-                ddlTeacher.Items.Insert(0, "");
-                ddlTeacher.SelectedIndex = 0;
-            }
-            connection.Close();
-
+            //查詢教師	
+            ReadTeacherTable();
 
             var _post = Request.QueryString["datetime"];
 
@@ -74,7 +52,7 @@ namespace Ubay_CourseRegistration.Students
                 datetime = DateTime.Parse(_post);
             TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
-
+            dt_cart = new DataTable();
             dt_cart.Columns.Add("Course_ID", typeof(string));
             dt_cart.Columns.Add("C_Name", typeof(string));
             dt_cart.Columns.Add("Price", typeof(int));
@@ -86,24 +64,24 @@ namespace Ubay_CourseRegistration.Students
             var dtt = _studentManagers.StudentAddCourse(_ID);
             _pgsource.DataSource = dtt.DefaultView;
             _pgsource.AllowPaging = true;
-            // Number of items to be displayed in the Repeater
+            // 要在Repeater顯示的項目數 
             _pgsource.PageSize = _pageSize;
             _pgsource.CurrentPageIndex = CurrentPage;
-            // Keep the Total pages in View State
+            //維持顯示 Total pages
             ViewState["TotalPages"] = _pgsource.PageCount;
-            // Example: "Page 1 of 10"
+            // 顯示現在頁數之於總頁數  Example: "Page 1 of 10"
             lblpage.Text = "Page " + (CurrentPage + 1) + " of " + _pgsource.PageCount;
-            // Enable First, Last, Previous, Next buttons
+            //First, Last, Previous, Next 按鈕的使用控制
             lbPrevious.Enabled = !_pgsource.IsFirstPage;
             lbNext.Enabled = !_pgsource.IsLastPage;
             lbFirst.Enabled = !_pgsource.IsFirstPage;
             lbLast.Enabled = !_pgsource.IsLastPage;
-
-            // Bind data into repeater
+            dt_courses = dtt;
+            // Bind資料進Repeater
             rptResult.DataSource = _pgsource;
             rptResult.DataBind();
 
-            // Call the function to do paging
+            //呼叫Repeater分頁
             HandlePaging();
         }
 
@@ -119,17 +97,17 @@ namespace Ubay_CourseRegistration.Students
             else
                 _lastIndex = 10;
 
-            // Check last page is greater than total page then reduced it to total no. of page is last index
+            // 檢查最後一頁是否大於總頁數，然後將其設為總頁數
             if (_lastIndex > Convert.ToInt32(ViewState["TotalPages"]))
             {
                 _lastIndex = Convert.ToInt32(ViewState["TotalPages"]);
                 _firstIndex = _lastIndex - 10;
             }
-
+            //如果第一頁索引小於0時 將他設回0
             if (_firstIndex < 0)
                 _firstIndex = 0;
 
-            // Now creating page number based on above first and last page index
+            //根據前面的first 和 last page索引，建立頁碼
             for (var i = _firstIndex; i < _lastIndex; i++)
             {
                 var dr = dtt.NewRow();
@@ -234,19 +212,48 @@ namespace Ubay_CourseRegistration.Students
             Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
         }
 
+        public DataTable ReadTeacherTable()
+        {
+            //帶入查詢教師的下拉選單內容	
+            string connectionstring =
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                ddlTeacher.DataSource = dt;
+                ddlTeacher.DataTextField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_ID";
+                ddlTeacher.DataBind();
+                //搜尋全部教師選項的空值	
+                ddlTeacher.Items.Insert(0, "");
+                ddlTeacher.SelectedIndex = 0;
+            }
+            connection.Close();
+            return dt;
+        }
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+            test();
+        }
+        void test()
+        {
             dt_courses = _studentManagers.SearchCouserAdd(
-              _ID,
-              txtCourseID.Text,
-              txtCourseName.Text,
-              txtStartDate1.Text,
-              txtStartDate2.Text,
-              txtPlace.Text,
-              TxtPrice1.Text,
-              TxtPrice2.Text,
-              ddlTeacher.SelectedValue
+               _ID,
+            txtCourseID.Text,
+            txtCourseName.Text,
+            txtStartDate1.Text,
+            txtStartDate2.Text,
+            txtPlace.Text,
+            TxtPrice1.Text,
+            TxtPrice2.Text,
+            ddlTeacher.SelectedValue
               );
             rptResult.DataSource = dt_courses;
             rptResult.DataBind();
@@ -303,8 +310,8 @@ namespace Ubay_CourseRegistration.Students
         }
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
-            //先將dt_cart存到資料庫，然後產生訂單編號=>TotalPrice();
-            //再將產生訂單編號跟總金額傳到金流的網頁結帳
+            //先將dt_cart存到資料庫，=>TotalPrice();	
+            //再將總金額傳到金流的網頁結帳	
             //結帳後再將資料庫裡的購物清單加到選課清單後刪除
 
         }

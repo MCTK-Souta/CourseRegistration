@@ -128,7 +128,7 @@ namespace CoreProject.Managers
         }
 
                 /// <summary>
-        /// 搜尋學生已選課程
+        ///學生歷史課程搜尋用
         /// </summary>
         /// <param name="Student_ID">ID</param>
         /// <param name="Course_ID">課程ID</param>
@@ -141,7 +141,12 @@ namespace CoreProject.Managers
         /// <returns></returns>
         public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2,string ddlTeacher)
         {
-            string cmd = "SELECT * FROM Registration_record INNER JOIN Course ON Registration_record.Course_ID=Course.Course_ID INNER JOIN Teacher ON Course.Teacher_ID=Teacher.Teacher_ID INNER JOIN Place ON Course.Place_ID=Place.Place_ID WHERE ";
+            string cmd = @"SELECT * 
+                            FROM Registration_record 
+                            INNER JOIN Course ON Registration_record.Course_ID=Course.Course_ID 
+                            INNER JOIN Teacher ON Course.Teacher_ID=Teacher.Teacher_ID 
+                            INNER JOIN Place ON Course.Place_ID=Place.Place_ID 
+                            WHERE ";
             List<SqlParameter> parameters = new List<SqlParameter>();
             if (string.IsNullOrEmpty(Student_ID))
             {
@@ -235,7 +240,7 @@ namespace CoreProject.Managers
         }
 
 
-
+        //學生新增課程頁 全部可選課程
         public DataTable StudentAddCourse(string ID)
         {
             string cmd = @" SELECT *
@@ -256,7 +261,7 @@ namespace CoreProject.Managers
             };
             return this.GetDataTable(cmd, parameters);
         }
-
+        //學生新增課程頁的查詢功能
         public DataTable SearchCouserAdd(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher)
         {
             string cmd = @"SELECT *
@@ -272,6 +277,7 @@ namespace CoreProject.Managers
                                         AND Registration_record.d_date IS NULL)
                                         AND Course.StartDate>GETDATE() AND ";
             List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@ID", Student_ID));
             //if (string.IsNullOrEmpty(Student_ID))
             //{
             //    cmd += "Student_ID = @Student_ID AND ";
@@ -279,7 +285,7 @@ namespace CoreProject.Managers
             //}
             if (!string.IsNullOrEmpty(Course_ID))
             {
-                cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
+                cmd += "Course_ID LIKE @Course_ID AND ";
                 parameters.Add(new SqlParameter("@Course_ID", $"%{Course_ID}%"));
             }
             if (!string.IsNullOrEmpty(C_Name))
