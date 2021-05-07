@@ -99,10 +99,12 @@
     <Content Include="Managers\ManagerUpdate.aspx" />
     <Content Include="Students\SighUPControlHeader.ascx" />
     <Content Include="Students\StudentAddCourse.aspx" />
+    <Content Include="Students\StudentCheckout.aspx" />
     <Content Include="Students\StudentControlFooter.ascx" />
     <Content Include="Students\StudentControlHeader.ascx" />
     <Content Include="Students\StudentControlLeft.ascx" />
     <Content Include="Students\StudentCourseRecord.aspx" />
+    <Content Include="Students\StudentDropCourse.aspx" />
     <Content Include="Students\StudentInfo.aspx" />
     <Content Include="Students\StudentMainPage.aspx" />
     <Content Include="Students\StudentSighUP.aspx" />
@@ -234,6 +236,13 @@
     <Compile Include="Students\StudentAddCourse.aspx.designer.cs">
       <DependentUpon>StudentAddCourse.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Students\StudentCheckout.aspx.cs">
+      <DependentUpon>StudentCheckout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\StudentCheckout.aspx.designer.cs">
+      <DependentUpon>StudentCheckout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Students\StudentControlFooter.ascx.cs">
       <DependentUpon>StudentControlFooter.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -261,6 +270,13 @@
     </Compile>
     <Compile Include="Students\StudentCourseRecord.aspx.designer.cs">
       <DependentUpon>StudentCourseRecord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Students\StudentDropCourse.aspx.cs">
+      <DependentUpon>StudentDropCourse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Students\StudentDropCourse.aspx.designer.cs">
+      <DependentUpon>StudentDropCourse.aspx</DependentUpon>
     </Compile>
     <Compile Include="Students\StudentInfo.aspx.cs">
       <DependentUpon>StudentInfo.aspx</DependentUpon>

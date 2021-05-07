@@ -254,6 +254,7 @@ namespace CoreProject.Managers
 		                            FROM Registration_record
 			                            WHERE Registration_record.Student_ID=@ID 
                                         AND Registration_record.d_date IS NULL)
+                                        AND Course.MinNumEnrolled < Course.MaxNumEnrolled
                                         AND Course.StartDate>GETDATE();";
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
@@ -275,6 +276,7 @@ namespace CoreProject.Managers
 		                            FROM Registration_record
 			                            WHERE Registration_record.Student_ID=@ID 
                                         AND Registration_record.d_date IS NULL)
+                                        AND Course.MinNumEnrolled < Course.MaxNumEnrolled
                                         AND Course.StartDate>GETDATE() AND ";
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@ID", Student_ID));
@@ -368,5 +370,8 @@ namespace CoreProject.Managers
                 cmd = cmd.Remove(cmd.Length - 5, 5);
             return GetDataTable(cmd, parameters); ;
         }
+
+
+
     }
 }

@@ -19,7 +19,7 @@ namespace Ubay_CourseRegistration.Students
         static DateTime datetime = DateTime.Now;
         int _firstIndex, _lastIndex;
         string _ID;
-        public string _month { get; set; } = "";
+        //public string _month { get; set; } = "";
         private int _pageSize = 10;
 
         private int CurrentPage
@@ -243,10 +243,12 @@ namespace Ubay_CourseRegistration.Students
         {
             test();
         }
+
+        //查詢新增課程
         void test()
         {
             dt_courses = _studentManagers.SearchCouserAdd(
-               _ID,
+             _ID,
             txtCourseID.Text,
             txtCourseName.Text,
             txtStartDate1.Text,
@@ -269,13 +271,24 @@ namespace Ubay_CourseRegistration.Students
         protected void ShowRemark(object sender, CommandEventArgs e)
         {
             DataRow dr = GetCurrentCourse(e.CommandArgument.ToString())[0];
-            Remarks.Text = (string)dr["Remarks"];
+            //Remarks.Text = (string)dr["Remarks"];
+            //改三元運算讓如果簡介是NULL也可以有通知
+            Remarks.Text = string.IsNullOrEmpty(dr["Remarks"].ToString())
+            ? "此課程暫無簡介"
+            : (string)dr["Remarks"];
         }
         protected void AddCourseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox ckbox = (CheckBox)sender;
             DataRow result = GetCurrentCourse(ckbox.Text)[0];
-            if (ckbox.Checked)
+            //if (!ckbox.Checked  )
+            //{
+            //    DataRow dr = dt_cart.NewRow();
+            //    dt_cart.Rows.Remove(dr);
+
+            //}
+            /*else */
+            if (ckbox.Checked )
             {
                 DataRow dr = dt_cart.NewRow();
                 dr["Course_ID"] = result["Course_ID"];
@@ -291,8 +304,8 @@ namespace Ubay_CourseRegistration.Students
                     if (row["Course_ID"].ToString() == ckbox.Text)
                         dt_cart.Rows.Remove(row);
             }
-            Repeater1.DataSource = dt_cart;
-            Repeater1.DataBind();
+            RepeaterCart.DataSource = dt_cart;
+            RepeaterCart.DataBind();
         }
         protected List<DataRow> GetCurrentCourse(string Course_ID)
         {
@@ -311,9 +324,20 @@ namespace Ubay_CourseRegistration.Students
         }
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
+
+            //DataRow[] rows = new DataRow[dt_cart.Rows.Count];
+            //dt_cart.Rows.CopyTo(rows, 0);
+            //foreach (DataRow row in rows)
+            //    dt_cart.Rows.Remove(row);
+
+
+
+
             //先將dt_cart存到資料庫，=>TotalPrice();	
             //再將總金額傳到金流的網頁結帳	
             //結帳後再將資料庫裡的購物清單加到選課清單後刪除
+
+
 
         }
         #endregion

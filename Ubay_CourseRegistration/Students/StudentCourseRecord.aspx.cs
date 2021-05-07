@@ -19,7 +19,7 @@ namespace Ubay_CourseRegistration.Students
         static DateTime datetime = DateTime.Now;
         int _firstIndex, _lastIndex;
         string _ID ;
-        public string _month { get; set; } = "";
+        //public string _month { get; set; } = "";
         private int _pageSize = 10;
 
         protected void Page_Load(object sender, EventArgs e)
