@@ -30,7 +30,7 @@ namespace Ubay_CourseRegistration.Students
             BindDataIntoRepeater();
 
             //查詢教師
-            ReadTeacherTable();
+            _studentManagers.ReadTeacherTable(ref ddlTeacher);
 
 
             var _post = Request.QueryString["datetime"];
@@ -159,36 +159,35 @@ namespace Ubay_CourseRegistration.Students
 
         #endregion
 
-        public  DataTable ReadTeacherTable()
-        {
-            //帶入查詢教師的下拉選單內容
-            string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-            SqlConnection connection = new SqlConnection(connectionstring);
-            SqlCommand command = new SqlCommand(queryString, connection);
-            connection.Open();
-            DataTable dt = new DataTable();
-            SqlDataAdapter ad = new SqlDataAdapter(command);
-            ad.Fill(dt);
+        //public  DataTable ReadTeacherTable()
+        //{
+        //    //帶入查詢教師的下拉選單內容
+        //    string connectionstring =
+        //        "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+        //    string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+        //    SqlConnection connection = new SqlConnection(connectionstring);
+        //    SqlCommand command = new SqlCommand(queryString, connection);
+        //    connection.Open();
+        //    DataTable dt = new DataTable();
+        //    SqlDataAdapter ad = new SqlDataAdapter(command);
+        //    ad.Fill(dt);
 
-            if (dt.Rows.Count > 0)
-            {
-                ddlTeacher.DataSource = dt;
-                ddlTeacher.DataTextField = "Teacher_Name";
-                ddlTeacher.DataValueField = "Teacher_ID";
-                ddlTeacher.DataBind();
-                //搜尋全部教師選項的空值
-                ddlTeacher.Items.Insert(0, "");
-                ddlTeacher.SelectedIndex = 0;
-            }
-            connection.Close();
-            return dt;
-        }
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        ddlTeacher.DataSource = dt;
+        //        ddlTeacher.DataTextField = "Teacher_Name";
+        //        ddlTeacher.DataValueField = "Teacher_ID";
+        //        ddlTeacher.DataBind();
+        //        //搜尋全部教師選項的空值
+        //        ddlTeacher.Items.Insert(0, "");
+        //        ddlTeacher.SelectedIndex = 0;
+        //    }
+        //    connection.Close();
+        //    return dt;
+        //}
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-
             rptResult.DataSource = _studentManagers.SearchCouser(
                             _ID,
                             txtCourseID.Text,
@@ -201,6 +200,7 @@ namespace Ubay_CourseRegistration.Students
                             ddlTeacher.SelectedValue
                             ); ;
             rptResult.DataBind();
+
 
         }
 

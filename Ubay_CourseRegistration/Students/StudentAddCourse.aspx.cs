@@ -1,10 +1,14 @@
 ﻿using CoreProject.Managers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
@@ -40,12 +44,14 @@ namespace Ubay_CourseRegistration.Students
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             _ID = Session["Acc_sum_ID"].ToString();
             if (Page.IsPostBack) return;
-            BindDataIntoRepeater();
+            
+            //查詢教師
+            _studentManagers.ReadTeacherTable(ref ddlTeacher);
 
-            //查詢教師	
-            ReadTeacherTable();
+            BindDataIntoRepeater();
 
             var _post = Request.QueryString["datetime"];
 
@@ -57,6 +63,7 @@ namespace Ubay_CourseRegistration.Students
             dt_cart.Columns.Add("Course_ID", typeof(string));
             dt_cart.Columns.Add("C_Name", typeof(string));
             dt_cart.Columns.Add("Price", typeof(int));
+            _studentManagers.ClearCart(_ID);
         }
 
 
@@ -213,39 +220,39 @@ namespace Ubay_CourseRegistration.Students
             Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
         }
 
-        public DataTable ReadTeacherTable()
-        {
-            //帶入查詢教師的下拉選單內容	
-            string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-            SqlConnection connection = new SqlConnection(connectionstring);
-            SqlCommand command = new SqlCommand(queryString, connection);
-            connection.Open();
-            DataTable dt = new DataTable();
-            SqlDataAdapter ad = new SqlDataAdapter(command);
-            ad.Fill(dt);
-            if (dt.Rows.Count > 0)
-            {
-                ddlTeacher.DataSource = dt;
-                ddlTeacher.DataTextField = "Teacher_Name";
-                ddlTeacher.DataValueField = "Teacher_ID";
-                ddlTeacher.DataBind();
-                //搜尋全部教師選項的空值	
-                ddlTeacher.Items.Insert(0, "");
-                ddlTeacher.SelectedIndex = 0;
-            }
-            connection.Close();
-            return dt;
-        }
+        //public DataTable ReadTeacherTable()
+        //{
+        //    //帶入查詢教師的下拉選單內容	
+        //    string connectionstring =
+        //        "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+        //    string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+        //    SqlConnection connection = new SqlConnection(connectionstring);
+        //    SqlCommand command = new SqlCommand(queryString, connection);
+        //    connection.Open();
+        //    DataTable dt = new DataTable();
+        //    SqlDataAdapter ad = new SqlDataAdapter(command);
+        //    ad.Fill(dt);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        ddlTeacher.DataSource = dt;
+        //        ddlTeacher.DataTextField = "Teacher_Name";
+        //        ddlTeacher.DataValueField = "Teacher_ID";
+        //        ddlTeacher.DataBind();
+        //        //搜尋全部教師選項的空值	
+        //        ddlTeacher.Items.Insert(0, "");
+        //        ddlTeacher.SelectedIndex = 0;
+        //    }
+        //    connection.Close();
+        //    return dt;
+        //}
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            test();
+            searchCouser();
         }
 
         //查詢新增課程
-        void test()
+        void searchCouser()
         {
             dt_courses = _studentManagers.SearchCouserAdd(
              _ID,
@@ -281,20 +288,19 @@ namespace Ubay_CourseRegistration.Students
         {
             CheckBox ckbox = (CheckBox)sender;
             DataRow result = GetCurrentCourse(ckbox.Text)[0];
-            //if (!ckbox.Checked  )
-            //{
-            //    DataRow dr = dt_cart.NewRow();
-            //    dt_cart.Rows.Remove(dr);
-
-            //}
-            /*else */
+           
             if (ckbox.Checked )
             {
                 DataRow dr = dt_cart.NewRow();
                 dr["Course_ID"] = result["Course_ID"];
                 dr["C_Name"] = result["C_Name"];
                 dr["Price"] = result["Price"];
-                dt_cart.Rows.Add(dr);
+                int results = dt_cart.AsEnumerable().Where(d =>
+                {
+                    return d["Course_ID"].ToString() == result["Course_ID"].ToString();
+                }).ToList().Count;
+                if (results == 0)
+                    dt_cart.Rows.Add(dr);
             }
             else
             {
@@ -325,17 +331,9 @@ namespace Ubay_CourseRegistration.Students
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
 
-            //DataRow[] rows = new DataRow[dt_cart.Rows.Count];
-            //dt_cart.Rows.CopyTo(rows, 0);
-            //foreach (DataRow row in rows)
-            //    dt_cart.Rows.Remove(row);
-
-
-
-
-            //先將dt_cart存到資料庫，=>TotalPrice();	
-            //再將總金額傳到金流的網頁結帳	
-            //結帳後再將資料庫裡的購物清單加到選課清單後刪除
+            if (!_studentManagers.AddCart(_ID, dt_cart, "Cart"))
+                return;
+            Response.Redirect("~/Students/StudentCheckout.aspx");
 
 
 
