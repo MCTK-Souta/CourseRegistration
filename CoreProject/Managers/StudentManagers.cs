@@ -114,8 +114,8 @@ namespace CoreProject.Managers
                 FROM Registration_record
                     INNER JOIN Student
                     ON Registration_record.Student_ID=Student.Student_ID
-                INNER JOIN Course 
-                ON Registration_record.Course_ID=Course.Course_ID
+                    INNER JOIN Course 
+                    ON Registration_record.Course_ID=Course.Course_ID
 		            INNER JOIN Teacher
 		            ON Teacher.Teacher_ID=Course.Teacher_ID
 		            INNER JOIN Place
@@ -145,17 +145,22 @@ namespace CoreProject.Managers
         {
             string cmd = @"SELECT * 
                             FROM Registration_record 
-                            INNER JOIN Course ON Registration_record.Course_ID=Course.Course_ID 
-                            INNER JOIN Teacher ON Course.Teacher_ID=Teacher.Teacher_ID 
-                            INNER JOIN Place ON Course.Place_ID=Place.Place_ID 
+                            INNER JOIN Course 
+                            ON Registration_record.Course_ID=Course.Course_ID 
+                            INNER JOIN Teacher 
+                            ON Course.Teacher_ID=Teacher.Teacher_ID 
+                            INNER JOIN Place 
+                            ON Course.Place_ID=Place.Place_ID 
                             WHERE Registration_record.d_date is NULL AND ";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
-            if (string.IsNullOrEmpty(Student_ID))
-            {
-                cmd += "Student_ID = @Student_ID AND ";
-                parameters.Add(new SqlParameter("@Student_ID", Student_ID));
-            }
+            cmd += "Registration_record.Student_ID = @Student_ID AND ";
+            parameters.Add(new SqlParameter("@Student_ID", Student_ID));
+            //if (string.IsNullOrEmpty(Student_ID))
+            //{
+            //    cmd += "Registration_record.Student_ID = @Student_ID AND ";
+            //    parameters.Add(new SqlParameter("@Student_ID", Student_ID));
+            //}
             if (!string.IsNullOrEmpty(Course_ID))
             {
                 cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";

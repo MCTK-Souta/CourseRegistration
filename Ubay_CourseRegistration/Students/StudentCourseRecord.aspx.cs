@@ -19,7 +19,6 @@ namespace Ubay_CourseRegistration.Students
         static DateTime datetime = DateTime.Now;
         int _firstIndex, _lastIndex;
         string _ID ;
-        //public string _month { get; set; } = "";
         private int _pageSize = 10;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -27,10 +26,12 @@ namespace Ubay_CourseRegistration.Students
 
             _ID = Session["Acc_sum_ID"].ToString();
             if (Page.IsPostBack) return;
-            BindDataIntoRepeater();
+            
 
             //查詢教師
             _studentManagers.ReadTeacherTable(ref ddlTeacher);
+
+            BindDataIntoRepeater();
 
 
             var _post = Request.QueryString["datetime"];
@@ -42,7 +43,8 @@ namespace Ubay_CourseRegistration.Students
 
         private void BindDataIntoRepeater()
         {
-            var dtt = _studentManagers.GetStudentCourseRecord(_ID);
+            //var dtt = _studentManagers.GetStudentCourseRecord(_ID);
+            var dtt = _studentManagers.SearchCouser(_ID,txtCourseID.Text,txtCourseName.Text,txtStartDate1.Text,txtStartDate2.Text,txtPlace.Text,TxtPrice1.Text,TxtPrice2.Text,ddlTeacher.SelectedValue);
             _pgsource.DataSource = dtt.DefaultView;
             _pgsource.AllowPaging = true;
             // 要在Repeater顯示的項目數 
@@ -159,33 +161,6 @@ namespace Ubay_CourseRegistration.Students
 
         #endregion
 
-        //public  DataTable ReadTeacherTable()
-        //{
-        //    //帶入查詢教師的下拉選單內容
-        //    string connectionstring =
-        //        "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-        //    string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-        //    SqlConnection connection = new SqlConnection(connectionstring);
-        //    SqlCommand command = new SqlCommand(queryString, connection);
-        //    connection.Open();
-        //    DataTable dt = new DataTable();
-        //    SqlDataAdapter ad = new SqlDataAdapter(command);
-        //    ad.Fill(dt);
-
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        ddlTeacher.DataSource = dt;
-        //        ddlTeacher.DataTextField = "Teacher_Name";
-        //        ddlTeacher.DataValueField = "Teacher_ID";
-        //        ddlTeacher.DataBind();
-        //        //搜尋全部教師選項的空值
-        //        ddlTeacher.Items.Insert(0, "");
-        //        ddlTeacher.SelectedIndex = 0;
-        //    }
-        //    connection.Close();
-        //    return dt;
-        //}
-
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             rptResult.DataSource = _studentManagers.SearchCouser(
@@ -200,7 +175,6 @@ namespace Ubay_CourseRegistration.Students
                             ddlTeacher.SelectedValue
                             ); ;
             rptResult.DataBind();
-
 
         }
 
@@ -225,7 +199,8 @@ namespace Ubay_CourseRegistration.Students
 
         protected void CreateCalendar()//int InYear, int InMonth)
         {
-            DataTable dt_course = _studentManagers.GetStudentCourseRecord(_ID);
+            //DataTable dt_course = _studentManagers.GetStudentCourseRecord(_ID);
+            DataTable dt_course = _studentManagers.SearchCouser(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
             DataTable dt_calendar = new DataTable();
 
             dt_calendar.Columns.Add(new DataColumn("Date"));
