@@ -22,9 +22,9 @@
                 帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn"></asp:TextBox><br />
             </div>
             <br />
-            <asp:Label ID="passview" runat="server" Text="Label">
+            <asp:Label ID="passview" runat="server" >
                 <p style="color: red; display: inline">*</p>
-                #密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd" MaxLength="20"></asp:TextBox>
+                密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd" MaxLength="20"></asp:TextBox>
             </asp:Label>
             <div>
                 新密碼：<asp:TextBox runat="server" TextMode="Password" ID="newpwd" MaxLength="20"></asp:TextBox>
