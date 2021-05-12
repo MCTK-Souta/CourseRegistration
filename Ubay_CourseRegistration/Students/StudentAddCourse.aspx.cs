@@ -1,4 +1,5 @@
 ﻿using CoreProject.Managers;
+using CoreProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -19,12 +20,42 @@ namespace Ubay_CourseRegistration.Students
     public partial class StudentAddCourse : System.Web.UI.Page
     {
         StudentManagers _studentManagers = new StudentManagers();
+        //使用PagedDataSource物件實現課程資料repeater分頁
         readonly PagedDataSource _pgsource = new PagedDataSource();
         static DateTime datetime = DateTime.Now;
+        //課程資料repeater數字首尾頁索引 
         int _firstIndex, _lastIndex;
-        string _ID;
-        //public string _month { get; set; } = "";
+        //設定課程資料repeater項目數量
         private int _pageSize = 10;
+        //用來裝目前登入學生帳號
+        string _ID;
+
+
+
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            
+            _ID = Session["Acc_sum_ID"].ToString();
+            if (Page.IsPostBack) return;
+
+            //查詢教師的下拉選單內容方法
+            _studentManagers.ReadTeacherTable(ref ddlTeacher);
+
+            BindDataIntoRepeater();
+
+            var _post = Request.QueryString["datetime"];
+
+            if (_post != null)
+                datetime = DateTime.Parse(_post);
+            monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
+            CreateCalendar();
+            dt_cart = new DataTable();
+            dt_cart.Columns.Add("Course_ID", typeof(string));
+            dt_cart.Columns.Add("C_Name", typeof(string));
+            dt_cart.Columns.Add("Price", typeof(int));
+            _studentManagers.ClearCart(_ID);
+        }
 
         private int CurrentPage
         {
@@ -40,30 +71,6 @@ namespace Ubay_CourseRegistration.Students
             {
                 ViewState["CurrentPage"] = value;
             }
-        }
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            
-            _ID = Session["Acc_sum_ID"].ToString();
-            if (Page.IsPostBack) return;
-            
-            //查詢教師
-            _studentManagers.ReadTeacherTable(ref ddlTeacher);
-
-            BindDataIntoRepeater();
-
-            var _post = Request.QueryString["datetime"];
-
-            if (_post != null)
-                datetime = DateTime.Parse(_post);
-            TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
-            CreateCalendar();
-            dt_cart = new DataTable();
-            dt_cart.Columns.Add("Course_ID", typeof(string));
-            dt_cart.Columns.Add("C_Name", typeof(string));
-            dt_cart.Columns.Add("Price", typeof(int));
-            _studentManagers.ClearCart(_ID);
         }
 
 
@@ -220,32 +227,6 @@ namespace Ubay_CourseRegistration.Students
             Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
         }
 
-        //public DataTable ReadTeacherTable()
-        //{
-        //    //帶入查詢教師的下拉選單內容	
-        //    string connectionstring =
-        //        "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-        //    string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-        //    SqlConnection connection = new SqlConnection(connectionstring);
-        //    SqlCommand command = new SqlCommand(queryString, connection);
-        //    connection.Open();
-        //    DataTable dt = new DataTable();
-        //    SqlDataAdapter ad = new SqlDataAdapter(command);
-        //    ad.Fill(dt);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        ddlTeacher.DataSource = dt;
-        //        ddlTeacher.DataTextField = "Teacher_Name";
-        //        ddlTeacher.DataValueField = "Teacher_ID";
-        //        ddlTeacher.DataBind();
-        //        //搜尋全部教師選項的空值	
-        //        ddlTeacher.Items.Insert(0, "");
-        //        ddlTeacher.SelectedIndex = 0;
-        //    }
-        //    connection.Close();
-        //    return dt;
-        //}
-
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             searchCouser();
@@ -362,19 +343,19 @@ namespace Ubay_CourseRegistration.Students
             {
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
-                List<TempClass> _tempClassList = new List<TempClass>();
+                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
                 //[1,2,3]
 
                 foreach (DataRow r in dt_course.Rows)
                 {
                     Regex regex = new Regex(@"\d{2}:\d{2}");
-                    TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
+                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
                     if (!_tempClassList.Contains(_tempclass))
                         _tempClassList.Add(_tempclass);
                 }
                 string _tmpstr = string.Empty;
 
-                foreach (TempClass tempclass in _tempClassList)
+                foreach (StudentCourseTimeModel tempclass in _tempClassList)
                 {
                     if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
                     {

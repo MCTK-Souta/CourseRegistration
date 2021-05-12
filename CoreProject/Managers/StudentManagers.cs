@@ -130,7 +130,7 @@ namespace CoreProject.Managers
         }
 
         /// <summary>
-        ///學生歷史課程搜尋用
+        ///學生歷史報名紀錄搜尋用
         /// </summary>
         /// <param name="Student_ID">ID</param>
         /// <param name="Course_ID">課程ID</param>
@@ -140,6 +140,7 @@ namespace CoreProject.Managers
         /// <param name="Place_Name">教室</param>
         /// <param name="Price1">最小價格</param>
         /// <param name="Price2">最大價格</param>
+        /// <param name="ddlTeacher">教師</param>
         /// <returns></returns>
         public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher)
         {
@@ -156,11 +157,7 @@ namespace CoreProject.Managers
             List<SqlParameter> parameters = new List<SqlParameter>();
             cmd += "Registration_record.Student_ID = @Student_ID AND ";
             parameters.Add(new SqlParameter("@Student_ID", Student_ID));
-            //if (string.IsNullOrEmpty(Student_ID))
-            //{
-            //    cmd += "Registration_record.Student_ID = @Student_ID AND ";
-            //    parameters.Add(new SqlParameter("@Student_ID", Student_ID));
-            //}
+
             if (!string.IsNullOrEmpty(Course_ID))
             {
                 cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
@@ -392,7 +389,10 @@ namespace CoreProject.Managers
         {
             string cmdStr = string.Empty;
             foreach (DataRow dr in dt_cart.Rows)
-                cmdStr += $"INSERT INTO {DataTableName} (Student_ID, Course_ID, Price) VALUES ('{ID}', '{dr["Course_ID"]}', {dr["Price"]});";
+            {
+                cmdStr += $@"INSERT INTO {DataTableName} (Student_ID, Course_ID, Price) VALUES ('{ID}', '{dr["Course_ID"]}', {dr["Price"]}); ";
+            }
+               
             return ExecuteNonQuery(cmdStr);
         }
         /// <summary>
@@ -430,7 +430,7 @@ namespace CoreProject.Managers
                 cmdStr += $"INSERT INTO Registration_record " +
                     $"(Student_ID, Course_ID, b_date) " +
                     $"VALUES " +
-                    $"('{ID}', '{dr["Course_ID"]}', '{NowDateTime:yyyy-MM-dd HH:mm:ss.fff}');";
+                    $"('{ID}', '{dr["Course_ID"]}', '{NowDateTime:yyyy-MM-dd HH:mm:ss.fff}');UPDATE Course SET MinNumEnrolled = MinNumEnrolled + 1 WHERE Course_ID = '{dr["Course_ID"]}';";
             return ExecuteNonQuery(cmdStr);
         }
         public bool DropCourse(string ID, DataTable dt_cart, DateTime NowDateTime)
@@ -440,7 +440,7 @@ namespace CoreProject.Managers
                 cmdStr += $"UPDATE Registration_record " +
                     $"SET d_date = '{NowDateTime:yyyy-MM-dd HH:mm:ss.fff}' " +
                     $"WHERE Student_ID = '{ID}' AND " +
-                    $"Course_ID = '{dr["Course_ID"]}';";
+                    $"Course_ID = '{dr["Course_ID"]}';UPDATE Course SET MinNumEnrolled = MinNumEnrolled - 1 WHERE Course_ID = '{dr["Course_ID"]}';"; 
             return ExecuteNonQuery(cmdStr);
         }
         /// <summary>
@@ -484,8 +484,8 @@ namespace CoreProject.Managers
                 $"Registration_record.d_date IS NULL;";
             List<SqlParameter> parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter("@ID", ID));
-            //過濾日期比今天+7才出現在退課列表
-            parameters.Add(new SqlParameter("@DateTime", DateTime.Now.AddDays(7).ToString("yyyy/MM/dd")));
+            //過濾日期晚於今天才出現在退課列表
+            parameters.Add(new SqlParameter("@DateTime", DateTime.Now.ToString("yyyy/MM/dd")));
             return GetDataTable(cmdStr, parameters);
         }
 
@@ -495,6 +495,10 @@ namespace CoreProject.Managers
             return ExecuteNonQuery(cmdStr);
         }
 
+
+        /// <summary>
+        /// 學生課程各頁面搜尋欄教師下拉選單
+        /// </summary>
         public void ReadTeacherTable(ref DropDownList ddlTeacher)
         {
             //帶入學生課程相關頁面查詢教師的下拉選單內容
