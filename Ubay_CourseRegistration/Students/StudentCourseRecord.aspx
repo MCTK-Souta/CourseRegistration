@@ -20,12 +20,12 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
       <div role ="dialog" class="el_dialog" style ="margin:5vh 0vh 5vh 0vh ; width:1160px;">
-        <div class="el_dialog_header">
+        <div class="studentPage_header">
             <%--歷史報名紀錄分頁標題--%> 
             <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">歷史報名紀錄</h1>
         </div>
 
-        <div class="el_dialog_body">
+        <div class="studentPage_body">
             <div>
             <%--搜尋--%>
         <div style="margin:0,auto;left:20%;position:relative;">
@@ -125,7 +125,7 @@
             <asp:Table Width="100%" runat="server">
                 <asp:TableRow>
                      <asp:TableCell HorizontalAlign="Center">
-                         <asp:Label ID="TEST" runat="server"></asp:Label>
+                         <asp:Label ID="monthOnCalendar" runat="server"></asp:Label>
                     </asp:TableCell>
                      <asp:TableCell Width="10%" HorizontalAlign="Center">
                         <asp:Button runat="server" Text="上個月" CommandName="Previous" OnClick="NextMonth_Click" />
@@ -135,7 +135,8 @@
                     </asp:TableCell>
               </asp:TableRow>
             </asp:Table>
-            <asp:DataList ID="Calendar" runat="server" OnUpdateCommand="Calendar_UpdateCommand" RepeatDirection="Horizontal" RepeatColumns="7" Width="100%">
+              
+            <asp:DataList ID="Calendar" runat="server"  RepeatDirection="Horizontal" RepeatColumns="7" Width="100%"> <%-- OnUpdateCommand="Calendar_UpdateCommand"--%>
                 <HeaderTemplate>
                     <asp:Table runat="server" Width="100%" >
                         <asp:TableRow>

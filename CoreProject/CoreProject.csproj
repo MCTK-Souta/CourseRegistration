@@ -55,6 +55,7 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\Account_summaryModel.cs" />
+    <Compile Include="Models\StudentCourseTimeModel.cs" />
     <Compile Include="Models\StudentInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\StudentAccountViewModel.cs" />

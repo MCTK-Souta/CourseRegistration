@@ -1,4 +1,5 @@
 ﻿using CoreProject.Managers;
+using CoreProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,12 +15,44 @@ namespace Ubay_CourseRegistration.Students
     public partial class StudentDropCourse : System.Web.UI.Page
     {
         StudentManagers _studentManagers = new StudentManagers();
+        //使用PagedDataSource物件實現課程資料repeater分頁
         readonly PagedDataSource _pgsource = new PagedDataSource();
         static DateTime datetime = DateTime.Now;
+        //課程資料repeater數字首尾頁索引 
         int _firstIndex, _lastIndex;
-        string _ID;
-        public string _month { get; set; } = "";
+        //設定課程資料repeater項目數量
         private int _pageSize = 10;
+        //用來裝目前登入學生帳號
+        string _ID;
+
+
+
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            _ID = Session["Acc_sum_ID"].ToString();
+            if (Page.IsPostBack) return;
+            //GetCourseRecord();
+            BindDataIntoRepeater();
+
+            //查詢教師的下拉選單內容方法
+            _studentManagers.ReadTeacherTable(ref ddlTeacher);
+
+            //建立要刪除的暫存資料表
+            dt_cart = new DataTable();
+            dt_cart.Columns.Add("Course_ID", typeof(string));
+            dt_cart.Columns.Add("C_Name", typeof(string));
+            dt_cart.Columns.Add("Price", typeof(int));
+
+
+            var _post = Request.QueryString["datetime"];
+
+            if (_post != null)
+                datetime = DateTime.Parse(_post);
+            monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
+            CreateCalendar();
+
+        }
 
         private int CurrentPage
         {
@@ -35,32 +68,6 @@ namespace Ubay_CourseRegistration.Students
             {
                 ViewState["CurrentPage"] = value;
             }
-        }
-
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            _ID = Session["Acc_sum_ID"].ToString();
-            if (Page.IsPostBack) return;
-            //GetCourseRecord();
-            BindDataIntoRepeater();
-
-            //查詢教師
-            _studentManagers.ReadTeacherTable(ref ddlTeacher);
-
-            //建立要刪除的暫存資料表
-            dt_cart = new DataTable();
-            dt_cart.Columns.Add("Course_ID", typeof(string));
-            dt_cart.Columns.Add("C_Name", typeof(string));
-            dt_cart.Columns.Add("Price", typeof(int));
-
-
-            var _post = Request.QueryString["datetime"];
-
-            if (_post != null)
-                datetime = DateTime.Parse(_post);
-            TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
-            CreateCalendar();
-
         }
 
         private void BindDataIntoRepeater()
@@ -346,19 +353,19 @@ namespace Ubay_CourseRegistration.Students
             {
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
-                List<TempClass> _tempClassList = new List<TempClass>();
+                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
                 //[1,2,3]
 
                 foreach (DataRow r in dt_course.Rows)
                 {
 
-                    TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {r["StartTime"]}");
+                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {r["StartTime"]}");
                     if (!_tempClassList.Contains(_tempclass))
                         _tempClassList.Add(_tempclass);
                 }
                 string _tmpstr = string.Empty;
 
-                foreach (TempClass tempclass in _tempClassList)
+                foreach (StudentCourseTimeModel tempclass in _tempClassList)
                 {
                     if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
                     {

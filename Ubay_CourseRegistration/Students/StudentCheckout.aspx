@@ -14,12 +14,12 @@
       </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>
-       <div class="el_dialog_header">
+    <div role ="dialog" class="el_dialog" style ="margin:5vh 0vh 5vh 0vh ; width:1160px;">
+       <div class="studentPage_header">
             <%--學生結帳分頁標題--%>
-            <h1 style="margin: 0,auto; left: 60%; position: relative; width: 100%;">新課程結帳</h1>
+            <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">新課程結帳</h1>
         </div>
-    <div>
+       <div style="margin: 0,auto; left: 35%; position: relative;">
      <asp:Table ID="Table1" runat="server">
         <asp:TableRow>
             <asp:TableCell>總金額:</asp:TableCell>
@@ -53,6 +53,6 @@
             </asp:TableCell>
         </asp:TableRow>
     </asp:Table>
-        </div>
-        </div>
+                </div>
+      </div>
 </asp:Content>

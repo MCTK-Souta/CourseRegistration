@@ -20,13 +20,13 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <div role="dialog" class="el_dialog" style="margin-top: 15vh; width: 1160px;">
-        <div class="el_dialog_header">
+        <div style="margin-top: 15vh; width: 1160px;">
+        <div class="studentPage_header">
             <%--學生退課分頁標題--%>
             <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">退課</h1>
         </div>
 
-        <div class="el_dialog_body">
+        <div class="studentPage_body">
             <div>
                 <%--搜尋--%>
                 <div style="margin: 0,auto; left: 20%; position: relative;">
@@ -174,7 +174,7 @@
                 <asp:Table Width="100%" runat="server">
                     <asp:TableRow>
                         <asp:TableCell HorizontalAlign="Center">
-                            <asp:Label ID="TEST" runat="server"></asp:Label>
+                            <asp:Label ID="monthOnCalendar" runat="server"></asp:Label>
                         </asp:TableCell>
                         <asp:TableCell Width="10%" HorizontalAlign="Center">
                         <asp:Button runat="server" Text="上個月" CommandName="Previous" OnClick="NextMonth_Click" />

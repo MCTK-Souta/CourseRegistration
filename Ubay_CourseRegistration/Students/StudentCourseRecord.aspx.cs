@@ -1,4 +1,5 @@
 ﻿using CoreProject.Managers;
+using CoreProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,20 +16,24 @@ namespace Ubay_CourseRegistration.Students
     public partial class StudentCourseRecord : System.Web.UI.Page
     {
         StudentManagers _studentManagers = new StudentManagers();
+        //使用PagedDataSource物件實現課程資料repeater分頁
         readonly PagedDataSource _pgsource = new PagedDataSource();
         static DateTime datetime = DateTime.Now;
+        //課程資料repeater數字首尾頁索引 
         int _firstIndex, _lastIndex;
-        string _ID ;
+        //設定課程資料repeater項目數量
         private int _pageSize = 10;
+        //用來裝目前登入學生帳號
+        string _ID ;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
             _ID = Session["Acc_sum_ID"].ToString();
             if (Page.IsPostBack) return;
-            
 
-            //查詢教師
+            //查詢教師的下拉選單內容方法
             _studentManagers.ReadTeacherTable(ref ddlTeacher);
 
             BindDataIntoRepeater();
@@ -36,38 +41,12 @@ namespace Ubay_CourseRegistration.Students
 
             var _post = Request.QueryString["datetime"];
             if (_post != null)
-                datetime = DateTime.Parse(_post);
-            TEST.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
+            datetime = DateTime.Parse(_post);
+            monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
         }
 
-        private void BindDataIntoRepeater()
-        {
-            //var dtt = _studentManagers.GetStudentCourseRecord(_ID);
-            var dtt = _studentManagers.SearchCouser(_ID,txtCourseID.Text,txtCourseName.Text,txtStartDate1.Text,txtStartDate2.Text,txtPlace.Text,TxtPrice1.Text,TxtPrice2.Text,ddlTeacher.SelectedValue);
-            _pgsource.DataSource = dtt.DefaultView;
-            _pgsource.AllowPaging = true;
-            // 要在Repeater顯示的項目數 
-            _pgsource.PageSize = _pageSize;
-            _pgsource.CurrentPageIndex = CurrentPage;
-            //維持顯示 Total pages
-            ViewState["TotalPages"] = _pgsource.PageCount;
-            // 顯示現在頁數之於總頁數  Example: "Page 1 of 10"
-            lblpage.Text = "Page " + (CurrentPage + 1) + " of " + _pgsource.PageCount;
-            //First, Last, Previous, Next 按鈕的使用控制
-            lbPrevious.Enabled = !_pgsource.IsFirstPage;
-            lbNext.Enabled = !_pgsource.IsLastPage;
-            lbFirst.Enabled = !_pgsource.IsFirstPage;
-            lbLast.Enabled = !_pgsource.IsLastPage;
-
-            // Bind資料進Repeater
-            rptResult.DataSource = _pgsource;
-            rptResult.DataBind();
-
-            //呼叫Repeater分頁
-            HandlePaging();
-        }
-
+        //用來記錄課程資料repeater當前頁
         private int CurrentPage
         {
             get
@@ -84,12 +63,44 @@ namespace Ubay_CourseRegistration.Students
             }
         }
 
+        private void BindDataIntoRepeater()
+        {
+
+            var dtt = _studentManagers.SearchCouser(_ID,txtCourseID.Text,txtCourseName.Text,txtStartDate1.Text,txtStartDate2.Text,txtPlace.Text,TxtPrice1.Text,TxtPrice2.Text,ddlTeacher.SelectedValue);
+            _pgsource.DataSource = dtt.DefaultView;
+            //啟用分頁
+            _pgsource.AllowPaging = true;
+            //要在Repeater顯示的項目數 
+            _pgsource.PageSize = _pageSize;
+            //當前頁索引
+            _pgsource.CurrentPageIndex = CurrentPage;
+            //維持顯示 Total pages
+            ViewState["TotalPages"] = _pgsource.PageCount;
+            // 顯示現在頁數之於總頁數  Example: "Page 1 of 10"
+            lblpage.Text = "Page " + (CurrentPage + 1) + " of " + _pgsource.PageCount;
+            //課程資料repeater的First, Last, Previous, Next 按鈕的使用控制
+            lbPrevious.Enabled = !_pgsource.IsFirstPage;
+            lbNext.Enabled = !_pgsource.IsLastPage;
+            lbFirst.Enabled = !_pgsource.IsFirstPage;
+            lbLast.Enabled = !_pgsource.IsLastPage;
+
+            // Bind資料進Repeater
+            rptResult.DataSource = _pgsource;
+            rptResult.DataBind();
+
+            HandlePaging();
+        }
+
+        #region 課程Repeater下方按鈕功能
+        //處理課程Repeater分頁頁碼
         private void HandlePaging()
         {
             var dtt = new DataTable();
-            dtt.Columns.Add("PageIndex"); //Start from 0
-            dtt.Columns.Add("PageText"); //Start from 1
+            dtt.Columns.Add("PageIndex");
+            dtt.Columns.Add("PageText"); 
 
+
+            //設定頁數頁碼
             _firstIndex = CurrentPage - 5;
             if (CurrentPage > 5)
                 _lastIndex = CurrentPage + 5;
@@ -120,7 +131,7 @@ namespace Ubay_CourseRegistration.Students
         }
 
 
-        #region repeater下方頁碼按鈕功能
+       
         protected void rptPaging_ItemCommand(object source, DataListCommandEventArgs e)
         {
             if (!e.CommandName.Equals("newPage")) return;
@@ -156,12 +167,14 @@ namespace Ubay_CourseRegistration.Students
             var lnkPage = (LinkButton)e.Item.FindControl("lbPaging");
             if (lnkPage.CommandArgument != CurrentPage.ToString()) return;
             lnkPage.Enabled = false;
-            lnkPage.BackColor = Color.FromName("#F75C2F");
+            lnkPage.BackColor = Color.FromName("#F75C2F");//設定當前分頁頁碼顏色
         }
 
         #endregion
 
-        protected void btnSearch_Click(object sender, EventArgs e)
+
+        //搜尋課程button
+        public void btnSearch_Click(object sender, EventArgs e)
         {
             rptResult.DataSource = _studentManagers.SearchCouser(
                             _ID,
@@ -174,6 +187,8 @@ namespace Ubay_CourseRegistration.Students
                             TxtPrice2.Text,
                             ddlTeacher.SelectedValue
                             ); ;
+            BindDataIntoRepeater();
+            CreateCalendar();
             rptResult.DataBind();
 
         }
@@ -188,6 +203,7 @@ namespace Ubay_CourseRegistration.Students
                     break;
                 case "Previous":
                     datetime = datetime.AddMonths(-1);
+
                     break;
             }
             
@@ -197,9 +213,10 @@ namespace Ubay_CourseRegistration.Students
         }
 
 
-        protected void CreateCalendar()//int InYear, int InMonth)
+        //建立月曆表格內容 int InYear, int InMonth
+        protected void CreateCalendar()
         {
-            //DataTable dt_course = _studentManagers.GetStudentCourseRecord(_ID);
+
             DataTable dt_course = _studentManagers.SearchCouser(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
             DataTable dt_calendar = new DataTable();
 
@@ -219,19 +236,19 @@ namespace Ubay_CourseRegistration.Students
             {
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
-                List<TempClass> _tempClassList = new List<TempClass>();
+                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
 
 
                 foreach (DataRow r in dt_course.Rows)
                 {
                     Regex regex = new Regex(@"\d{2}:\d{2}");
-                    TempClass _tempclass = new TempClass((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
+                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
                     if (!_tempClassList.Contains(_tempclass))
                         _tempClassList.Add(_tempclass);
                 }
                 string _tmpstr = string.Empty;
 
-                foreach (TempClass tempclass in _tempClassList)
+                foreach (StudentCourseTimeModel tempclass in _tempClassList)
                 {
                     if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
                     {
@@ -251,64 +268,63 @@ namespace Ubay_CourseRegistration.Students
                 Calendar.Items[datetime.Day + j - 1].BackColor = Color.LightPink;
         }
 
-        protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
-        {
-            DataTable dt_calendar = new DataTable();
-            //DataTable dt_course = new DataTable();
-            dt_calendar.Columns.Add(new DataColumn("Date"));
-            dt_calendar.Columns.Add(new DataColumn("Course"));
-            dt_calendar.Columns.Add(new DataColumn("Place"));
-            dt_calendar.Columns.Add(new DataColumn("StartTime"));
-            int j = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
-            //填滿空格
-            for (int i = 0; i < j; i++)
-                dt_calendar.Rows.Add("");
+        //protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
+        //{
+        //    DataTable dt_calendar = new DataTable();
+        //    dt_calendar.Columns.Add(new DataColumn("Date"));
+        //    dt_calendar.Columns.Add(new DataColumn("Course"));
+        //    dt_calendar.Columns.Add(new DataColumn("Place"));
+        //    dt_calendar.Columns.Add(new DataColumn("StartTime"));
+        //    int j = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
+        //    //填滿空格
+        //    for (int i = 0; i < j; i++)
+        //        dt_calendar.Rows.Add("");
 
-            //產生該月的日期列表
-            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
-            {
-                DataRow dr = dt_calendar.NewRow();
-                dr[0] = i.ToString();
-                dr[1] = "";
-                dr[2] = "";
-                dr[3] = "";
+        //    //產生該月的日期列表
+        //    for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
+        //    {
+        //        DataRow dr = dt_calendar.NewRow();
+        //        dr[0] = i.ToString();
+        //        dr[1] = "";
+        //        dr[2] = "";
+        //        dr[3] = "";
 
-                dt_calendar.Rows.Add(dr);
-            }
+        //        dt_calendar.Rows.Add(dr);
+        //    }
 
-            //資料綁定
-            Calendar.DataSource = dt_calendar;
-            Calendar.DataBind();
+        //    //資料綁定
+        //    Calendar.DataSource = dt_calendar;
+        //    Calendar.DataBind();
 
-            //設定當天顏色
-            Calendar.Items[DateTime.Now.Day + j - 1].BackColor = Color.LightPink;
-        }
+        //    //設定當天顏色
+        //    if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
+        //        Calendar.Items[DateTime.Now.Day + j - 1].BackColor = Color.LightPink;
+        //}
     }
 
-    class TempClass
-    {
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DayOfWeek DayOfWeek { get; set; }
-        public string ClassName { get; set; }
+    //class TempClass
+    //{
+    //    public DateTime StartDate { get; set; }
+    //    public DateTime EndDate { get; set; }
+    //    public DayOfWeek DayOfWeek { get; set; }
+    //    public string ClassName { get; set; }
 
-        public TempClass() { }
-        public TempClass(DateTime startdate, DateTime enddate, string classname)
-        {
-            StartDate = startdate;
-            EndDate = enddate;
-            ClassName = classname;
-            DayOfWeek = startdate.DayOfWeek;
-        }
+    //    public TempClass(DateTime startdate, DateTime enddate, string classname)
+    //    {
+    //        StartDate = startdate;
+    //        EndDate = enddate;
+    //        ClassName = classname;
+    //        DayOfWeek = startdate.DayOfWeek;
+    //    }
 
-        public bool Check(DateTime date)
-        {
-            if (date.DayOfWeek != DayOfWeek)
-                return false;
-            if (date >= StartDate && date <= EndDate)
-                return true;
-            return false;
-        }
-    }
+    //    public bool Check(DateTime date)
+    //    {
+    //        if (date.DayOfWeek != DayOfWeek)
+    //            return false;
+    //        if (date >= StartDate && date <= EndDate)
+    //            return true;
+    //        return false;
+    //    }
+    //}
 
 }
