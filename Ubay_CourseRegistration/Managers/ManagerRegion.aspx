@@ -15,7 +15,9 @@
             <br/>
             <div>單位：<asp:TextBox runat="server" ID="txtDepartment"></asp:TextBox></div>
             <br />
-            <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
+            <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox>
+        <%--<asp:RegularExpressionValidator ID="re1" runat="server" ValidationExpression="[A-Za-z0-9]" ControlToValidate="txtAccount" ErrorMessage="請輸入半形英數字"></asp:RegularExpressionValidator>--%>
+            </div>
             <br />
             <div>密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPassword"></asp:TextBox></div>
             <br />
@@ -29,6 +31,7 @@
             <br />
             <asp:Label ID="WarningMsg" runat="server" style="color:red;font-size:20px;font-weight:bolder;"></asp:Label>
             <br />
+            <asp:Literal ID="Literal1" runat="server"></asp:Literal>
             <br />
 
         </div>

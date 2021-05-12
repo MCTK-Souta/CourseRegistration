@@ -42,7 +42,7 @@ namespace Ubay_CourseRegistration.Managers
 
             SqlCommand bb = new SqlCommand("Select * From Account_summary Where Account='" + txtAccount.Text + "'", conn);
             SqlDataReader ha = bb.ExecuteReader();
-
+            
             if (string.IsNullOrEmpty(asmodel.firstname) || string.IsNullOrEmpty(asmodel.lastname) ||
                 string.IsNullOrEmpty(asmodel.department) || string.IsNullOrEmpty(acmodel.Account) ||
                 string.IsNullOrEmpty(acmodel.password) || string.IsNullOrEmpty(asmodel.Pwdcheck))
@@ -59,8 +59,8 @@ namespace Ubay_CourseRegistration.Managers
             }
             else
             {
-                this.WarningMsg.Text = "新增成功";
                 ManagerManagers.InsertAdminTablel(acmodel, asmodel, createtime, Creator);
+                this.WarningMsg.Text = "新增成功";
             }
         }
     }

@@ -51,7 +51,7 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
-                    HttpContext.Current.Response.Write("<script>alert('新增成功!');</script>");
+                    
                 }
 
                 catch (Exception ex)

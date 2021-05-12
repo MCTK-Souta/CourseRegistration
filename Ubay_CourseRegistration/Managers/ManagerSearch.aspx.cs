@@ -27,7 +27,7 @@ namespace Ubay_CourseRegistration.Managers
         {
             if (!this.IsPostBack)
             {
-                this.LoadGridView();
+                this.LoadManagerGridView();
                 this.RestoreParameters();
             }
         }
@@ -76,7 +76,7 @@ namespace Ubay_CourseRegistration.Managers
         }
 
 
-        private void LoadGridView()
+        private void LoadManagerGridView()
         {
             //----- Get Query string parameters -----
             string page = Request.QueryString["Page"];
@@ -178,7 +178,7 @@ namespace Ubay_CourseRegistration.Managers
                     Guid delete = (Guid)Session["Acc_sum_ID"];
                     manager.DeleteStudentViewModel(id, delete);
 
-                    this.LoadGridView();
+                    this.LoadManagerGridView();
                     this.lblMsg.Text = "已刪除。";
                     this.lblMsg.Visible = true;
                 }
