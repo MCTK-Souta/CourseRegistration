@@ -99,7 +99,6 @@ namespace Ubay_CourseRegistration.Students
             dtt.Columns.Add("PageIndex");
             dtt.Columns.Add("PageText"); 
 
-
             //設定頁數頁碼
             _firstIndex = CurrentPage - 5;
             if (CurrentPage > 5)

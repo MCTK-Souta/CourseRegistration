@@ -48,7 +48,7 @@ namespace Ubay_CourseRegistration.Students
                 return;
             }
             //資料庫操作
-            _studentManagers.AddCouse(_id, dt_cart, DateTime.Now);
+            _studentManagers.studentCheckoutCourse(_id, dt_cart, DateTime.Now);
             _studentManagers.DeleteCart(_id);
             //轉跳到StudentCourseRecord.aspx
             Response.Write($"<script>confirm('選課成功');location.href = 'StudentCourseRecord.aspx';</script>");

@@ -176,7 +176,7 @@
                         </asp:TableCell>
                     </asp:TableRow>
                 </asp:Table>
-                <asp:DataList ID="Calendar" runat="server" OnUpdateCommand="Calendar_UpdateCommand" RepeatDirection="Horizontal" RepeatColumns="7" Width="100%">
+                <asp:DataList ID="Calendar" runat="server"  RepeatDirection="Horizontal" RepeatColumns="7" Width="100%">
                     <HeaderTemplate>
                         <asp:Table runat="server" Width="100%">
                             <asp:TableRow>
