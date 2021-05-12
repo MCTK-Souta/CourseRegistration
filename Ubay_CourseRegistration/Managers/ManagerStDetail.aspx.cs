@@ -34,7 +34,7 @@ namespace Ubay_CourseRegistration.Managers
             }
             else
             {
-                this.pwd.Enabled = false;
+                this.passview.Visible = false;
                 this.pwd.BackColor = System.Drawing.Color.DarkGray;
                 this.Label1.Text = "新增學生資料";
                 this.region.Text = "確認新增";
@@ -228,7 +228,7 @@ namespace Ubay_CourseRegistration.Managers
                 if(string.IsNullOrEmpty(this.Image1.ImageUrl))
                 {
                     string pic1 = this.GetNewFileName(this.passpic);
-                    if (!string.IsNullOrEmpty(pic1))
+                    if (string.IsNullOrEmpty(pic1))
                         model.PassPic = pic1;
                 }
                 else

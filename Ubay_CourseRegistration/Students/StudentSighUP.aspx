@@ -10,12 +10,12 @@
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
-                姓氏：<asp:TextBox runat="server" ID="fname" ></asp:TextBox><br />
+                姓氏：<asp:TextBox runat="server" ID="fname" MaxLength="8"></asp:TextBox><br />
             </div>
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                名字：<asp:TextBox runat="server" ID="lname"></asp:TextBox><br />
+                名字：<asp:TextBox runat="server" ID="lname" MaxLength="8"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -25,12 +25,12 @@
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd"></asp:TextBox><br />
+                密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd" MaxLength="20"></asp:TextBox><br />
             </div>
             <br />
             <div style="margin-left: -65px;">
                 <p style="color: red; display: inline">*</p>
-                再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="repwd"></asp:TextBox><br />
+                再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="repwd" MaxLength="20"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -51,7 +51,7 @@
             <br />
             <div style="margin-left: -10px;">
                 <p style="color: red; display: inline">*</p>
-                E-mail：<asp:TextBox runat="server" TextMode="Email" ID="email"></asp:TextBox><br />
+                E-mail：<asp:TextBox runat="server" TextMode="Email" ID="email" MaxLength="200"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -64,7 +64,7 @@
             </div>
             <div>
                 <p style="color: red; display: inline">*</p>
-                地址：<asp:TextBox runat="server" ID="address"></asp:TextBox><br />
+                地址：<asp:TextBox runat="server" ID="address" MaxLength="400"></asp:TextBox><br />
             </div>
             <br />
 
@@ -77,11 +77,11 @@
                 </asp:RadioButtonList>
                 &nbsp;&nbsp;<asp:Label ID="yearshow" Visible="false" runat="server">年數：</asp:Label>
                 <asp:DropDownList ID="exyear" runat="server" RepeatLayout="Flow" Visible="false">
-                    <asp:ListItem Text="請選擇" Value=""></asp:ListItem>
-                    <asp:ListItem Text="未滿一年" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="1年" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="2年" Value="2"></asp:ListItem>
-                    <asp:ListItem Text="3年(含)以上" Value="3"></asp:ListItem>
+                    <asp:ListItem Text="請選擇" Value="0"></asp:ListItem>
+                    <asp:ListItem Text="未滿一年" Value="1"></asp:ListItem>
+                    <asp:ListItem Text="1年" Value="2"></asp:ListItem>
+                    <asp:ListItem Text="2年" Value="3"></asp:ListItem>
+                    <asp:ListItem Text="3年(含)以上" Value="4"></asp:ListItem>
                 </asp:DropDownList>
             </div>
             <br />
@@ -106,12 +106,13 @@
 
             </div>
             <div style="margin-left: -33px;">
-                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox>
+                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number" MaxLength="20"></asp:TextBox>
             </div>
             <br />
-            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" /></div>
+            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server"  /></div>
             <br />
             <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
             <br />
             <br />

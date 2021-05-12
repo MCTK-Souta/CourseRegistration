@@ -3,18 +3,18 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div style="align-content:center">
+    <div style="align-content: center">
         <asp:Label ID="Label1" runat="server" Text="修改學生資料" Style="margin: 0,auto; left: 45%; position: relative;" Font-Size="20pt"></asp:Label><br />
         <br />
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
-                姓氏：<asp:TextBox runat="server" ID="fname" ></asp:TextBox><br />
+                姓氏：<asp:TextBox runat="server" ID="fname" MaxLength="8"></asp:TextBox><br />
             </div>
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                名字：<asp:TextBox runat="server" ID="lname"></asp:TextBox><br />
+                名字：<asp:TextBox runat="server" ID="lname" MaxLength="8"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -22,16 +22,16 @@
                 帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn"></asp:TextBox><br />
             </div>
             <br />
-            <asp:Label ID="passview" runat="server" Text="Label">
+            <asp:Label ID="passview" runat="server" >
                 <p style="color: red; display: inline">*</p>
-                #密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd"></asp:TextBox>
+                密碼：<asp:TextBox runat="server" TextMode="Password" ID="pwd" MaxLength="20"></asp:TextBox>
             </asp:Label>
             <div>
-                新密碼：<asp:TextBox runat="server" TextMode="Password" ID="newpwd"></asp:TextBox>
+                新密碼：<asp:TextBox runat="server" TextMode="Password" ID="newpwd" MaxLength="20"></asp:TextBox>
             </div>
             <br />
             <div style="margin-left: -75px;">
-                再次確認新密碼：<asp:TextBox runat="server" TextMode="Password" ID="renewpwd"></asp:TextBox><br />
+                再次確認新密碼：<asp:TextBox runat="server" TextMode="Password" ID="renewpwd" MaxLength="20"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -52,7 +52,7 @@
             <br />
             <div style="margin-left: -10px;">
                 <p style="color: red; display: inline">*</p>
-                E-mail：<asp:TextBox runat="server" TextMode="Email" ID="email"></asp:TextBox><br />
+                E-mail：<asp:TextBox runat="server" TextMode="Email" ID="email" MaxLength="200"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -65,7 +65,7 @@
             </div>
             <div>
                 <p style="color: red; display: inline">*</p>
-                地址：<asp:TextBox runat="server" ID="address"></asp:TextBox><br />
+                地址：<asp:TextBox runat="server" ID="address" MaxLength="400"></asp:TextBox><br />
             </div>
             <br />
 
@@ -107,25 +107,25 @@
 
             </div>
             <div style="margin-left: -33px;">
-                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number"></asp:TextBox>
+                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number" MaxLength="20"></asp:TextBox>
             </div>
             <br />
             <div style="margin-left: -65px;">
                 上傳護照照片：<asp:FileUpload ID="passpic" runat="server" />
-                <div style="display:inherit">
-                <asp:Image ID="Image1"   runat="server" Visible="false" Width="150" Height="150" />
+                <div style="display: inherit">
+                    <asp:Image ID="Image1" runat="server" Visible="false" Width="150" Height="150" />
                 </div>
             </div>
             <br />
             <br />
-
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
+            <br />
             <br />
             <asp:Button ID="region" runat="server" Text="確認更改" Style="margin: 0,auto; left: 5%; position: relative;" OnClick="btnSave_Click" /><br />
             <br />
             <br />
-            <asp:Label ID="lbmsg" runat="server" Text="" Visible="false" ForeColor="Red"></asp:Label>
-            <br />
-            <br />
+
 
         </div>
     </div>

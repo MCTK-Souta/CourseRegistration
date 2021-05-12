@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Students/StudentMaster.Master" AutoEventWireup="true" CodeBehind="StudentAddCourse.aspx.cs" Inherits="Ubay_CourseRegistration.Students.StudentAddCourse" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Students/StudentMaster.Master" AutoEventWireup="true" CodeBehind="StudentDropCourse.aspx.cs" Inherits="Ubay_CourseRegistration.Students.StudentDropCourse" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-        <style type="text/css">
+            <style type="text/css">
         .auto-style1 {
             width: 80%;
         }
@@ -20,10 +20,10 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div role="dialog" class="el_dialog" style="margin-top: 15vh; width: 1160px;">
+        <div role="dialog" class="el_dialog" style="margin-top: 15vh; width: 1160px;">
         <div class="el_dialog_header">
-            <%--學生選課分頁標題--%>
-            <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">報名新課程</h1>
+            <%--學生退課分頁標題--%>
+            <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">退課</h1>
         </div>
 
         <div class="el_dialog_body">
@@ -35,8 +35,7 @@
                         <asp:TextBox runat="server" ID="txtCourseID" Width="5%"></asp:TextBox>
                         課程名稱:<asp:TextBox runat="server" ID="txtCourseName"></asp:TextBox>
                         教師:
-            <asp:DropDownList runat="server" ID="ddlTeacher">
-            </asp:DropDownList>
+            <asp:DropDownList runat="server" ID="ddlTeacher"></asp:DropDownList>
                         開課時間:
             <asp:TextBox runat="server" ID="txtStartDate1" TextMode="Date" placeholder="from"></asp:TextBox>~
             <asp:TextBox runat="server" ID="txtStartDate2" TextMode="Date" placeholder="to"></asp:TextBox>
@@ -54,7 +53,7 @@
                 <br />
                 <br />
 
-                <%--顯示學生還可以選的所有課程--%>
+                <%--顯示學生還可以退的所有課程--%>
                 <div style="margin: 0,auto; left: 20%; position: relative;">
                     <div>
                         <asp:Repeater ID="rptResult" runat="server">
@@ -62,7 +61,7 @@
                                 <table class="auto-style1">
                                     <tr>
                                         <th>課程ID</th>
-                                        <th>課程名稱(點選看課程簡介)</th>
+                                        <th>課程名稱</th>
                                         <th>教師</th>
                                         <th>開課時間</th>
                                         <th>結訓日期</th>
@@ -76,7 +75,9 @@
                                         <asp:CheckBox ID="AddCourseCheckBox" runat="server" Text='<%#Eval("Course_ID") %>' AutoPostBack="true" OnCheckedChanged="AddCourseCheckBox_CheckedChanged"/>
                                     </td>
                                     <td>
-                                        <asp:Button ID="Button1" runat="server" Text=<%#Eval("C_Name") %> OnCommand="ShowRemark" BorderStyle="None" CommandArgument='<%#Eval("Course_ID") %>' /></td>
+                                        <asp:Button ID="Button1" runat="server" Text=<%#Eval("C_Name") %> OnCommand="ShowRemark" BorderStyle="None" CommandArgument='<%#Eval("Course_ID") %>' />
+                                        <%#Eval("C_Name") %>
+                                    </td>
                                     <td><%#Eval("Teacher_FirstName") %> <%#Eval("Teacher_LastName") %></td>
                                     <td><%#Eval("StartDate", "{0:yyyy-MM-dd}") %> <%#Eval("StartTime","{0:hh}") %>:<%#Eval("StartTime","{0:mm}") %></td>
                                     <td><%#Eval("EndDate", "{0:yyyy-MM-dd}") %></td>
@@ -87,8 +88,14 @@
                             <FooterTemplate>
                                 <br />
                                 </table>
-
-                               <asp:Label ID="Remarks" runat="server"></asp:Label>
+                    <%--    <headertemplate>
+                        <table class="auto-style1">
+                            <div><th>簡介</th></div>
+                    </headertemplate>
+                                <itemtemplate>
+                        <div><tr><td><%#Eval("Remarks") %></td></tr></div>
+                    </itemtemplate>--%>
+                                <asp:Label ID="Remarks" runat="server"></asp:Label>
                             </FooterTemplate>
                         </asp:Repeater>
                         <br />
@@ -99,6 +106,8 @@
                             <tbody><tr><th>簡介</th>
                                 </tr><tr><td><asp:Label ID="Remarks" runat="server" Text=""></asp:Label></td></tr>
                     </tbody></table>
+                   
+
                     <div style="margin-top: 20px;">
                         <table style="margin: 0,auto; left: 20%; position: relative; width: 600px;">
                             <tr>
@@ -131,10 +140,9 @@
                             </tr>
                         </table>
                     </div>
-
-                    <div>
-                        <div>選課清單</div>
-                        <asp:Repeater ID="RepeaterCart" runat="server">
+                     <div>
+                        <div>退課清單</div>
+                        <asp:Repeater ID="Repeater1" runat="server">
                             <HeaderTemplate>
                                 <table>
                                     <tr>
@@ -145,21 +153,21 @@
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td><%#Eval("Course_ID") %></td>
+                                   <td><%#Eval("Course_ID") %></td>
                                     <td><%#Eval("C_Name") %></td>
-                                    <td><%#Eval("Price") %></td>     
+                                    <td><%#Eval("Price") %></td> 
                                 </tr>                    
                             </ItemTemplate>
                             <FooterTemplate>
                                 </table>
                             </FooterTemplate>
                         </asp:Repeater>
-                        <div>選課總金額:<%=TotalPrice() %></div>
-                        <div><asp:Button runat="server" ID="btnCheckout" Text="確定選課" OnClick="btnCheckout_Click" /></div>
+                        <div>退課總金額:<%=TotalPrice() %></div>
+                        <div><asp:Button runat="server" ID="btnCheckout" Text="退課" OnClientClick="javascript:return confirm('確定要退課？');" OnClick="btnCheckout_Click" /></div>
                     </div>
                 </div>
             </div>
-            <%--顯示登入的學生還可以選的課程紀錄月曆--%>
+            <%--顯示登入的學生還可退的課程紀錄月曆--%>
             <div style="left: 20%; position: relative; width: 900px;">
 
 

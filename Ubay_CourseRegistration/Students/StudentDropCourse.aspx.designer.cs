@@ -7,236 +7,200 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace Ubay_CourseRegistration.Managers
+namespace Ubay_CourseRegistration.Students
 {
 
 
-    public partial class ManagerStDetail
+    public partial class StudentDropCourse
     {
 
         /// <summary>
-        /// Label1 控制項。
+        /// txtCourseID 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.TextBox txtCourseID;
 
         /// <summary>
-        /// fname 控制項。
+        /// txtCourseName 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fname;
+        protected global::System.Web.UI.WebControls.TextBox txtCourseName;
 
         /// <summary>
-        /// lname 控制項。
+        /// ddlTeacher 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox lname;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTeacher;
 
         /// <summary>
-        /// idn 控制項。
+        /// txtStartDate1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox idn;
+        protected global::System.Web.UI.WebControls.TextBox txtStartDate1;
 
         /// <summary>
-        /// passview 控制項。
+        /// txtStartDate2 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label passview;
+        protected global::System.Web.UI.WebControls.TextBox txtStartDate2;
 
         /// <summary>
-        /// pwd 控制項。
+        /// txtPlace 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox pwd;
+        protected global::System.Web.UI.WebControls.TextBox txtPlace;
 
         /// <summary>
-        /// newpwd 控制項。
+        /// TxtPrice1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox newpwd;
+        protected global::System.Web.UI.WebControls.TextBox TxtPrice1;
 
         /// <summary>
-        /// renewpwd 控制項。
+        /// TxtPrice2 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox renewpwd;
+        protected global::System.Web.UI.WebControls.TextBox TxtPrice2;
 
         /// <summary>
-        /// gender 控制項。
+        /// btnSearch 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList gender;
+        protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// birthday 控制項。
+        /// rptResult 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox birthday;
+        protected global::System.Web.UI.WebControls.Repeater rptResult;
 
         /// <summary>
-        /// email 控制項。
+        /// Remarks 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox email;
+        protected global::System.Web.UI.WebControls.Label Remarks;
 
         /// <summary>
-        /// phone 控制項。
+        /// lbFirst 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox phone;
+        protected global::System.Web.UI.WebControls.LinkButton lbFirst;
 
         /// <summary>
-        /// revPhone 控制項。
+        /// lbPrevious 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revPhone;
+        protected global::System.Web.UI.WebControls.LinkButton lbPrevious;
 
         /// <summary>
-        /// address 控制項。
+        /// rptPaging 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox address;
+        protected global::System.Web.UI.WebControls.DataList rptPaging;
 
         /// <summary>
-        /// experience 控制項。
+        /// lbNext 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList experience;
+        protected global::System.Web.UI.WebControls.LinkButton lbNext;
 
         /// <summary>
-        /// yearshow 控制項。
+        /// lbLast 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label yearshow;
+        protected global::System.Web.UI.WebControls.LinkButton lbLast;
 
         /// <summary>
-        /// exyear 控制項。
+        /// lblpage 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList exyear;
+        protected global::System.Web.UI.WebControls.Label lblpage;
 
         /// <summary>
-        /// education 控制項。
+        /// Repeater1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList education;
+        protected global::System.Web.UI.WebControls.Repeater Repeater1;
 
         /// <summary>
-        /// schoolshow 控制項。
+        /// btnCheckout 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label schoolshow;
+        protected global::System.Web.UI.WebControls.Button btnCheckout;
 
         /// <summary>
-        /// school 控制項。
+        /// TEST 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList school;
+        protected global::System.Web.UI.WebControls.Label TEST;
 
         /// <summary>
-        /// psn 控制項。
+        /// Calendar 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox psn;
-
-        /// <summary>
-        /// passpic 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload passpic;
-
-        /// <summary>
-        /// Image1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-
-        /// <summary>
-        /// lbmsg 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbmsg;
-
-        /// <summary>
-        /// region 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button region;
+        protected global::System.Web.UI.WebControls.DataList Calendar;
     }
 }

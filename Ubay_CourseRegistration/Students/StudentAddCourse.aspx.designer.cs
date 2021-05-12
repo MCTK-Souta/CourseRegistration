@@ -114,24 +114,6 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.Label Remarks;
 
         /// <summary>
-        /// Repeater1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater Repeater1;
-
-        /// <summary>
-        /// btnCheckout 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCheckout;
-
-        /// <summary>
         /// lbFirst 控制項。
         /// </summary>
         /// <remarks>
@@ -184,6 +166,24 @@ namespace Ubay_CourseRegistration.Students
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblpage;
+
+        /// <summary>
+        /// RepeaterCart 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterCart;
+
+        /// <summary>
+        /// btnCheckout 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCheckout;
 
         /// <summary>
         /// TEST 控制項。

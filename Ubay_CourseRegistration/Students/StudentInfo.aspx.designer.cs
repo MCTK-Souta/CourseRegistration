@@ -42,6 +42,15 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox idn;
 
         /// <summary>
+        /// passview 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label passview;
+
+        /// <summary>
         /// pwd 控制項。
         /// </summary>
         /// <remarks>
@@ -51,13 +60,22 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox pwd;
 
         /// <summary>
-        /// repwd 控制項。
+        /// newpwd 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox repwd;
+        protected global::System.Web.UI.WebControls.TextBox newpwd;
+
+        /// <summary>
+        /// renewpwd 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox renewpwd;
 
         /// <summary>
         /// gender 控制項。
@@ -114,6 +132,15 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.TextBox address;
 
         /// <summary>
+        /// experience 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList experience;
+
+        /// <summary>
         /// yearshow 控制項。
         /// </summary>
         /// <remarks>
@@ -130,6 +157,33 @@ namespace Ubay_CourseRegistration.Students
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList exyear;
+
+        /// <summary>
+        /// education 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList education;
+
+        /// <summary>
+        /// schoolshow 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label schoolshow;
+
+        /// <summary>
+        /// school 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList school;
 
         /// <summary>
         /// psn 控制項。
@@ -150,6 +204,15 @@ namespace Ubay_CourseRegistration.Students
         protected global::System.Web.UI.WebControls.FileUpload passpic;
 
         /// <summary>
+        /// Image1 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image1;
+
+        /// <summary>
         /// lbmsg 控制項。
         /// </summary>
         /// <remarks>
@@ -157,5 +220,14 @@ namespace Ubay_CourseRegistration.Students
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbmsg;
+
+        /// <summary>
+        /// region 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button region;
     }
 }

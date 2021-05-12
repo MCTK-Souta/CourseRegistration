@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Text.RegularExpressions;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace CoreProject.Managers
 {
@@ -113,13 +114,14 @@ namespace CoreProject.Managers
                 FROM Registration_record
                     INNER JOIN Student
                     ON Registration_record.Student_ID=Student.Student_ID
-                INNER JOIN Course 
-                ON Registration_record.Course_ID=Course.Course_ID
+                    INNER JOIN Course 
+                    ON Registration_record.Course_ID=Course.Course_ID
 		            INNER JOIN Teacher
 		            ON Teacher.Teacher_ID=Course.Teacher_ID
 		            INNER JOIN Place
 		            ON Place.Place_ID=Course.Place_ID
-                WHERE Registration_record.Student_ID =@ID;";
+                    WHERE Registration_record.Student_ID =@ID 
+                    AND Registration_record.d_date is NULL;";
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@ID",ID)
@@ -127,8 +129,8 @@ namespace CoreProject.Managers
             return this.GetDataTable(cmd, parameters);
         }
 
-                /// <summary>
-        /// 搜尋學生已選課程
+        /// <summary>
+        ///學生歷史課程搜尋用
         /// </summary>
         /// <param name="Student_ID">ID</param>
         /// <param name="Course_ID">課程ID</param>
@@ -139,15 +141,26 @@ namespace CoreProject.Managers
         /// <param name="Price1">最小價格</param>
         /// <param name="Price2">最大價格</param>
         /// <returns></returns>
-        public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2,string ddlTeacher)
+        public DataTable SearchCouser(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher)
         {
-            string cmd = "SELECT * FROM Registration_record INNER JOIN Course ON Registration_record.Course_ID=Course.Course_ID INNER JOIN Teacher ON Course.Teacher_ID=Teacher.Teacher_ID INNER JOIN Place ON Course.Place_ID=Place.Place_ID WHERE ";
+            string cmd = @"SELECT * 
+                            FROM Registration_record 
+                            INNER JOIN Course 
+                            ON Registration_record.Course_ID=Course.Course_ID 
+                            INNER JOIN Teacher 
+                            ON Course.Teacher_ID=Teacher.Teacher_ID 
+                            INNER JOIN Place 
+                            ON Course.Place_ID=Place.Place_ID 
+                            WHERE Registration_record.d_date is NULL AND ";
+
             List<SqlParameter> parameters = new List<SqlParameter>();
-            if (string.IsNullOrEmpty(Student_ID))
-            {
-                cmd += "Student_ID = @Student_ID AND ";
-                parameters.Add(new SqlParameter("@Student_ID", Student_ID));
-            }
+            cmd += "Registration_record.Student_ID = @Student_ID AND ";
+            parameters.Add(new SqlParameter("@Student_ID", Student_ID));
+            //if (string.IsNullOrEmpty(Student_ID))
+            //{
+            //    cmd += "Registration_record.Student_ID = @Student_ID AND ";
+            //    parameters.Add(new SqlParameter("@Student_ID", Student_ID));
+            //}
             if (!string.IsNullOrEmpty(Course_ID))
             {
                 cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
@@ -231,11 +244,11 @@ namespace CoreProject.Managers
                 cmd = cmd.Remove(cmd.Length - 7, 7);
             else
                 cmd = cmd.Remove(cmd.Length - 5, 5);
-            return GetDataTable(cmd, parameters); ;
+            return GetDataTable(cmd, parameters);
         }
 
 
-
+        //學生新增課程頁 全部可選課程
         public DataTable StudentAddCourse(string ID)
         {
             string cmd = @" SELECT *
@@ -249,6 +262,7 @@ namespace CoreProject.Managers
 		                            FROM Registration_record
 			                            WHERE Registration_record.Student_ID=@ID 
                                         AND Registration_record.d_date IS NULL)
+                                        AND Course.MinNumEnrolled < Course.MaxNumEnrolled
                                         AND Course.StartDate>GETDATE();";
             List<SqlParameter> parameters = new List<SqlParameter>()
             {
@@ -256,7 +270,7 @@ namespace CoreProject.Managers
             };
             return this.GetDataTable(cmd, parameters);
         }
-
+        //學生新增課程頁的查詢功能
         public DataTable SearchCouserAdd(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher)
         {
             string cmd = @"SELECT *
@@ -270,8 +284,10 @@ namespace CoreProject.Managers
 		                            FROM Registration_record
 			                            WHERE Registration_record.Student_ID=@ID 
                                         AND Registration_record.d_date IS NULL)
+                                        AND Course.MinNumEnrolled < Course.MaxNumEnrolled
                                         AND Course.StartDate>GETDATE() AND ";
             List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@ID", Student_ID));
             //if (string.IsNullOrEmpty(Student_ID))
             //{
             //    cmd += "Student_ID = @Student_ID AND ";
@@ -279,7 +295,7 @@ namespace CoreProject.Managers
             //}
             if (!string.IsNullOrEmpty(Course_ID))
             {
-                cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
+                cmd += "Course_ID LIKE @Course_ID AND ";
                 parameters.Add(new SqlParameter("@Course_ID", $"%{Course_ID}%"));
             }
             if (!string.IsNullOrEmpty(C_Name))
@@ -362,5 +378,148 @@ namespace CoreProject.Managers
                 cmd = cmd.Remove(cmd.Length - 5, 5);
             return GetDataTable(cmd, parameters); ;
         }
+
+
+
+        /// <summary>
+        /// 選課跟退課共用的資料庫方法
+        /// </summary>
+        /// <param name="ID">學生ID</param>
+        /// <param name="dt_cart">清單資料表</param>
+        /// <param name="DataTableName">選課請填Cart,退課請填DropCart</param>
+        /// <returns></returns>
+        public bool AddCart(string ID, DataTable dt_cart, string DataTableName)
+        {
+            string cmdStr = string.Empty;
+            foreach (DataRow dr in dt_cart.Rows)
+                cmdStr += $"INSERT INTO {DataTableName} (Student_ID, Course_ID, Price) VALUES ('{ID}', '{dr["Course_ID"]}', {dr["Price"]});";
+            return ExecuteNonQuery(cmdStr);
+        }
+        /// <summary>
+        /// 清空學生的購物車
+        /// </summary>
+        /// <param name="ID">學生ID</param>
+        /// <returns></returns>
+        public bool DeleteCart(string ID)
+        {
+            return ExecuteNonQuery($"DELETE FROM Cart WHERE Student_ID='{ID}';");
+        }
+        /// <summary>
+        /// 取得學生購物車內的課程
+        /// </summary>
+        /// <param name="ID">學生ID</param>
+        /// <returns></returns>
+        public DataTable GetCart(string ID)
+        {
+            string cmd = "SELECT * FROM Cart WHERE Student_ID=@ID";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@ID", ID));
+            return GetDataTable(cmd, parameters);
+        }
+        /// <summary>
+        /// 完成結帳後將選的課程新增到課成記錄內
+        /// </summary>
+        /// <param name="ID">學生ID</param>
+        /// <param name="dt_cart">購物車DataTable</param>
+        /// <param name="NowDateTime">現在的時間</param>
+        /// <returns></returns>
+        public bool AddCouse(string ID, DataTable dt_cart, DateTime NowDateTime)
+        {
+            string cmdStr = string.Empty;
+            foreach (DataRow dr in dt_cart.Rows)
+                cmdStr += $"INSERT INTO Registration_record " +
+                    $"(Student_ID, Course_ID, b_date) " +
+                    $"VALUES " +
+                    $"('{ID}', '{dr["Course_ID"]}', '{NowDateTime:yyyy-MM-dd HH:mm:ss.fff}');";
+            return ExecuteNonQuery(cmdStr);
+        }
+        public bool DropCourse(string ID, DataTable dt_cart, DateTime NowDateTime)
+        {
+            string cmdStr = string.Empty;
+            foreach (DataRow dr in dt_cart.Rows)
+                cmdStr += $"UPDATE Registration_record " +
+                    $"SET d_date = '{NowDateTime:yyyy-MM-dd HH:mm:ss.fff}' " +
+                    $"WHERE Student_ID = '{ID}' AND " +
+                    $"Course_ID = '{dr["Course_ID"]}';";
+            return ExecuteNonQuery(cmdStr);
+        }
+        /// <summary>
+        /// SQL執行的方法
+        /// </summary>
+        /// <param name="cmdStr">SQL Command</param>
+        /// <returns></returns>
+        bool ExecuteNonQuery(string cmdStr)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+                {
+                    using (SqlCommand cmd = new SqlCommand(cmdStr, conn))
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// 取得 學生可以退課的列表
+        /// </summary>
+        /// <param name="ID">學生ID</param>
+        /// <returns></returns>
+        public DataTable GetCourseRecordToDrop(string ID)
+        {
+            string cmdStr = $"SELECT * FROM Registration_record " +
+                $"INNER JOIN Course ON Registration_record.Course_ID = Course.Course_ID " +
+                $"INNER JOIN Teacher ON Course.Teacher_ID = Teacher.Teacher_ID " +
+                $"INNER JOIN Place ON Course.Place_ID = Place.Place_ID " +
+                $"WHERE Student_ID = @ID AND " +
+                $"Course.StartDate > @DateTime AND " +
+                $"Registration_record.d_date IS NULL;";
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@ID", ID));
+            //過濾日期比今天+7才出現在退課列表
+            parameters.Add(new SqlParameter("@DateTime", DateTime.Now.AddDays(7).ToString("yyyy/MM/dd")));
+            return GetDataTable(cmdStr, parameters);
+        }
+
+        public bool ClearCart(string ID)
+        {
+            string cmdStr = $"DELETE FROM Cart WHERE Student_ID = '{ID}';";
+            return ExecuteNonQuery(cmdStr);
+        }
+
+        public void ReadTeacherTable(ref DropDownList ddlTeacher)
+        {
+            //帶入學生課程相關頁面查詢教師的下拉選單內容
+            string connectionstring =
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                ddlTeacher.DataSource = dt;
+                ddlTeacher.DataTextField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_ID";
+                ddlTeacher.DataBind();
+                //搜尋全部教師選項的空值
+                ddlTeacher.Items.Insert(0, "");
+                ddlTeacher.SelectedIndex = 0;
+            }
+            connection.Close();
+        }
+
     }
 }

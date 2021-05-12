@@ -23,6 +23,7 @@ namespace Ubay_CourseRegistration.Students
                 repwd.Attributes.Add("value", repwd.Text);
 
             }
+            
         }
 
         protected void Button_StRegion(object sender, EventArgs e)
@@ -111,7 +112,7 @@ namespace Ubay_CourseRegistration.Students
                 else
                 {
                     stmodel.Experience = Convert.ToInt32(this.experience.Text);
-                    stmodel.ExYear = null;
+                    stmodel.ExYear = Convert.ToInt32(this.exyear.Text);
 
                 }
 
@@ -136,12 +137,21 @@ namespace Ubay_CourseRegistration.Students
                 else
                 {
                     stmodel.Education = this.education.Text;
-                    stmodel.School_ID = null;
+                    stmodel.School_ID = Convert.ToInt32(this.school.Text);
                 }
 
                 stmodel.PassNumber = this.psn.Text.Trim();
+                if (this.GetNewFileName(this.passpic) == "檔案類型錯誤")
+                {
+                    stmodel.PassPic = null;
+                    this.lbmsg.Text = "檔案僅接受.jpg, .png, .bmp, .gif";
+                    this.lbmsg.Visible = true;
+                    return;
+                }
+                {
+                    stmodel.PassPic = this.GetNewFileName(this.passpic);
+                }
 
-                stmodel.PassPic = this.GetNewFileName(this.passpic);
                 stmodel.b_date = DateTime.Now;
 
                 StManagers.StudentSigh_UP(stmodel, acmodel);
@@ -169,7 +179,11 @@ namespace Ubay_CourseRegistration.Students
             string fileExt = System.IO.Path.GetExtension(fileName);
 
             if (!_allowExts.Contains(fileExt.ToLower()))
-                return string.Empty;
+            {
+
+                return "檔案類型錯誤";
+
+            }
 
 
             string path = Server.MapPath(_saveFolder);

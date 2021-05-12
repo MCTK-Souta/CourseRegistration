@@ -11,52 +11,79 @@ namespace Ubay_CourseRegistration.Students
 {
 
 
-    public partial class StudentSubMaster
+    public partial class StudentCheckout
     {
 
         /// <summary>
-        /// head 控制項。
+        /// Table1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Table Table1;
 
         /// <summary>
-        /// form1 控制項。
+        /// CreditCard1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.TextBox CreditCard1;
 
         /// <summary>
-        /// SighUPControlHeader 控制項。
+        /// CreditCard2 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::Ubay_CourseRegistration.Students.SighUPControlHeader SighUPControlHeader;
+        protected global::System.Web.UI.WebControls.TextBox CreditCard2;
 
         /// <summary>
-        /// ContentPlaceHolder1 控制項。
+        /// CreditCard3 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.TextBox CreditCard3;
 
         /// <summary>
-        /// StudentControlFooter 控制項。
+        /// CreditCard4 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::Ubay_CourseRegistration.Students.StudentControlFooter StudentControlFooter;
+        protected global::System.Web.UI.WebControls.TextBox CreditCard4;
+
+        /// <summary>
+        /// Month 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Month;
+
+        /// <summary>
+        /// Year 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Year;
+
+        /// <summary>
+        /// CVN 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CVN;
     }
 }
