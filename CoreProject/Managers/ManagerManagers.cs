@@ -552,7 +552,89 @@ namespace Ubay_CourseRegistration.Managers
                     HttpContext.Current.Response.Write(ex.Message);
                 }
             } 
-        } 
+        }
+
+        public List<AccountViewModel> GetManagerViewModels(
+      string name, string Account, out int totalSize, int currentPage = 1, int pageSize = 10)
+        {
+            //----- Process filter conditions -----
+            List<string> conditions = new List<string>();
+
+            if (!string.IsNullOrEmpty(name))
+                conditions.Add(" Manager_FirstName+Manager_LastName LIKE '%' + @name + '%'");
+
+            if (!string.IsNullOrEmpty(Account))
+                conditions.Add(" Account = @Account");
+
+            string filterConditions =
+                (conditions.Count > 0)
+                    ? (" WHERE " + string.Join(" AND ", conditions))
+                    : string.Empty;
+            //----- Process filter conditions -----
+
+
+            string query =
+                $@"         
+					SELECT TOP {10} * FROM
+                    (
+                        SELECT 
+                            ROW_NUMBER() OVER(ORDER BY Manager.Manager_ID) AS RowNumber,
+                            Manager.Manager_ID,
+                            Manager.Manager_FirstName,
+                            Manager.Manager_LastName,
+                            Manager.Department AS 單位,
+                            Manager.Account AS 帳號,
+                            Manager.d_empno
+                        FROM Manager
+                        JOIN Account_summary
+                        ON Manager.Manager_ID = Account_summary.Acc_sum_ID
+                        {filterConditions}
+                    ) AS TempT
+                    WHERE RowNumber > {pageSize * (currentPage - 1)} AND TempT.d_empno IS NULL
+                    ORDER BY TempT.帳號
+                    ";
+
+            string countQuery =
+                $@" SELECT 
+                        COUNT(Manager.Account) 
+                    FROM Manager
+                    JOIN Account_summary
+                    ON  Manager.Manager_ID = Account_summary.Acc_sum_ID
+                    {filterConditions}
+                ";
+
+            List<SqlParameter> dbParameters = new List<SqlParameter>();
+
+            if (!string.IsNullOrEmpty(name))
+                dbParameters.Add(new SqlParameter("@name", name));
+
+            if (!string.IsNullOrEmpty(Account))
+                dbParameters.Add(new SqlParameter("@Account", Account));
+
+
+            var dt = this.GetDataTable(query, dbParameters);
+
+            List<AccountViewModel> list = new List<AccountViewModel>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                AccountViewModel model = new AccountViewModel();
+                model.Manager_ID = (Guid)dr["Manager_ID"];
+                model.firstname = (string)dr["Manager_FirstName"];
+                model.lastname = (string)dr["Manager_LastName"];
+                model.department = (string)dr["單位"];
+                model.Account = (string)dr["帳號"];
+
+                list.Add(model);
+            }
+
+
+            // 算總數並回傳
+            int? totalSize2 = this.GetScale(countQuery, dbParameters) as int?;
+            totalSize = (totalSize2.HasValue) ? totalSize2.Value : 0;
+
+            return list;
+        }
     }
 }
 

@@ -88,6 +88,7 @@
     <Content Include="js\main.js" />
     <Content Include="js\moment.js" />
     <Content Include="Login.aspx" />
+    <Content Include="Managers\ManagerList.aspx" />
     <Content Include="Managers\ManagerMainPage.aspx" />
     <Content Include="Managers\ManagerRegion.aspx" />
     <Content Include="Managers\ManagerControlFooter.ascx" />
@@ -95,7 +96,6 @@
     <Content Include="Managers\ManagerControlLeft.ascx" />
     <Content Include="Managers\ManagerSearch.aspx" />
     <Content Include="Managers\ManagerStDetail.aspx" />
-    <Content Include="Managers\ManagerStList.aspx" />
     <Content Include="Managers\ManagerUpdate.aspx" />
     <Content Include="Students\SighUPControlHeader.ascx" />
     <Content Include="Students\StudentAddCourse.aspx" />
@@ -151,6 +151,13 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Managers\ManagerList.aspx.cs">
+      <DependentUpon>ManagerList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Managers\ManagerList.aspx.designer.cs">
+      <DependentUpon>ManagerList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Managers\ManagerMainPage.aspx.cs">
       <DependentUpon>ManagerMainPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -199,13 +206,6 @@
     </Compile>
     <Compile Include="Managers\ManagerStDetail.aspx.designer.cs">
       <DependentUpon>ManagerStDetail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Managers\ManagerStList.aspx.cs">
-      <DependentUpon>ManagerStList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Managers\ManagerStList.aspx.designer.cs">
-      <DependentUpon>ManagerStList.aspx</DependentUpon>
     </Compile>
     <Compile Include="Managers\ManagerUpdate.aspx.cs">
       <DependentUpon>ManagerUpdate.aspx</DependentUpon>

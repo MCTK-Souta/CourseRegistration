@@ -11,7 +11,7 @@ namespace Ubay_CourseRegistration.Managers
 {
 
 
-    public partial class ManagerSearch
+    public partial class ManagerList
     {
 
         /// <summary>
@@ -24,13 +24,13 @@ namespace Ubay_CourseRegistration.Managers
         protected global::System.Web.UI.WebControls.TextBox txtName;
 
         /// <summary>
-        /// txtAccount 控制項。
+        /// txtIdn 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAccount;
+        protected global::System.Web.UI.WebControls.TextBox txtIdn;
 
         /// <summary>
         /// btnSearch 控制項。

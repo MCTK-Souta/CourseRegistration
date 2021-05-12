@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 <div style="margin:20px;">
-        <h1 style="margin: 0,auto; left: 85%; position: relative;">學生資料維護</h1>
+        <h1 style="margin: 0,auto; left: 85%; position: relative;">管理人資料維護</h1>
         <a href="ManagerStDetail.aspx">新增</a>
 
         <div>
@@ -14,37 +14,31 @@
         <p>
             姓名:
             <asp:TextBox runat="server" ID="txtName"></asp:TextBox>
-            身分證字號:
-            <asp:TextBox runat="server" ID="txtIdn"></asp:TextBox>
+            帳號:
+            <asp:TextBox runat="server" ID="txtAccount"></asp:TextBox>
 
             <asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click" />
         </p>
         </div>
 
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="GridView1_RowDataBound" OnRowCommand="GridView1_RowCommand">
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand">
             <Columns>
                 <asp:TemplateField HeaderText="姓名">
                     <ItemTemplate>
-                        <a href="ManagerStDetail.aspx?Student_ID=<%# Eval("Student_ID") %>">
-                            <%# Eval("S_FirstName") %><%# Eval("S_LastName") %>
+                        <a href="ManagerStDetail.aspx?Student_ID=<%# Eval("Manager_ID") %>">
+                            <%# Eval("firstname") %><%# Eval("lastname") %>
                         </a>
                     </ItemTemplate>
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="性別">
-                    <ItemTemplate>
-                        <asp:Literal ID="gender" runat="server"></asp:Literal>
-                    </ItemTemplate>
-                </asp:TemplateField>
 
-                <asp:BoundField DataField="Idn" HeaderText="身份證字號" />
-                <asp:BoundField DataField="CellPhone" HeaderText="手機" />
-                <asp:BoundField DataField="Address" HeaderText="地址" />
+                <asp:BoundField DataField="Department" HeaderText="單位" />
+                <asp:BoundField DataField="Account" HeaderText="帳號" />
 
 
                 <asp:TemplateField HeaderText="Act">
                     <ItemTemplate>
                         <asp:Button runat="server" ID="btnDelete" Text="Del" CommandName="DeleteItem"
-                            CommandArgument='<%# Eval("Student_ID") %>' OnClientClick="return confirm('確定刪除嗎?');" />
+                            CommandArgument='<%# Eval("Manager_ID") %>' OnClientClick="return confirm('確定刪除嗎?');" />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -52,7 +46,7 @@
 
         <asp:Repeater runat="server" ID="repPaging">
             <ItemTemplate>
-                <a href="<%# Eval("Link") %>" title="<%# Eval("Idn") %>">第<%# Eval("Idn") %></a>
+                <a href="<%# Eval("Link") %>" title="<%# Eval("Account") %>">第<%# Eval("Account") %></a>
             </ItemTemplate>
         </asp:Repeater>
         <br />

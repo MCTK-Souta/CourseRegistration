@@ -18,7 +18,7 @@ namespace Ubay_CourseRegistration.Managers
         {
             public string name { get; set; }
             public string Link { get; set; }
-            public string Idn { get; set; }
+            public string Account { get; set; }
         }
 
 
@@ -35,13 +35,13 @@ namespace Ubay_CourseRegistration.Managers
         private void RestoreParameters()
         {
             string name = Request.QueryString["name"];
-            string idn = Request.QueryString["idn"];
+            string account = Request.QueryString["Account"];
 
             if (!string.IsNullOrEmpty(name))
                 this.txtName.Text = name;
 
-            if (!string.IsNullOrEmpty(idn))
-                this.txtIdn.Text = idn;
+            if (!string.IsNullOrEmpty(account))
+                this.txtAccount.Text = account;
         }
 
         private string GetQueryString(bool includePage, int? pageIndex)
@@ -49,7 +49,7 @@ namespace Ubay_CourseRegistration.Managers
             //----- Get Query string parameters -----
             string page = Request.QueryString["Page"];
             string name = Request.QueryString["name"];
-            string idn = Request.QueryString["idn"];
+            string account = Request.QueryString["Account"];
             //----- Get Query string parameters -----
 
 
@@ -61,8 +61,8 @@ namespace Ubay_CourseRegistration.Managers
             if (!string.IsNullOrEmpty(name))
                 conditions.Add("name=" + name);
 
-            if (!string.IsNullOrEmpty(idn))
-                conditions.Add("Idn=" + idn);
+            if (!string.IsNullOrEmpty(account))
+                conditions.Add("Account=" + account);
 
             if (pageIndex.HasValue)
                 conditions.Add("Page=" + pageIndex.Value);
@@ -92,7 +92,7 @@ namespace Ubay_CourseRegistration.Managers
             }
 
             string name = Request.QueryString["name"];
-            string idn = Request.QueryString["idn"];
+            string account = Request.QueryString["Account"];
 
             //int? level = null;
             //if (!string.IsNullOrEmpty(idn))
@@ -107,7 +107,7 @@ namespace Ubay_CourseRegistration.Managers
             int totalSize = 0;
 
             var manager = new ManagerManagers();
-            var list = manager.GetStudentViewModels(name, idn, out totalSize, pIndex, _pageSize);
+            var list = manager.GetManagerViewModels(name, account, out totalSize, pIndex, _pageSize);
             int pages = PagingHelper.CalculatePages(totalSize, _pageSize);
 
             List<PagingLink> pagingList = new List<PagingLink>();
@@ -115,9 +115,9 @@ namespace Ubay_CourseRegistration.Managers
             {
                 pagingList.Add(new PagingLink()
                 {
-                    Link = $"ManagerStList.aspx{this.GetQueryString(false, i)}",
+                    Link = $"ManagerSearch.aspx{this.GetQueryString(false, i)}",
                     name = $"{i}",
-                    Idn = $" {i} 頁"
+                    Account = $" {i} 頁"
                 });
             }
 
@@ -150,7 +150,7 @@ namespace Ubay_CourseRegistration.Managers
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string name = this.txtName.Text;
-            string idn = this.txtIdn.Text;
+            string account = this.txtAccount.Text;
 
 
             string template = "?Page=1";
@@ -158,8 +158,8 @@ namespace Ubay_CourseRegistration.Managers
             if (!string.IsNullOrEmpty(name))
                 template += "&name=" + name;
 
-            if (!string.IsNullOrEmpty(idn))
-                template += "&idn=" + idn;
+            if (!string.IsNullOrEmpty(account))
+                template += "&idn=" + account;
 
             Response.Redirect("ManagerStList.aspx" + template);
         }
@@ -184,19 +184,19 @@ namespace Ubay_CourseRegistration.Managers
                 }
             }
         }
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            ManagerManagers manager = new ManagerManagers();
+        //protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        //{
+        //    ManagerManagers manager = new ManagerManagers();
 
-            if (e.Row.RowType == DataControlRowType.DataRow || e.Row.RowType == DataControlRowType.Separator)
-            {
-                StudentAccountViewModel mode = e.Row.DataItem as StudentAccountViewModel;
-                Literal ltgender = e.Row.FindControl("gender") as Literal;
+        //    if (e.Row.RowType == DataControlRowType.DataRow || e.Row.RowType == DataControlRowType.Separator)
+        //    {
+        //        StudentAccountViewModel mode = e.Row.DataItem as StudentAccountViewModel;
+        //        Literal ltgender = e.Row.FindControl("gender") as Literal;
 
-                string val = manager.GetgenderName(mode.gender);
-                ltgender.Text = val;
-            }
+        //        string val = manager.GetgenderName(mode.gender);
+        //        ltgender.Text = val;
+        //    }
 
-        }
+        //}
     }
 }
