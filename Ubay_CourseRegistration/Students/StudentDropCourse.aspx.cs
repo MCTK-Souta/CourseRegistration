@@ -102,26 +102,28 @@ namespace Ubay_CourseRegistration.Students
         private void HandlePaging()
         {
             var dtt = new DataTable();
-            dtt.Columns.Add("PageIndex"); //Start from 0
-            dtt.Columns.Add("PageText"); //Start from 1
+            dtt.Columns.Add("PageIndex"); 
+            dtt.Columns.Add("PageText");
 
+            //設定頁數頁碼
             _firstIndex = CurrentPage - 5;
             if (CurrentPage > 5)
                 _lastIndex = CurrentPage + 5;
             else
                 _lastIndex = 10;
 
-            // Check last page is greater than total page then reduced it to total no. of page is last index
+            // 檢查最後一頁是否大於總頁數，然後將其設為總頁數
             if (_lastIndex > Convert.ToInt32(ViewState["TotalPages"]))
             {
                 _lastIndex = Convert.ToInt32(ViewState["TotalPages"]);
                 _firstIndex = _lastIndex - 10;
             }
 
+            //如果第一頁索引小於0時 將他設回0
             if (_firstIndex < 0)
                 _firstIndex = 0;
 
-            // Now creating page number based on above first and last page index
+            //根據前面的first 和 last page索引，建立頁碼
             for (var i = _firstIndex; i < _lastIndex; i++)
             {
                 var dr = dtt.NewRow();
@@ -178,6 +180,8 @@ namespace Ubay_CourseRegistration.Students
         {
             //查詢選課資料放到dt_courses跟前端綁定的rptResult
             rptResult.DataSource = dt_courses = _studentManagers.SearchCourseRecordToDrop(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
+            BindDataIntoRepeater();
+            CreateCalendar();
             rptResult.DataBind();
         }
 
@@ -194,73 +198,6 @@ namespace Ubay_CourseRegistration.Students
             }
             CreateCalendar();
         }
-
-
-
-        //protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
-        //{
-        //    DataTable dt_calendar = new DataTable();
-        //    //DataTable dt_course = new DataTable();
-        //    dt_calendar.Columns.Add(new DataColumn("Date"));
-        //    dt_calendar.Columns.Add(new DataColumn("Course"));
-        //    dt_calendar.Columns.Add(new DataColumn("Place"));
-        //    dt_calendar.Columns.Add(new DataColumn("StartTime"));
-        //    int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
-        //    //填滿空格
-        //    for (int i = 0; i < ii; i++)
-        //        dt_calendar.Rows.Add("");
-
-        //    //產生該月的日期列表
-        //    for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
-        //    {
-        //        DataRow dr = dt_calendar.NewRow();
-        //        dr[0] = i.ToString();
-        //        dr[1] = "";
-        //        dr[2] = "";
-        //        dr[3] = "";
-
-        //        dt_calendar.Rows.Add(dr);
-        //    }
-
-        //    //資料綁定
-        //    Calendar.DataSource = dt_calendar;
-        //    Calendar.DataBind();
-
-        //    //設定當天顏色
-        //    Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
-        //}
-
-
-        //public DataTable ReadTeacherTable()
-        //{
-        //    //帶入查詢教師的下拉選單內容
-        //    string connectionstring =
-        //        "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-        //    string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-        //    SqlConnection connection = new SqlConnection(connectionstring);
-        //    SqlCommand command = new SqlCommand(queryString, connection);
-        //    connection.Open();
-        //    DataTable dt = new DataTable();
-        //    SqlDataAdapter ad = new SqlDataAdapter(command);
-        //    ad.Fill(dt);
-
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        ddlTeacher.DataSource = dt;
-        //        ddlTeacher.DataTextField = "Teacher_Name";
-        //        ddlTeacher.DataValueField = "Teacher_ID";
-        //        ddlTeacher.DataBind();
-        //        //搜尋全部教師選項的空值
-        //        ddlTeacher.Items.Insert(0, "");
-        //        ddlTeacher.SelectedIndex = 0;
-        //    }
-        //    connection.Close();
-        //    return dt;
-        //}
-
-
-
-
 
         #region 新增的項目
         

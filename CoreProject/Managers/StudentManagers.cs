@@ -212,8 +212,6 @@ namespace CoreProject.Managers
             return GetDataTable(cmd, parameters);
         }
 
-
-
         /// <summary>
         ///學生新增課程頁 可新增的課程
         /// </summary>
@@ -335,22 +333,6 @@ namespace CoreProject.Managers
         /// </summary>
         /// <param name="ID">學生ID</param>
         /// <returns></returns>
-        public DataTable GetCourseRecordToDrop(string ID)
-        {
-            string cmdStr = $@"SELECT * FROM Registration_record 
-                                INNER JOIN Course ON Registration_record.Course_ID = Course.Course_ID 
-                                INNER JOIN Teacher ON Course.Teacher_ID = Teacher.Teacher_ID 
-                                INNER JOIN Place ON Course.Place_ID = Place.Place_ID 
-                                WHERE Student_ID = @ID AND 
-                                Course.StartDate > @DateTime AND 
-                                Registration_record.d_date IS NULL;";
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@ID", ID));
-            //過濾日期晚於今天才出現在退課列表
-            parameters.Add(new SqlParameter("@DateTime", DateTime.Now.ToString("yyyy/MM/dd")));
-            return GetDataTable(cmdStr, parameters);
-        }
-
         public DataTable SearchCourseRecordToDrop(string Student_ID, string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher)
         {
             string cmd = $@"SELECT * FROM Registration_record 
@@ -364,7 +346,9 @@ namespace CoreProject.Managers
             parameters.Add(new SqlParameter("@ID", Student_ID));
             if (!string.IsNullOrEmpty(Course_ID))
             {
-                cmd += "Course.Course_ID LIKE @Course_ID AND ";
+                //cmd += "Course.Course_ID LIKE @Course_ID AND ";
+                //parameters.Add(new SqlParameter("@Course_ID", $"%{Course_ID}%"));
+                cmd += "Registration_record.Course_ID LIKE @Course_ID AND ";
                 parameters.Add(new SqlParameter("@Course_ID", $"%{Course_ID}%"));
             }
             if (!string.IsNullOrEmpty(C_Name))
