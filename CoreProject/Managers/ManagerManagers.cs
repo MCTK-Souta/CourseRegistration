@@ -219,6 +219,27 @@ namespace Ubay_CourseRegistration.Managers
             this.ExecuteNonQuery(dbCommandText, parameters);
         }
 
+        public void DeleteManagerViewModel(Guid id, Guid destoryer)
+        {
+            string dbCommandText =
+                $@" UPDATE Manager
+                    SET 
+                        d_empno = @d_empno, 
+                        d_date = @d_date 
+                    WHERE
+                        Manager_ID = @Manager_ID;
+                ";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@Manager_ID", id),
+                new SqlParameter("@d_empno", destoryer),
+                new SqlParameter("@d_date", DateTime.Now)
+            };
+
+            this.ExecuteNonQuery(dbCommandText, parameters);
+        }
+
         public string GetgenderName(bool gender)
         {
             switch (gender)

@@ -176,7 +176,7 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     var manager = new ManagerManagers();
                     Guid delete = (Guid)Session["Acc_sum_ID"];
-                    manager.DeleteStudentViewModel(id, delete);
+                    manager.DeleteManagerViewModel(id,delete);
 
                     this.LoadManagerGridView();
                     this.lblMsg.Text = "已刪除。";
