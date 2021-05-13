@@ -30,6 +30,9 @@ namespace Ubay_CourseRegistration.Students
         //用來裝目前登入學生帳號
         string _ID;
 
+        static DataTable dt_courses = new DataTable();
+        static DataTable dt_cart = new DataTable();
+
 
 
 
@@ -41,8 +44,8 @@ namespace Ubay_CourseRegistration.Students
 
             //查詢教師的下拉選單內容方法
             _studentManagers.ReadTeacherTable(ref ddlTeacher);
-
             BindDataIntoRepeater();
+            
 
             var _post = Request.QueryString["datetime"];
 
@@ -56,7 +59,6 @@ namespace Ubay_CourseRegistration.Students
             dt_cart.Columns.Add("Price", typeof(int));
             _studentManagers.ClearCart(_ID);
         }
-
         private int CurrentPage
         {
             get
@@ -74,19 +76,22 @@ namespace Ubay_CourseRegistration.Students
         }
 
 
+
         private void BindDataIntoRepeater()
         {
-            var dtt = _studentManagers.StudentAddCourse(_ID);
+            var dtt = _studentManagers.SearchCouserAdd(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
             _pgsource.DataSource = dtt.DefaultView;
+            //啟用分頁
             _pgsource.AllowPaging = true;
             // 要在Repeater顯示的項目數 
             _pgsource.PageSize = _pageSize;
+            //當前頁索引
             _pgsource.CurrentPageIndex = CurrentPage;
             //維持顯示 Total pages
             ViewState["TotalPages"] = _pgsource.PageCount;
             // 顯示現在頁數之於總頁數  Example: "Page 1 of 10"
             lblpage.Text = "Page " + (CurrentPage + 1) + " of " + _pgsource.PageCount;
-            //First, Last, Previous, Next 按鈕的使用控制
+            //課程資料repeater的First, Last, Previous, Next 按鈕的使用控制
             lbPrevious.Enabled = !_pgsource.IsFirstPage;
             lbNext.Enabled = !_pgsource.IsLastPage;
             lbFirst.Enabled = !_pgsource.IsFirstPage;
@@ -96,16 +101,19 @@ namespace Ubay_CourseRegistration.Students
             rptResult.DataSource = _pgsource;
             rptResult.DataBind();
 
-            //呼叫Repeater分頁
+            
             HandlePaging();
         }
 
+        #region 課程Repeater下方按鈕功能
+        //處理課程Repeater分頁頁碼
         private void HandlePaging()
         {
             var dtt = new DataTable();
-            dtt.Columns.Add("PageIndex"); //Start from 0
-            dtt.Columns.Add("PageText"); //Start from 1
+            dtt.Columns.Add("PageIndex"); 
+            dtt.Columns.Add("PageText");
 
+            //設定頁數頁碼
             _firstIndex = CurrentPage - 5;
             if (CurrentPage > 5)
                 _lastIndex = CurrentPage + 5;
@@ -170,11 +178,33 @@ namespace Ubay_CourseRegistration.Students
             var lnkPage = (LinkButton)e.Item.FindControl("lbPaging");
             if (lnkPage.CommandArgument != CurrentPage.ToString()) return;
             lnkPage.Enabled = false;
-            lnkPage.BackColor = Color.FromName("#F75C2F");
+            lnkPage.BackColor = Color.FromName("#F75C2F");//設定當前分頁頁碼顏色
         }
 
+        #endregion
 
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            dt_courses = _studentManagers.SearchCouserAdd(
+                          _ID,
+                         txtCourseID.Text,
+                         txtCourseName.Text,
+                         txtStartDate1.Text,
+                         txtStartDate2.Text,
+                         txtPlace.Text,
+                         TxtPrice1.Text,
+                         TxtPrice2.Text,
+                         ddlTeacher.SelectedValue
+                           );
+            rptResult.DataSource = dt_courses;
+            BindDataIntoRepeater();
+            CreateCalendar();
+            rptResult.DataBind();
+        }
 
+        
+
+        //月曆的上、下一月功能
         protected void NextMonth_Click(object sender, EventArgs e)
         {
             switch (((Button)sender).CommandName)
@@ -187,22 +217,23 @@ namespace Ubay_CourseRegistration.Students
                     break;
             }
 
-            Response.Redirect($"StudentAddCourse.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+            //Response.Redirect($"StudentAddCourse.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
 
             CreateCalendar();
         }
 
-
-
-        protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
+        protected void CreateCalendar()//int InYear, int InMonth)
         {
+            DataTable dt_course = _studentManagers.SearchCouserAdd(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
             DataTable dt_calendar = new DataTable();
-            //DataTable dt_course = new DataTable();
+
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
             dt_calendar.Columns.Add(new DataColumn("Place"));
             dt_calendar.Columns.Add(new DataColumn("StartTime"));
-            int ii = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
+
+
+            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
             //填滿空格
             for (int i = 0; i < ii; i++)
                 dt_calendar.Rows.Add("");
@@ -212,10 +243,25 @@ namespace Ubay_CourseRegistration.Students
             {
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
-                dr[1] = "";
-                dr[2] = "";
-                dr[3] = "";
+                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
 
+                foreach (DataRow r in dt_course.Rows)
+                {
+                    Regex regex = new Regex(@"\d{2}:\d{2}");
+                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
+                    if (!_tempClassList.Contains(_tempclass))
+                        _tempClassList.Add(_tempclass);
+                }
+                string _tmpstr = string.Empty;
+
+                foreach (StudentCourseTimeModel tempclass in _tempClassList)
+                {
+                    if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
+                    {
+                        _tmpstr += $"{tempclass.ClassName}<br>";
+                    }
+                }
+                dr[1] = _tmpstr;
                 dt_calendar.Rows.Add(dr);
             }
 
@@ -224,53 +270,30 @@ namespace Ubay_CourseRegistration.Students
             Calendar.DataBind();
 
             //設定當天顏色
-            Calendar.Items[DateTime.Now.Day + ii - 1].BackColor = Color.LightPink;
+            if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
+                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
         }
-
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            searchCouser();
-        }
-
-        //查詢新增課程
-        void searchCouser()
-        {
-            dt_courses = _studentManagers.SearchCouserAdd(
-             _ID,
-            txtCourseID.Text,
-            txtCourseName.Text,
-            txtStartDate1.Text,
-            txtStartDate2.Text,
-            txtPlace.Text,
-            TxtPrice1.Text,
-            TxtPrice2.Text,
-            ddlTeacher.SelectedValue
-              );
-            rptResult.DataSource = dt_courses;
-            rptResult.DataBind();
-        }
-
-
-
 
         #region 新增的項目
-        static DataTable dt_courses = new DataTable();
-        static DataTable dt_cart = new DataTable();
+
+        //簡介內容
         protected void ShowRemark(object sender, CommandEventArgs e)
         {
             DataRow dr = GetCurrentCourse(e.CommandArgument.ToString())[0];
-            //Remarks.Text = (string)dr["Remarks"];
-            //改三元運算讓如果簡介是NULL也可以有通知
+
+            //三元運算  如果簡介是NULL也可以有通知
             Remarks.Text = string.IsNullOrEmpty(dr["Remarks"].ToString())
             ? "此課程暫無簡介"
             : (string)dr["Remarks"];
         }
+
+        //選課勾選框
         protected void AddCourseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox ckbox = (CheckBox)sender;
             DataRow result = GetCurrentCourse(ckbox.Text)[0];
-           
-            if (ckbox.Checked )
+
+            if (ckbox.Checked)
             {
                 DataRow dr = dt_cart.NewRow();
                 dr["Course_ID"] = result["Course_ID"];
@@ -316,64 +339,8 @@ namespace Ubay_CourseRegistration.Students
                 return;
             Response.Redirect("~/Students/StudentCheckout.aspx");
 
-
-
         }
         #endregion
-
-
-        protected void CreateCalendar()//int InYear, int InMonth)
-        {
-            DataTable dt_course = _studentManagers.StudentAddCourse(_ID);
-            DataTable dt_calendar = new DataTable();
-
-            dt_calendar.Columns.Add(new DataColumn("Date"));
-            dt_calendar.Columns.Add(new DataColumn("Course"));
-            dt_calendar.Columns.Add(new DataColumn("Place"));
-            dt_calendar.Columns.Add(new DataColumn("StartTime"));
-
-
-            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
-            //填滿空格
-            for (int i = 0; i < ii; i++)
-                dt_calendar.Rows.Add("");
-
-            //產生該月的日期列表
-            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
-            {
-                DataRow dr = dt_calendar.NewRow();
-                dr[0] = i.ToString();
-                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
-                //[1,2,3]
-
-                foreach (DataRow r in dt_course.Rows)
-                {
-                    Regex regex = new Regex(@"\d{2}:\d{2}");
-                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
-                    if (!_tempClassList.Contains(_tempclass))
-                        _tempClassList.Add(_tempclass);
-                }
-                string _tmpstr = string.Empty;
-
-                foreach (StudentCourseTimeModel tempclass in _tempClassList)
-                {
-                    if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
-                    {
-                        _tmpstr += $"{tempclass.ClassName}<br>";
-                    }
-                }
-                dr[1] = _tmpstr;
-                dt_calendar.Rows.Add(dr);
-            }
-
-            //資料綁定
-            Calendar.DataSource = dt_calendar;
-            Calendar.DataBind();
-
-            //設定當天顏色
-            if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
-                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
-        }
 
 
     }

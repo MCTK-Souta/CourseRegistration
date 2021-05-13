@@ -20,7 +20,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-        <div style="margin-top: 15vh; width: 1160px;">
+        <div role ="dialog" class="el_dialog" style ="margin:5vh 0vh 5vh 0vh ; width:1160px;">
         <div class="studentPage_header">
             <%--學生退課分頁標題--%>
             <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">退課</h1>
@@ -61,7 +61,7 @@
                                 <table class="auto-style1">
                                     <tr>
                                         <th>課程ID</th>
-                                        <th>課程名稱</th>
+                                        <th>課程名稱(點選看課程簡介)</th>
                                         <th>教師</th>
                                         <th>開課時間</th>
                                         <th>結訓日期</th>
@@ -71,13 +71,11 @@
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <tr>
-                                    <td>
+                                      <td>
                                         <asp:CheckBox ID="AddCourseCheckBox" runat="server" Text='<%#Eval("Course_ID") %>' AutoPostBack="true" OnCheckedChanged="AddCourseCheckBox_CheckedChanged"/>
                                     </td>
                                     <td>
-                                        <asp:Button ID="Button1" runat="server" Text=<%#Eval("C_Name") %> OnCommand="ShowRemark" BorderStyle="None" CommandArgument='<%#Eval("Course_ID") %>' />
-                                        <%#Eval("C_Name") %>
-                                    </td>
+                                        <asp:Button ID="Button1" runat="server" Text=<%#Eval("C_Name") %> OnCommand="ShowRemark" BorderStyle="None" CommandArgument='<%#Eval("Course_ID") %>' /></td>
                                     <td><%#Eval("Teacher_FirstName") %> <%#Eval("Teacher_LastName") %></td>
                                     <td><%#Eval("StartDate", "{0:yyyy-MM-dd}") %> <%#Eval("StartTime","{0:hh}") %>:<%#Eval("StartTime","{0:mm}") %></td>
                                     <td><%#Eval("EndDate", "{0:yyyy-MM-dd}") %></td>
@@ -88,13 +86,7 @@
                             <FooterTemplate>
                                 <br />
                                 </table>
-                    <%--    <headertemplate>
-                        <table class="auto-style1">
-                            <div><th>簡介</th></div>
-                    </headertemplate>
-                                <itemtemplate>
-                        <div><tr><td><%#Eval("Remarks") %></td></tr></div>
-                    </itemtemplate>--%>
+
                                 <asp:Label ID="Remarks" runat="server"></asp:Label>
                             </FooterTemplate>
                         </asp:Repeater>
@@ -109,6 +101,7 @@
                    
 
                     <div style="margin-top: 20px;">
+                         <%--Repeater的跳頁控制--%>
                         <table style="margin: 0,auto; left: 20%; position: relative; width: 600px;">
                             <tr>
                                 <td>
@@ -184,7 +177,7 @@
                         </asp:TableCell>
                     </asp:TableRow>
                 </asp:Table>
-                <asp:DataList ID="Calendar" runat="server" OnUpdateCommand="Calendar_UpdateCommand" RepeatDirection="Horizontal" RepeatColumns="7" Width="100%">
+                <asp:DataList ID="Calendar" runat="server" RepeatDirection="Horizontal" RepeatColumns="7" Width="100%">
                     <HeaderTemplate>
                         <asp:Table runat="server" Width="100%">
                             <asp:TableRow>

@@ -28,6 +28,8 @@ namespace Ubay_CourseRegistration.Students
 
         protected void CheckOut(object sender, EventArgs e)
         {
+
+
             //比對的規則
             Regex regexCreditCard = new Regex(@"\d{4}-\d{4}-\d{4}-\d{4}");
             Regex regexMonthYear = new Regex(@"\d{2}/\d{2}");
@@ -48,8 +50,8 @@ namespace Ubay_CourseRegistration.Students
                 return;
             }
             //資料庫操作
-            _studentManagers.AddCouse(_id, dt_cart, DateTime.Now);
-            _studentManagers.DeleteCart(_id);
+            _studentManagers.studentCheckoutCourse(_id, dt_cart, DateTime.Now);
+            _studentManagers.ClearCart(_id);
             //轉跳到StudentCourseRecord.aspx
             Response.Write($"<script>confirm('選課成功');location.href = 'StudentCourseRecord.aspx';</script>");
         }
