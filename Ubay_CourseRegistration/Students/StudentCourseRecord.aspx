@@ -51,7 +51,7 @@
     </div>
             <br />
 
-            <%--顯示學生所有歷史課程--%>
+            <%--顯示學生所有歷史課程repeater--%>
             <div style="margin:0,auto;left:20%;position:relative;">
                 <div>
                 <asp:Repeater ID="rptResult" runat="server">

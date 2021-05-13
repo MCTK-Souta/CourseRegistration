@@ -206,7 +206,7 @@ namespace Ubay_CourseRegistration.Students
                     break;
             }
             
-            Response.Redirect($"StudentCourseRecord.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+            //Response.Redirect($"StudentCourseRecord.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
 
             CreateCalendar();
         }
@@ -266,64 +266,5 @@ namespace Ubay_CourseRegistration.Students
             if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
                 Calendar.Items[datetime.Day + j - 1].BackColor = Color.LightPink;
         }
-
-        //protected void Calendar_UpdateCommand(object source, DataListCommandEventArgs e)
-        //{
-        //    DataTable dt_calendar = new DataTable();
-        //    dt_calendar.Columns.Add(new DataColumn("Date"));
-        //    dt_calendar.Columns.Add(new DataColumn("Course"));
-        //    dt_calendar.Columns.Add(new DataColumn("Place"));
-        //    dt_calendar.Columns.Add(new DataColumn("StartTime"));
-        //    int j = (int)DateTime.Now.AddDays(-DateTime.Now.Day + 1).DayOfWeek;
-        //    //填滿空格
-        //    for (int i = 0; i < j; i++)
-        //        dt_calendar.Rows.Add("");
-
-        //    //產生該月的日期列表
-        //    for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
-        //    {
-        //        DataRow dr = dt_calendar.NewRow();
-        //        dr[0] = i.ToString();
-        //        dr[1] = "";
-        //        dr[2] = "";
-        //        dr[3] = "";
-
-        //        dt_calendar.Rows.Add(dr);
-        //    }
-
-        //    //資料綁定
-        //    Calendar.DataSource = dt_calendar;
-        //    Calendar.DataBind();
-
-        //    //設定當天顏色
-        //    if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
-        //        Calendar.Items[DateTime.Now.Day + j - 1].BackColor = Color.LightPink;
-        //}
     }
-
-    //class TempClass
-    //{
-    //    public DateTime StartDate { get; set; }
-    //    public DateTime EndDate { get; set; }
-    //    public DayOfWeek DayOfWeek { get; set; }
-    //    public string ClassName { get; set; }
-
-    //    public TempClass(DateTime startdate, DateTime enddate, string classname)
-    //    {
-    //        StartDate = startdate;
-    //        EndDate = enddate;
-    //        ClassName = classname;
-    //        DayOfWeek = startdate.DayOfWeek;
-    //    }
-
-    //    public bool Check(DateTime date)
-    //    {
-    //        if (date.DayOfWeek != DayOfWeek)
-    //            return false;
-    //        if (date >= StartDate && date <= EndDate)
-    //            return true;
-    //        return false;
-    //    }
-    //}
-
 }

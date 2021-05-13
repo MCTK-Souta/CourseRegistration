@@ -20,7 +20,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div  style="margin-top: 15vh; width: 1160px;">
+    <div role ="dialog" class="el_dialog" style ="margin:5vh 0vh 5vh 0vh ; width:1160px;">
         <div class="studentPage_header">
             <%--學生選課分頁標題--%>
             <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">報名新課程</h1>

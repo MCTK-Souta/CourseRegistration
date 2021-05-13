@@ -10,6 +10,7 @@ using System.Web;
 using System.Text.RegularExpressions;
 using System.Data;
 using System.Web.UI.WebControls;
+using FluentValidation.Validators;
 
 namespace CoreProject.Managers
 {
@@ -95,6 +96,34 @@ namespace CoreProject.Managers
 
         }
 
+        /// <summary>
+        /// 學生課程各頁面搜尋欄教師下拉選單
+        /// </summary>
+        public void ReadTeacherTable(ref DropDownList ddlTeacher)
+        {
+            //帶入學生課程相關頁面查詢教師的下拉選單內容
+            string connectionstring =
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                ddlTeacher.DataSource = dt;
+                ddlTeacher.DataTextField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_ID";
+                ddlTeacher.DataBind();
+                //搜尋全部教師選項的空值
+                ddlTeacher.Items.Insert(0, "");
+                ddlTeacher.SelectedIndex = 0;
+            }
+            connection.Close();
+        }
 
         /// <summary>
         ///學生歷史報名紀錄
@@ -329,7 +358,7 @@ namespace CoreProject.Managers
         }
 
         /// <summary>
-        /// 取得 學生可以退課的列表
+        /// 學生退課 取得學生可以退課的列表
         /// </summary>
         /// <param name="ID">學生ID</param>
         /// <returns></returns>
@@ -435,7 +464,6 @@ namespace CoreProject.Managers
             return GetDataTable(cmd, parameters);
         }
 
-        
 
 
 
@@ -455,15 +483,18 @@ namespace CoreProject.Managers
             }
             return ExecuteNonQuery(cmdStr);
         }
+
         /// <summary>
         /// 清空學生的購物車
         /// </summary>
         /// <param name="ID">學生ID</param>
         /// <returns></returns>
-        public bool DeleteCart(string ID)
+        public bool ClearCart(string ID)
         {
-            return ExecuteNonQuery($"DELETE FROM Cart WHERE Student_ID='{ID}';");
+            string cmdStr = $"DELETE FROM Cart WHERE Student_ID = '{ID}';";
+            return ExecuteNonQuery(cmdStr);
         }
+
         /// <summary>
         /// 取得學生購物車內的課程
         /// </summary>
@@ -476,8 +507,9 @@ namespace CoreProject.Managers
             parameters.Add(new SqlParameter("@ID", ID));
             return GetDataTable(cmd, parameters);
         }
+
         /// <summary>
-        /// 完成結帳後將選的課程新增到課成記錄內
+        /// 完成結帳後將選的課程新增到課成記錄內，並將該課程選課人數+1
         /// </summary>
         /// <param name="ID">學生ID</param>
         /// <param name="dt_cart">購物車DataTable</param>
@@ -494,6 +526,13 @@ namespace CoreProject.Managers
             return ExecuteNonQuery(cmdStr);
         }
 
+        /// <summary>
+        /// 確定退課後將要退的課程紀錄到課程記錄，並將該課程選課人數-1
+        /// </summary>
+        /// <param name="ID">學生ID</param>
+        /// <param name="dt_cart">購物車DataTable</param>
+        /// <param name="NowDateTime">現在的時間</param>
+        /// <returns></returns>
         public bool DropCourse(string ID, DataTable dt_cart, DateTime NowDateTime)
         {
             string cmdStr = string.Empty;
@@ -506,7 +545,6 @@ namespace CoreProject.Managers
                     WHERE Course_ID = '{dr["Course_ID"]}';"; 
             return ExecuteNonQuery(cmdStr);
         }
-
 
         /// <summary>
         /// SQL執行
@@ -536,41 +574,40 @@ namespace CoreProject.Managers
 
 
 
-        public bool ClearCart(string ID)
-        {
-            string cmdStr = $"DELETE FROM Cart WHERE Student_ID = '{ID}';";
-            return ExecuteNonQuery(cmdStr);
-        }
-
 
         /// <summary>
-        /// 學生課程各頁面搜尋欄教師下拉選單
+        ///待處理  信用卡驗證
         /// </summary>
-        public void ReadTeacherTable(ref DropDownList ddlTeacher)
-        {
-            //帶入學生課程相關頁面查詢教師的下拉選單內容
-            string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
-            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
-            SqlConnection connection = new SqlConnection(connectionstring);
-            SqlCommand command = new SqlCommand(queryString, connection);
-            connection.Open();
-            DataTable dt = new DataTable();
-            SqlDataAdapter ad = new SqlDataAdapter(command);
-            ad.Fill(dt);
+        /// <param name="context">Validation context</param>
+        /// <returns></returns>
+        //public override bool CardIsValid (PropertyValidatorContext context)
+        //{
+        //    var ccValue = context.PropertyValue as string;
+        //    if (string.IsNullOrWhiteSpace(ccValue))
+        //        return false;
 
-            if (dt.Rows.Count > 0)
-            {
-                ddlTeacher.DataSource = dt;
-                ddlTeacher.DataTextField = "Teacher_Name";
-                ddlTeacher.DataValueField = "Teacher_ID";
-                ddlTeacher.DataBind();
-                //搜尋全部教師選項的空值
-                ddlTeacher.Items.Insert(0, "");
-                ddlTeacher.SelectedIndex = 0;
-            }
-            connection.Close();
-        }
+        //    ccValue = ccValue.Replace(" ", "");
+        //    ccValue = ccValue.Replace("-", "");
 
+        //    var checksum = 0;
+        //    var evenDigit = false;
+
+        //    //http://www.beachnet.com/~hstiles/cardtype.html
+        //    foreach (var digit in ccValue.Reverse())
+        //    {
+        //        if (!char.IsDigit(digit))
+        //            return false;
+
+        //        var digitValue = (digit - '0') * (evenDigit ? 2 : 1);
+        //        evenDigit = !evenDigit;
+
+        //        while (digitValue > 0)
+        //        {
+        //            checksum += digitValue % 10;
+        //            digitValue /= 10;
+        //        }
+        //    }
+        //    return (checksum % 10) == 0;
+        //}
     }
 }

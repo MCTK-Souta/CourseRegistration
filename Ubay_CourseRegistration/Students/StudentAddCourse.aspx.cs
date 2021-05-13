@@ -217,7 +217,7 @@ namespace Ubay_CourseRegistration.Students
                     break;
             }
 
-            Response.Redirect($"StudentAddCourse.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+            //Response.Redirect($"StudentAddCourse.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
 
             CreateCalendar();
         }
@@ -244,7 +244,6 @@ namespace Ubay_CourseRegistration.Students
                 DataRow dr = dt_calendar.NewRow();
                 dr[0] = i.ToString();
                 List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
-                //[1,2,3]
 
                 foreach (DataRow r in dt_course.Rows)
                 {
@@ -339,8 +338,6 @@ namespace Ubay_CourseRegistration.Students
             if (!_studentManagers.AddCart(_ID, dt_cart, "Cart"))
                 return;
             Response.Redirect("~/Students/StudentCheckout.aspx");
-
-
 
         }
         #endregion
