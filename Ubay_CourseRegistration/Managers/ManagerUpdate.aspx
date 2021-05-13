@@ -4,9 +4,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
         <br />
-        <h1 style="margin: 0,auto; left: 165%; position: relative;">管理人資料維護</h1>
+        <h1 style="margin: 0,auto; left: 55%; position: relative;">管理人資料維護</h1>
         <br />
-        <div style="margin: 0,auto; left: 160%; position: relative;">
+        <div style="margin: 0,auto; left: 50%; position: relative;">
             <div>姓氏：<asp:TextBox runat="server" ID="txtFirstname"></asp:TextBox></div>
             <br />
             <div>名字：<asp:TextBox runat="server" ID="txtLastname"></asp:TextBox></div>

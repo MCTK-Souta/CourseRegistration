@@ -15,6 +15,15 @@ namespace Ubay_CourseRegistration.Managers
     {
 
         /// <summary>
+        /// LB1 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LB1;
+
+        /// <summary>
         /// txtFirstname 控制項。
         /// </summary>
         /// <remarks>
@@ -51,6 +60,24 @@ namespace Ubay_CourseRegistration.Managers
         protected global::System.Web.UI.WebControls.TextBox txtAccount;
 
         /// <summary>
+        /// Label2 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label2;
+
+        /// <summary>
+        /// oldPassword 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox oldPassword;
+
+        /// <summary>
         /// txtPassword 控制項。
         /// </summary>
         /// <remarks>
@@ -58,6 +85,15 @@ namespace Ubay_CourseRegistration.Managers
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
+
+        /// <summary>
+        /// Label3 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
         /// txtPwdcheck 控制項。
@@ -69,13 +105,31 @@ namespace Ubay_CourseRegistration.Managers
         protected global::System.Web.UI.WebControls.TextBox txtPwdcheck;
 
         /// <summary>
-        /// Button1 控制項。
+        /// Label4 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Label Label4;
+
+        /// <summary>
+        /// Regis 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Regis;
+
+        /// <summary>
+        /// Turnbackbtn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Turnbackbtn;
 
         /// <summary>
         /// WarningMsg 控制項。

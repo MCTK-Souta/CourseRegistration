@@ -88,7 +88,6 @@ namespace Ubay_CourseRegistration.Managers
             {
                 this.exyear.Visible = true;
                 this.yearshow.Visible = true;
-
             }
             this.exyear.Text = model.ExYear.ToString();
             this.education.Text = model.Education.ToString();

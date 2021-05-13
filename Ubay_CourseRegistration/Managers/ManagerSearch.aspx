@@ -25,7 +25,7 @@
             <Columns>
                 <asp:TemplateField HeaderText="姓名">
                     <ItemTemplate>  
-                        <a href="ManagerUpdate.aspx?Manager_ID=<%# Eval("Manager_ID") %>">
+                        <a href="ManagerRegion.aspx?Manager_ID=<%# Eval("Manager_ID") %>">
                             <%# Eval("firstname") %><%# Eval("lastname") %>
                         </a>
                     </ItemTemplate>

@@ -4,32 +4,46 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
-        <a href="ManagerSearch.aspx" style="font-size:25px;">管理人查修</a>
         <br />
-        <h1 style="margin: 0,auto; left: 165%; position: relative;">新增管理人資料</h1>
+        <asp:Label ID="LB1" runat="server" Text="新增管理人資料" Style="margin: 0,auto; left: 45%; position: relative;" Font-Size="20pt"></asp:Label><br />
         <br />
         <div style="margin: 0,auto; left: 160%; position: relative;">
             <div>姓氏：<asp:TextBox runat="server" ID="txtFirstname"></asp:TextBox></div>
             <br />
             <div>名字：<asp:TextBox runat="server" ID="txtLastname"></asp:TextBox></div>
-            <br/>
+            <br />
             <div>單位：<asp:TextBox runat="server" ID="txtDepartment"></asp:TextBox></div>
             <br />
-            <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox>
-        <%--<asp:RegularExpressionValidator ID="re1" runat="server" ValidationExpression="[A-Za-z0-9]" ControlToValidate="txtAccount" ErrorMessage="請輸入半形英數字"></asp:RegularExpressionValidator>--%>
+            <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
+            <br />
+            <div>
+                <asp:Label ID="Label2" runat="server" Text="Label" Visible="true">舊密碼：
+                <asp:TextBox runat="server" ID="oldPassword">
+                </asp:TextBox>(若不更改密碼則無需填寫)
+                </asp:Label>
             </div>
             <br />
-            <div>密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPassword"></asp:TextBox></div>
+            <div>密碼：
+                <asp:TextBox runat="server" TextMode="Password" ID="txtPassword">
+                </asp:TextBox>
+                <asp:Label ID="Label3" runat="server" Text="(若不更改密碼則無需填寫)" Visible="true">
+                </asp:Label>
+            </div>
             <br />
             <div style="margin-left: -65px;">
-                再次確認密碼：<asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck"></asp:TextBox><br />
+                再次確認密碼：
+                <asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck">
+                </asp:TextBox>
+                <asp:Label ID="Label4" runat="server" Text="(若不更改密碼則無需填寫)" Visible="true">
+                </asp:Label>
             </div>
             <br />
             <br />
-
-            <asp:Button ID="Button1" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 25%; position: relative;" OnClick="CreateAdmin_Click" /><br />
+            <asp:Button ID="Regis" runat="server" Text="確認註冊" Style="margin: 0,auto; left: 25%; position: relative;" OnClick="CreateAdmin_Click" />
+            <asp:Button ID="Turnbackbtn" runat="server" Text="返回" OnClick="Turnback_Click" Style="margin: 0,auto; left: 25%;position: relative;"/>
             <br />
-            <asp:Label ID="WarningMsg" runat="server" style="color:red;font-size:20px;font-weight:bolder;"></asp:Label>
+            <br />
+            <asp:Label ID="WarningMsg" runat="server" Style="color: red; font-size: 20px; font-weight: bolder;"></asp:Label>
             <br />
             <asp:Literal ID="Literal1" runat="server"></asp:Literal>
             <br />
