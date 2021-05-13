@@ -10,7 +10,7 @@
             <div>姓氏：<asp:TextBox runat="server" ID="txtFirstname"></asp:TextBox></div>
             <br />
             <div>名字：<asp:TextBox runat="server" ID="txtLastname"></asp:TextBox></div>
-            <br/>
+            <br/>  
             <div>單位：<asp:TextBox runat="server" ID="txtDepartment"></asp:TextBox></div>
             <br />
             <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>

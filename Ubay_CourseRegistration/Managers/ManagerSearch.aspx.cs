@@ -159,9 +159,9 @@ namespace Ubay_CourseRegistration.Managers
                 template += "&name=" + name;
 
             if (!string.IsNullOrEmpty(account))
-                template += "&idn=" + account;
+                template += "&account=" + account;
 
-            Response.Redirect("ManagerStList.aspx" + template);
+            Response.Redirect("ManagerSearch.aspx" + template);
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)

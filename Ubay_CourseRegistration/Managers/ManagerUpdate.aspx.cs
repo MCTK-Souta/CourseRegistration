@@ -14,11 +14,11 @@ namespace Ubay_CourseRegistration.Managers
         protected void Page_Init(object sender, EventArgs e)
         {
             Guid temp;
-            Guid.TryParse(Request.QueryString["ID"], out temp);
+            Guid.TryParse(Request.QueryString["Manager_ID"], out temp);
 
             //this.txtAccount.Enabled = false;
             //this.txtAccount.BackColor = System.Drawing.Color.DarkGray;
-            this.LoadAccount(temp);
+                this.LoadAccount(temp);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -109,7 +109,11 @@ namespace Ubay_CourseRegistration.Managers
 
         private void LoadAccount(Guid updater)
         {
-            updater = (Guid)Session["Acc_sum_ID"];
+
+            if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
+            {
+                updater = (Guid)Session["Acc_sum_ID"];
+            }
 
             var manager = new ManagerManagers();
             var model = manager.GetAccountViewModel(updater);

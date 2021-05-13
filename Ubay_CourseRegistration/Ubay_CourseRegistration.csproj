@@ -88,7 +88,7 @@
     <Content Include="js\main.js" />
     <Content Include="js\moment.js" />
     <Content Include="Login.aspx" />
-    <Content Include="Managers\ManagerList.aspx" />
+    <Content Include="Managers\ManagerDetail.aspx" />
     <Content Include="Managers\ManagerMainPage.aspx" />
     <Content Include="Managers\ManagerRegion.aspx" />
     <Content Include="Managers\ManagerControlFooter.ascx" />
@@ -152,12 +152,12 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Managers\ManagerList.aspx.cs">
-      <DependentUpon>ManagerList.aspx</DependentUpon>
+    <Compile Include="Managers\ManagerDetail.aspx.cs">
+      <DependentUpon>ManagerDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Managers\ManagerList.aspx.designer.cs">
-      <DependentUpon>ManagerList.aspx</DependentUpon>
+    <Compile Include="Managers\ManagerDetail.aspx.designer.cs">
+      <DependentUpon>ManagerDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Managers\ManagerMainPage.aspx.cs">
       <DependentUpon>ManagerMainPage.aspx</DependentUpon>

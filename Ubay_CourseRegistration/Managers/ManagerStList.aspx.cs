@@ -18,7 +18,7 @@ namespace Ubay_CourseRegistration.Managers
         internal class PagingLink
         {
             public string name { get; set; }
-            public string Link { get; set; }
+            public string Link { get; set; }                           
             public string Idn { get; set; }
         }
 

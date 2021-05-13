@@ -7,7 +7,7 @@
 
 <div style="margin:20px;">
         <h1 style="margin: 0,auto; left: 85%; position: relative;">管理人資料維護</h1>
-        <a href="ManagerStDetail.aspx">新增</a>
+        <a href="ManagerRegion.aspx">新增</a>
 
         <div>
             進階搜尋：
@@ -24,8 +24,8 @@
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand">
             <Columns>
                 <asp:TemplateField HeaderText="姓名">
-                    <ItemTemplate>
-                        <a href="ManagerStDetail.aspx?Student_ID=<%# Eval("Manager_ID") %>">
+                    <ItemTemplate>  
+                        <a href="ManagerUpdate.aspx?Manager_ID=<%# Eval("Manager_ID") %>">
                             <%# Eval("firstname") %><%# Eval("lastname") %>
                         </a>
                     </ItemTemplate>

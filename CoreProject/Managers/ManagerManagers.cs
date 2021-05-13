@@ -561,7 +561,7 @@ namespace Ubay_CourseRegistration.Managers
             List<string> conditions = new List<string>();
 
             if (!string.IsNullOrEmpty(name))
-                conditions.Add(" Manager_FirstName+Manager_LastName LIKE '%' + @name + '%'");
+                conditions.Add(" Manager.Manager_FirstName+Manager.Manager_LastName LIKE '%' + @name + '%'");
 
             if (!string.IsNullOrEmpty(Account))
                 conditions.Add(" Account = @Account");
@@ -578,7 +578,7 @@ namespace Ubay_CourseRegistration.Managers
 					SELECT TOP {10} * FROM
                     (
                         SELECT 
-                            ROW_NUMBER() OVER(ORDER BY Manager.Manager_ID) AS RowNumber,
+                            ROW_NUMBER() OVER(ORDER BY Manager.Account) AS RowNumber,
                             Manager.Manager_ID,
                             Manager.Manager_FirstName,
                             Manager.Manager_LastName,
@@ -591,7 +591,7 @@ namespace Ubay_CourseRegistration.Managers
                         {filterConditions}
                     ) AS TempT
                     WHERE RowNumber > {pageSize * (currentPage - 1)} AND TempT.d_empno IS NULL
-                    ORDER BY TempT.帳號
+                    ORDER BY 帳號
                     ";
 
             string countQuery =
