@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
 <div style="margin:20px;">
-        <h1 style="margin: 0,auto; left: 85%; position: relative;">管理人資料維護</h1>
+        <h1 style="margin: 0,auto; left: 85%; position: relative;">查詢管理人資料</h1>
         <a href="ManagerRegion.aspx">新增</a>
 
         <div>

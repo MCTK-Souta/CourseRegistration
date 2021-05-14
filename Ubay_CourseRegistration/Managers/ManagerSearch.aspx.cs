@@ -94,16 +94,6 @@ namespace Ubay_CourseRegistration.Managers
             string name = Request.QueryString["name"];
             string account = Request.QueryString["Account"];
 
-            //int? level = null;
-            //if (!string.IsNullOrEmpty(idn))
-            //{
-            //    int temp;
-            //    if (int.TryParse(idn, out temp))
-            //        level = temp;
-            //}
-            //----- Get Query string parameters -----
-
-
             int totalSize = 0;
 
             var manager = new ManagerManagers();
@@ -127,26 +117,6 @@ namespace Ubay_CourseRegistration.Managers
             this.GridView1.DataSource = list;
             this.GridView1.DataBind();
         }
-
-        //protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        //{
-        //    string cmdName = e.CommandName;
-        //    string arg = e.CommandArgument.ToString();
-
-        //    if (cmdName == "DeleteItem")
-        //    {
-        //        Guid id;
-        //        if (Guid.TryParse(arg, out id))
-        //        {
-        //            var manager = new ManagerManagers();
-        //            manager.DeleteStudentViewModel(id);
-
-        //            this.LoadGridView();
-        //            this.lblMsg.Text = "已刪除。";
-        //        }
-        //    }
-        //}
-
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string name = this.txtName.Text;
@@ -184,19 +154,5 @@ namespace Ubay_CourseRegistration.Managers
                 }
             }
         }
-        //protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
-        //{
-        //    ManagerManagers manager = new ManagerManagers();
-
-        //    if (e.Row.RowType == DataControlRowType.DataRow || e.Row.RowType == DataControlRowType.Separator)
-        //    {
-        //        StudentAccountViewModel mode = e.Row.DataItem as StudentAccountViewModel;
-        //        Literal ltgender = e.Row.FindControl("gender") as Literal;
-
-        //        string val = manager.GetgenderName(mode.gender);
-        //        ltgender.Text = val;
-        //    }
-
-        //}
     }
 }

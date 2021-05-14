@@ -13,10 +13,6 @@ namespace Ubay_CourseRegistration.Managers
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-
-        }
-        protected void Page_Load(object sender, EventArgs e)
-        {
             if (this.IsUpdateMode())
             {
                 Guid temp;
@@ -32,11 +28,15 @@ namespace Ubay_CourseRegistration.Managers
                 this.Label4.Visible = false;
             }
         }
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
         protected void CreateAdmin_Click(object sender, EventArgs e)
         {
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
-            acmodel.Acc_sum_ID = Guid.NewGuid();
+
             asmodel.firstname = this.txtFirstname.Text;
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
@@ -95,22 +95,16 @@ namespace Ubay_CourseRegistration.Managers
                     }
                 }
                 else if (!string.IsNullOrEmpty(this.txtPwdcheck.Text) ||
-                    !string.IsNullOrEmpty(this.txtPassword.Text)) //如果舊密碼、新密碼、確認新密碼三個欄位中，任一欄位不是空值(代表使用者想改密碼)，進入判斷式
+                    !string.IsNullOrEmpty(this.txtPassword.Text)) //如果新密碼及確認新密碼兩個欄位中，任一欄位不是空值(代表使用者想改密碼)，進入判斷式
                 {
-                    if (!pwdchk.Read())
-                    {
-                        this.WarningMsg.Text = "舊密碼輸入錯誤，請重新輸入";
-                        return;
-                    }
-                    else if (acmodel.password != asmodel.Pwdcheck)
+                    if (acmodel.password != asmodel.Pwdcheck)
                     {
                         this.WarningMsg.Text = "新密碼確認不一致，請重新輸入";
                         return;
                     }
                 }
-                else if (string.IsNullOrEmpty(this.oldPassword.Text) &&
-                    string.IsNullOrEmpty(this.txtPwdcheck.Text) &&
-                    string.IsNullOrEmpty(this.txtPassword.Text)) //如果舊密碼、新密碼、確認新密碼三個欄位，所有欄位皆為空值(代表使用者不想改密碼)，將使用者的舊密碼代入欄位裡
+                else if (string.IsNullOrEmpty(this.txtPwdcheck.Text) &&
+                    string.IsNullOrEmpty(this.txtPassword.Text)) //如果新密碼及確認新密碼兩個欄位皆為空值(代表使用者不想改密碼)，將使用者的舊密碼代入欄位裡
                 {
                     acmodel.password = model.password;
                 }
@@ -118,6 +112,7 @@ namespace Ubay_CourseRegistration.Managers
             }
             else
             {
+                acmodel.Acc_sum_ID = Guid.NewGuid();
                 conn.Open();
 
                 SqlCommand bb = new SqlCommand("Select * From Account_summary Where Account='" + txtAccount.Text + "'", conn);
