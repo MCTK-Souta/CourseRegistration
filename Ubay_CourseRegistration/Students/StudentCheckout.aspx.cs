@@ -34,9 +34,18 @@ namespace Ubay_CourseRegistration.Students
             Regex regexCreditCard = new Regex(@"\d{4}-\d{4}-\d{4}-\d{4}");
             Regex regexMonthYear = new Regex(@"\d{2}/\d{2}");
             Regex regexCVN = new Regex(@"\d{3}");
+            string cardNumber = $"{CreditCard1.Text}{CreditCard2.Text}{CreditCard3.Text}{CreditCard4.Text}";
+            StudentManagers _studentManagers = new StudentManagers();
+
+
             if (regexCreditCard.Match($"{CreditCard1.Text}-{CreditCard2.Text}-{CreditCard3.Text}-{CreditCard4.Text}").Length < 1)
             {
                 ShowAlert("信用卡卡號錯誤");
+                return;
+            }
+            if (!_studentManagers.CheckCreditCardNo(cardNumber))
+            {
+                ShowAlert("信用卡格式錯誤");
                 return;
             }
             if (regexMonthYear.Match($"{Month.Text}/{Year.Text}").Length < 1)

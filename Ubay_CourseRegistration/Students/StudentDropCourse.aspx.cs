@@ -186,6 +186,7 @@ namespace Ubay_CourseRegistration.Students
             rptResult.DataBind();
         }
 
+        //月曆的上、下一月功能
         protected void NextMonth_Click(object sender, EventArgs e)
         {
             switch (((Button)sender).CommandName)
@@ -197,16 +198,76 @@ namespace Ubay_CourseRegistration.Students
                     datetime = datetime.AddMonths(-1);
                     break;
             }
+            monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
         }
 
+
+        protected void CreateCalendar()//int InYear, int InMonth)
+        {
+            DataTable dt_course = _studentManagers.SearchCourseRecordToDrop(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
+            DataTable dt_calendar = new DataTable();
+
+            dt_calendar.Columns.Add(new DataColumn("Date"));
+            dt_calendar.Columns.Add(new DataColumn("Course"));
+            dt_calendar.Columns.Add(new DataColumn("Place"));
+            dt_calendar.Columns.Add(new DataColumn("StartTime"));
+
+
+            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
+            //填滿空格
+            for (int i = 0; i < ii; i++)
+                dt_calendar.Rows.Add("");
+
+            //產生該月的日期列表
+            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
+            {
+                DataRow dr = dt_calendar.NewRow();
+                dr[0] = i.ToString();
+                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
+
+                foreach (DataRow r in dt_course.Rows)
+                {
+                    Regex regex = new Regex(@"\d{2}:\d{2}");
+                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
+                    if (!_tempClassList.Contains(_tempclass))
+                        _tempClassList.Add(_tempclass);
+                }
+                string _tmpstr = string.Empty;
+
+                foreach (StudentCourseTimeModel tempclass in _tempClassList)
+                {
+                    if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
+                    {
+                        _tmpstr += $"{tempclass.ClassName}<br>";
+                    }
+                }
+                dr[1] = _tmpstr;
+                dt_calendar.Rows.Add(dr);
+            }
+
+            //資料綁定
+            Calendar.DataSource = dt_calendar;
+            Calendar.DataBind();
+
+            //設定當天顏色
+            if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
+                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
+        }
+
         #region 新增的項目
-        
+
+        //簡介內容
         protected void ShowRemark(object sender, CommandEventArgs e)
         {
             DataRow dr = GetCurrentCourse(e.CommandArgument.ToString())[0];
-            Remarks.Text = string.IsNullOrEmpty(dr["Remarks"].ToString()) ? "" : (string)dr["Remarks"];
+            //三元運算  如果簡介是NULL也可以有通知
+            Remarks.Text = string.IsNullOrEmpty(dr["CourseIntroduction"].ToString())
+                ? ""
+                : (string)dr["CourseIntroduction"];
         }
+
+        //退課勾選框
         protected void AddCourseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckBox ckbox = (CheckBox)sender;
@@ -266,58 +327,5 @@ namespace Ubay_CourseRegistration.Students
         }
         #endregion
 
-
-        protected void CreateCalendar()//int InYear, int InMonth)
-        {
-            DataTable dt_course = _studentManagers.SearchCourseRecordToDrop(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
-            DataTable dt_calendar = new DataTable();
-
-            dt_calendar.Columns.Add(new DataColumn("Date"));
-            dt_calendar.Columns.Add(new DataColumn("Course"));
-            dt_calendar.Columns.Add(new DataColumn("Place"));
-            dt_calendar.Columns.Add(new DataColumn("StartTime"));
-
-
-            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
-            //填滿空格
-            for (int i = 0; i < ii; i++)
-                dt_calendar.Rows.Add("");
-
-            //產生該月的日期列表
-            for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
-            {
-                DataRow dr = dt_calendar.NewRow();
-                dr[0] = i.ToString();
-                List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
-                //[1,2,3]
-
-                foreach (DataRow r in dt_course.Rows)
-                {
-                    Regex regex = new Regex(@"\d{2}:\d{2}");
-                    StudentCourseTimeModel _tempclass = new StudentCourseTimeModel((DateTime)r["StartDate"], (DateTime)r["EndDate"], $"{r["C_Name"]} {r["Place_Name"]} {regex.Match(r["StartTime"].ToString())}");
-                    if (!_tempClassList.Contains(_tempclass))
-                        _tempClassList.Add(_tempclass);
-                }
-                string _tmpstr = string.Empty;
-
-                foreach (StudentCourseTimeModel tempclass in _tempClassList)
-                {
-                    if (tempclass.Check(DateTime.Parse($"{datetime.Year}/{datetime.Month}/{i}")))
-                    {
-                        _tmpstr += $"{tempclass.ClassName}<br>";
-                    }
-                }
-                dr[1] = _tmpstr;
-                dt_calendar.Rows.Add(dr);
-            }
-
-            //資料綁定
-            Calendar.DataSource = dt_calendar;
-            Calendar.DataBind();
-
-            //設定當天顏色
-            if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
-                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
-        }
     }
 }

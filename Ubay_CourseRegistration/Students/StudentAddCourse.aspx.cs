@@ -216,10 +216,11 @@ namespace Ubay_CourseRegistration.Students
                     datetime = datetime.AddMonths(-1);
                     break;
             }
-
-            //Response.Redirect($"StudentAddCourse.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
-
+            monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
+          
+
+
         }
 
         protected void CreateCalendar()//int InYear, int InMonth)
@@ -282,9 +283,9 @@ namespace Ubay_CourseRegistration.Students
             DataRow dr = GetCurrentCourse(e.CommandArgument.ToString())[0];
 
             //三元運算  如果簡介是NULL也可以有通知
-            Remarks.Text = string.IsNullOrEmpty(dr["Remarks"].ToString())
+            Remarks.Text = string.IsNullOrEmpty(dr["CourseIntroduction"].ToString())
             ? "此課程暫無簡介"
-            : (string)dr["Remarks"];
+            : (string)dr["CourseIntroduction"];
         }
 
         //選課勾選框

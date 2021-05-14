@@ -574,40 +574,40 @@ namespace CoreProject.Managers
 
 
 
-
         /// <summary>
-        ///待處理  信用卡驗證
+        ///信用卡驗證
         /// </summary>
-        /// <param name="context">Validation context</param>
+        /// <param cardNumber="strCardno"></param>
         /// <returns></returns>
-        //public override bool CardIsValid (PropertyValidatorContext context)
-        //{
-        //    var ccValue = context.PropertyValue as string;
-        //    if (string.IsNullOrWhiteSpace(ccValue))
-        //        return false;
+        public bool CheckCreditCardNo(string strCardno)
+        {
+            if (strCardno.Trim().Length < 16)
+            {
+                return false;
+            }
+            else
+            {
+                int[] intTmpVal = new int[16];
+                int intTmpSum = 0;
+                for (int i = 0; i < 16; i++)
+                {
+                    //位置在奇數位置的*1，偶數位置*2，位置計算從0開始
+                    if (i % 2 == 1)
+                        intTmpVal[i] = int.Parse(strCardno[i].ToString());
+                    else
+                        intTmpVal[i] = int.Parse(strCardno[i].ToString()) * 2;
 
-        //    ccValue = ccValue.Replace(" ", "");
-        //    ccValue = ccValue.Replace("-", "");
+                    //以上處理後若結果大於10的將其個位數+十位數
+                    if (intTmpVal[i] >= 10)
+                        intTmpVal[i] = (intTmpVal[i] / 10) + (intTmpVal[i] % 10);
 
-        //    var checksum = 0;
-        //    var evenDigit = false;
-
-        //    //http://www.beachnet.com/~hstiles/cardtype.html
-        //    foreach (var digit in ccValue.Reverse())
-        //    {
-        //        if (!char.IsDigit(digit))
-        //            return false;
-
-        //        var digitValue = (digit - '0') * (evenDigit ? 2 : 1);
-        //        evenDigit = !evenDigit;
-
-        //        while (digitValue > 0)
-        //        {
-        //            checksum += digitValue % 10;
-        //            digitValue /= 10;
-        //        }
-        //    }
-        //    return (checksum % 10) == 0;
-        //}
+                    //將所得的所有結果加總
+                    intTmpSum += intTmpVal[i];
+                }
+                if (intTmpSum % 10 != 0) //除以10後餘0表示正確，反之則錯誤
+                    return false;
+            }
+            return true;
+        }
     }
 }

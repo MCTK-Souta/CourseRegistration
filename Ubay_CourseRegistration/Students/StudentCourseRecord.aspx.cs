@@ -205,8 +205,8 @@ namespace Ubay_CourseRegistration.Students
 
                     break;
             }
-            
-            //Response.Redirect($"StudentCourseRecord.aspx?datetime={datetime.ToString("yyyy/MM/dd")}");
+
+            monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
 
             CreateCalendar();
         }
