@@ -573,7 +573,6 @@ namespace CoreProject.Managers
         }
 
 
-
         /// <summary>
         ///信用卡驗證
         /// </summary>

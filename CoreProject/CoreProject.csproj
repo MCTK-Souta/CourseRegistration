@@ -53,6 +53,7 @@
     <Compile Include="Helpers\LoginInfo.cs" />
     <Compile Include="Helpers\UserLevel.cs" />
     <Compile Include="Helpers\PagingHelper.cs" />
+    <Compile Include="Managers\CourseManagers.cs" />
     <Compile Include="Managers\ManagerManagers.cs" />
     <Compile Include="Managers\StudentManagers.cs" />
     <Compile Include="Models\AccountModel.cs" />

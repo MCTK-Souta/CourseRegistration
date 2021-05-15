@@ -56,8 +56,8 @@
 </style>
 <div class="container" >
     <ul>
-        <li><a href="ManagerSearch.aspx">查詢管理人</a></li>
-        <li><a href="ManagerUpdate.aspx">管理人資料維護</a></li>
-        <li><a href="#">課程處理</a></li>
-        <li><a href="ManagerStList.aspx">學生資料維護</a></li>
+        <li><a href="../Managers/ManagerSearch.aspx">查詢管理人</a></li>
+        <li><a href="../Managers/ManagerUpdate.aspx">管理人資料維護</a></li>
+        <li><a href="../Courses/CourseList.aspx">課程處理</a></li>
+        <li><a href="../Managers/ManagerStList.aspx">學生資料維護</a></li>
     </ul>
