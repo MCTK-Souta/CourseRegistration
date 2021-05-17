@@ -559,8 +559,17 @@ namespace CoreProject.Managers
                 {
                     using (SqlCommand cmd = new SqlCommand(cmdStr, conn))
                     {
+
+
                         conn.Open();
-                        cmd.ExecuteNonQuery();
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch
+                        {
+                            return false;
+                        }
                         conn.Close();
                     }
                 }
@@ -571,7 +580,6 @@ namespace CoreProject.Managers
             }
             return true;
         }
-
 
 
         /// <summary>
