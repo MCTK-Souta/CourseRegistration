@@ -21,8 +21,6 @@ namespace Ubay_CourseRegistration.Managers
             public string Account { get; set; }
         }
 
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -30,6 +28,23 @@ namespace Ubay_CourseRegistration.Managers
                 this.LoadManagerGridView();
                 this.RestoreParameters();
             }
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string name = this.txtName.Text;
+            string account = this.txtAccount.Text;
+
+
+            string template = "?Page=1";
+
+            if (!string.IsNullOrEmpty(name))
+                template += "&name=" + name;
+
+            if (!string.IsNullOrEmpty(account))
+                template += "&account=" + account;
+
+            Response.Redirect("ManagerSearch.aspx" + template);
         }
 
         private void RestoreParameters()
@@ -75,7 +90,6 @@ namespace Ubay_CourseRegistration.Managers
             return retText;
         }
 
-
         private void LoadManagerGridView()
         {
             //----- Get Query string parameters -----
@@ -117,22 +131,6 @@ namespace Ubay_CourseRegistration.Managers
             this.GridView1.DataSource = list;
             this.GridView1.DataBind();
         }
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            string name = this.txtName.Text;
-            string account = this.txtAccount.Text;
-
-
-            string template = "?Page=1";
-
-            if (!string.IsNullOrEmpty(name))
-                template += "&name=" + name;
-
-            if (!string.IsNullOrEmpty(account))
-                template += "&account=" + account;
-
-            Response.Redirect("ManagerSearch.aspx" + template);
-        }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -146,7 +144,7 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     var manager = new ManagerManagers();
                     Guid delete = (Guid)Session["Acc_sum_ID"];
-                    manager.DeleteManagerViewModel(id,delete);
+                    manager.DeleteManagerViewModel(id, delete);
 
                     this.LoadManagerGridView();
                     this.lblMsg.Text = "已刪除。";
