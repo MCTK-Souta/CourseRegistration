@@ -27,13 +27,14 @@ namespace Ubay_CourseRegistration.Managers
         }
         protected void UpdateAdmin_Click(object sender, EventArgs e)
         {
-
+            AccountViewModel avmodel = new AccountViewModel();
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
             asmodel.firstname = this.txtFirstname.Text;
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
             acmodel.Account = this.txtAccount.Text;
+            acmodel.password = this.txtNewPassword.Text;
             acmodel.password = this.txtNewPassword.Text;
             asmodel.Pwdcheck = this.txtPwdcheck.Text;
             asmodel.datetime = DateTime.Now; // 取得現在時間
@@ -118,8 +119,8 @@ namespace Ubay_CourseRegistration.Managers
             var manager = new ManagerManagers();
             var model = manager.GetAccountViewModel(updater);
 
-            if (model == null)
-                Response.Redirect("~/SystemAdmin/MemberList.aspx");
+            //if (model == null)
+            //    Response.Redirect("~/SystemAdmin/MemberList.aspx");
 
             this.txtFirstname.Text = model.firstname;
             this.txtLastname.Text = model.lastname;
