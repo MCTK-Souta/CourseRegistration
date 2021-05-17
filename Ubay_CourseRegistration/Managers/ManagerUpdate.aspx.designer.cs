@@ -11,7 +11,7 @@ namespace Ubay_CourseRegistration.Managers
 {
 
 
-    public partial class ManagerInfo
+    public partial class ManagerUpdate
     {
 
         /// <summary>

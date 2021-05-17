@@ -155,7 +155,9 @@
                             </FooterTemplate>
                         </asp:Repeater>
                         <div>選課總金額:<%=TotalPrice() %></div>
-                        <div><asp:Button runat="server" ID="btnCheckout" Text="確定選課" OnClick="btnCheckout_Click" /></div>
+                        <div><asp:Button runat="server" ID="btnCheckout" Text="確定選課" 
+                            OnClientClick="javascript:return confirm('確定要選課？');" 
+                            OnClick="btnCheckout_Click" /></div>
                     </div>
                 </div>
             </div>

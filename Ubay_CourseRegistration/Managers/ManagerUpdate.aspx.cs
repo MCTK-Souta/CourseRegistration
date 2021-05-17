@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Managers
 {
-    public partial class ManagerInfo : System.Web.UI.Page
+    public partial class ManagerUpdate : System.Web.UI.Page
     {
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -27,7 +27,7 @@ namespace Ubay_CourseRegistration.Managers
         }
         protected void UpdateAdmin_Click(object sender, EventArgs e)
         {
-
+            AccountViewModel avmodel = new AccountViewModel();
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
             asmodel.firstname = this.txtFirstname.Text;
@@ -50,7 +50,7 @@ namespace Ubay_CourseRegistration.Managers
             conn.Open();
             var Managers = new ManagerManagers();
 
-            SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + txtPassword.Text + "'", conn);
+            SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + this.txtPassword.Text + "'", conn);
             SqlDataReader pwdchk = passwordcheck.ExecuteReader();
 
             this.WarningMsg.Text = "";
@@ -118,8 +118,8 @@ namespace Ubay_CourseRegistration.Managers
             var manager = new ManagerManagers();
             var model = manager.GetAccountViewModel(updater);
 
-            if (model == null)
-                Response.Redirect("~/SystemAdmin/MemberList.aspx");
+            //if (model == null)
+            //    Response.Redirect("~/SystemAdmin/MemberList.aspx");
 
             this.txtFirstname.Text = model.firstname;
             this.txtLastname.Text = model.lastname;
