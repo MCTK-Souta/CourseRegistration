@@ -23,7 +23,12 @@ namespace Ubay_CourseRegistration.Students
                 repwd.Attributes.Add("value", repwd.Text);
 
             }
-            
+            if(!IsPostBack)
+            { 
+            StudentManagers stmanagers = new StudentManagers();
+            stmanagers.GetSchoolList(ref school);
+            }
+
         }
 
         protected void Button_StRegion(object sender, EventArgs e)

@@ -22,7 +22,11 @@ namespace Ubay_CourseRegistration.Managers
         
         protected void Page_Init(object sender, EventArgs e)
         {
-            
+            if (!IsPostBack)
+            {
+                StudentManagers stmanagers = new StudentManagers();
+                stmanagers.GetSchoolList(ref school);
+            }
             if (this.IsUpdateMode())
             {
                 Guid temp;
@@ -51,6 +55,9 @@ namespace Ubay_CourseRegistration.Managers
                 newpwd.Attributes.Add("value", newpwd.Text);
                 renewpwd.Attributes.Add("value", renewpwd.Text);
             }
+
+
+
         }
 
         private bool IsUpdateMode()
@@ -96,8 +103,8 @@ namespace Ubay_CourseRegistration.Managers
                 this.schoolshow.Visible = true;
                 this.school.Visible = true;
             }
-            var schoolint = Convert.ToInt32(this.school.Text);
-            this.school.SelectedValue = model.School_ID.ToString();
+            //var schoolint = Convert.ToInt32(this.school.SelectedItem.Value);
+            this.school.Text = model.School_ID.ToString() ;
             this.psn.Text = model.PassNumber;
             if (!string.IsNullOrEmpty(model.PassPic))
             {
@@ -275,7 +282,7 @@ namespace Ubay_CourseRegistration.Managers
                 if (this.school.SelectedItem.Text == "請選擇")
                 {
 
-                    model.School_ID = Convert.ToInt32(this.school.Text);
+                    model.School_ID = Convert.ToInt32(this.school.SelectedIndex);
                     this.lbmsg.Visible = true;
                     this.lbmsg.Text = "需選擇學校";
 

@@ -207,8 +207,8 @@ namespace CoreProject.Managers
 
             if (!string.IsNullOrEmpty(Price1) && !string.IsNullOrEmpty(Price2))
             {
-                
-                int tempPrice1  = int.Parse(Price1);
+
+                int tempPrice1 = int.Parse(Price1);
                 int tempPrice2 = int.Parse(Price2);
 
                 if (tempPrice1 > tempPrice2)
@@ -542,7 +542,7 @@ namespace CoreProject.Managers
                     WHERE Student_ID = '{ID}' 
                     AND  Course_ID = '{dr["Course_ID"]}';
                     UPDATE Course SET MinNumEnrolled = MinNumEnrolled - 1 
-                    WHERE Course_ID = '{dr["Course_ID"]}';"; 
+                    WHERE Course_ID = '{dr["Course_ID"]}';";
             return ExecuteNonQuery(cmdStr);
         }
 
@@ -617,5 +617,35 @@ namespace CoreProject.Managers
             }
             return true;
         }
+
+        public void GetSchoolList(ref DropDownList school)
+        {
+            string connectionstring = GetConnectionString();
+            string queryString = $@"SELECT * FROM School;";
+
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                school.DataSource = dt;
+                school.DataTextField = "Sch_name_tw";
+                school.DataValueField = "School_ID";
+                school.DataBind();
+
+                school.Items.Insert(0, "請選擇");
+                school.SelectedIndex = 0;
+            }
+            connection.Close();
+
+        }
+
+
+
+
     }
 }

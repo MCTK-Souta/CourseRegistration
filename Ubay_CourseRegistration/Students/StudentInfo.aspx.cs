@@ -1,4 +1,5 @@
-﻿using CoreProject.ViewModels;
+﻿using CoreProject.Managers;
+using CoreProject.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,11 @@ namespace Ubay_CourseRegistration.Students
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                StudentManagers stmanagers = new StudentManagers();
+                stmanagers.GetSchoolList(ref school);
+            }
             Guid temp;
             Guid.TryParse(Request.QueryString["ID"], out temp);
 
@@ -73,7 +79,7 @@ namespace Ubay_CourseRegistration.Students
                 this.schoolshow.Visible = true;
                 this.school.Visible = true;
             }
-            var schoolint = Convert.ToInt32(this.school.Text);
+            //var schoolint = Convert.ToInt32(this.school.Text);
             this.school.SelectedValue = model.School_ID.ToString();
             this.psn.Text = model.PassNumber;
             if (!string.IsNullOrEmpty(model.PassPic))

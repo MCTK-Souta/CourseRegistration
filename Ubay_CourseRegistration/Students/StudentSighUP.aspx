@@ -98,8 +98,7 @@
                 </asp:DropDownList>
                 &nbsp;&nbsp;&nbsp;&nbsp;<asp:Label ID="schoolshow" runat="server" Visible="false">學校：</asp:Label>
                 <asp:DropDownList ID="school" runat="server" Visible="false">
-                    <asp:ListItem Text="請選擇" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="高雄第一科技大學" Value="1"></asp:ListItem>
+
                 </asp:DropDownList>
                 <br />
                 <br />
