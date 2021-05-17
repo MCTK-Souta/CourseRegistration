@@ -23,6 +23,17 @@ namespace Ubay_CourseRegistration.Students
                 repwd.Attributes.Add("value", repwd.Text);
 
             }
+            StudentManagers stmanagers = new StudentManagers();
+            var model = stmanagers.GetSchoolList();
+
+
+            for(var i=0;i<model.School_ID.ToString().Length;i++)
+            {
+                this.school.Items.Add(model.School_ID.ToString());
+                //this.school.SelectedItem.Value = model.School_ID.ToString();
+                //this.school.SelectedItem.Text = model.Sch_name_tw;
+            }
+
             
         }
 

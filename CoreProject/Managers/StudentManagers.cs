@@ -608,5 +608,44 @@ namespace CoreProject.Managers
             }
             return true;
         }
+
+        public SchoolModel GetSchoolList()
+        {
+            string connectionString = GetConnectionString();
+            string queryString =
+                $@" SELECT * FROM School;
+                ";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    SchoolModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new SchoolModel();
+                        model.School_ID = (int)reader["School_ID"];
+                        model.Sch_name_tw = (string)reader["Sch_name_tw"];
+                        model.Sch_name_en = (string)reader["Sch_name_en"];
+                    }
+
+                    reader.Close();
+
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+
+
     }
 }
