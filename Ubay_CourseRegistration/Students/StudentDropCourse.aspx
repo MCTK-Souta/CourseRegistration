@@ -156,7 +156,7 @@
                             </FooterTemplate>
                         </asp:Repeater>
                         <div>退課總金額:<%=TotalPrice() %></div>
-                        <div><asp:Button runat="server" ID="btnCheckout" Text="退課" OnClientClick="javascript:return confirm('確定要退課？');" OnClick="btnCheckout_Click" /></div>
+                        <div><asp:Button runat="server" ID="btnCheckout" Text="確定退課" OnClientClick="javascript:return confirm('確定要退課？');" OnClick="btnCheckout_Click" /></div>
                     </div>
                 </div>
             </div>
