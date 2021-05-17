@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Managers
 {
-    public partial class Ad_Region : System.Web.UI.Page
+    public partial class ManagerRegion : System.Web.UI.Page
     {
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -23,7 +23,6 @@ namespace Ubay_CourseRegistration.Managers
             }
             else
             {
-                this.Label2.Visible = false;
                 this.Label3.Visible = false;
                 this.Label4.Visible = false;
             }

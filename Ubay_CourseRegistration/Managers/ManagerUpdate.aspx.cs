@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Managers
 {
-    public partial class ManagerInfo : System.Web.UI.Page
+    public partial class ManagerUpdate : System.Web.UI.Page
     {
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -35,7 +35,6 @@ namespace Ubay_CourseRegistration.Managers
             asmodel.department = this.txtDepartment.Text;
             acmodel.Account = this.txtAccount.Text;
             acmodel.password = this.txtNewPassword.Text;
-            acmodel.password = this.txtNewPassword.Text;
             asmodel.Pwdcheck = this.txtPwdcheck.Text;
             asmodel.datetime = DateTime.Now; // 取得現在時間
             string updatetime = asmodel.datetime.ToString("yyyy/MM/dd HH:mm:ss"); // 轉成字串
@@ -51,7 +50,7 @@ namespace Ubay_CourseRegistration.Managers
             conn.Open();
             var Managers = new ManagerManagers();
 
-            SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + txtPassword.Text + "'", conn);
+            SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + this.txtPassword.Text + "'", conn);
             SqlDataReader pwdchk = passwordcheck.ExecuteReader();
 
             this.WarningMsg.Text = "";
