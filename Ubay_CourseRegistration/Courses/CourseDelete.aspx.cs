@@ -288,14 +288,14 @@ namespace Ubay_CourseRegistration.Courses
                 this.lblMsg.Visible = true;
             }
 
-            DateTime today = DateTime.Now;
-            DateTime courseEndDate = Convert.ToDateTime(dateTimePicker2.Value.Date.ToString("yyyy-MM-dd"));
+            //DateTime today = DateTime.Now;
+            //DateTime courseEndDate = Convert.ToDateTime(dateTimePicker2.Value.Date.ToString("yyyy-MM-dd"));
 
-            if (DateTime.Compare(time1, time2) >= 0) //判斷日期大小
-            {
+            //if (DateTime.Compare(time1, time2) >= 0) //判斷日期大小
+            //{
 
-                messageBox.Show("dateTimePicker1的日期小於或等於dateTimePicker2的日期");
-            }
+            //    messageBox.Show("dateTimePicker1的日期小於或等於dateTimePicker2的日期");
+            //}
         }
     }
 }
