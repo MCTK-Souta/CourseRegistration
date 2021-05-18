@@ -72,6 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Courses\CourseDelete.aspx" />
     <Content Include="Courses\CourseList.aspx" />
     <Content Include="css\main.css" />
     <Content Include="css\util.css" />
@@ -146,6 +147,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Courses\CourseDelete.aspx.cs">
+      <DependentUpon>CourseDelete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Courses\CourseDelete.aspx.designer.cs">
+      <DependentUpon>CourseDelete.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Courses\CourseList.aspx.cs">
       <DependentUpon>CourseList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

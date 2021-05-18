@@ -24,7 +24,7 @@
             <%--課程歷史紀錄分頁標題--%> 
             <h1 style="margin: 0,auto; left: 50%; position: relative; width: 100%;">課程歷史紀錄</h1>
         </div>
-
+             <a href="CourseDelete.aspx">課程刪除</a>
         <div class="studentPage_body">
             <div>
             <%--搜尋--%>
