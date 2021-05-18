@@ -321,8 +321,6 @@ namespace Ubay_CourseRegistration.Managers
             {
                 try
                 {
-
-
                     model.b_empno = (Guid)Session["Acc_sum_ID"];
                     manager.CreatStudent(model);
                     this.lbmsg.Text = "新增成功";

@@ -13,6 +13,7 @@ namespace Ubay_CourseRegistration.Managers
 {
     public class ManagerManagers : DBBase
     {
+
         public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
         {
             string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
@@ -60,7 +61,11 @@ namespace Ubay_CourseRegistration.Managers
                 }
             }
         } //新增管理人(勿更改)
-
+        /// <summary>
+        /// 取得單筆帳號
+        /// </summary>
+        /// <param name="Account"></param>
+        /// <returns></returns>
         public AccountModel GetAccount(string Account)
 
         {
@@ -105,7 +110,15 @@ namespace Ubay_CourseRegistration.Managers
 
         }
 
-         
+         /// <summary>
+         /// 取得學生資料並分頁顯示
+         /// </summary>
+         /// <param name="name"></param>
+         /// <param name="Idn"></param>
+         /// <param name="totalSize"></param>
+         /// <param name="currentPage"></param>
+         /// <param name="pageSize"></param>
+         /// <returns></returns>
         public List<StudentAccountViewModel> GetStudentViewModels(
       string name, string Idn, out int totalSize, int currentPage = 1, int pageSize = 10)
         {
@@ -194,7 +207,7 @@ namespace Ubay_CourseRegistration.Managers
         }
 
         /// <summary>
-        /// 刪除學生(加入刪除者、刪除時間) 需(學生ID、登入者ID)
+        /// 刪除學生(資料庫新增刪除者、刪除時間) 需(學生ID、登入者ID參數)
         /// </summary>
         /// <param name="id"></param>
         /// <param name="destoryer"></param>
@@ -239,7 +252,11 @@ namespace Ubay_CourseRegistration.Managers
 
             this.ExecuteNonQuery(dbCommandText, parameters);
         }
-
+        /// <summary>
+        /// 性別顯示
+        /// </summary>
+        /// <param name="gender"></param>
+        /// <returns></returns>
         public string GetgenderName(bool gender)
         {
             switch (gender)
@@ -342,10 +359,6 @@ namespace Ubay_CourseRegistration.Managers
         /// <param name="model"></param>
         public void CreatStudent(StudentAccountViewModel model)
         {
-            if (this.HasAccount(model.Account))
-            {
-                throw new Exception($"Account [{model.Account}] has been created.");
-            }
 
             Guid student_id = Guid.NewGuid();
 
@@ -465,8 +478,6 @@ namespace Ubay_CourseRegistration.Managers
             this.ExecuteNonQuery(queryString, parameters);
         } 
     
-
-
         public AccountViewModel GetAccountViewModel(Guid id)
         {
             string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
@@ -656,6 +667,7 @@ namespace Ubay_CourseRegistration.Managers
 
             return list;
         }
+
     }
 }
 

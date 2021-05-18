@@ -1,4 +1,5 @@
 ﻿using CoreProject.Helpers;
+using CoreProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -139,6 +140,104 @@ namespace CoreProject.Managers
                 cmd = cmd.Remove(cmd.Length - 5, 5);
             return GetDataTable(cmd, parameters);
         }
+
+
+
+
+        /// <summary>
+        /// 新增課程
+        /// </summary>
+        /// <param name="model"></param>
+        public void CreatCourse(CourseModel model)
+        {
+
+            string queryString =
+                $@" INSERT INTO Account_summary
+                    (
+                    Course_ID,
+                    Teacher_ID,
+                    C_Name,
+                    MaxNumEnrolled,
+                    MinNumEnrolled,
+                    StartDate,
+                    StartTime,
+                    EndDate,
+                    Place_ID,
+                    Price,
+                    CourseIntroduction,
+                    b_empno,
+                    b_date
+                    )
+                VALUES
+                    (
+                    @Course_ID,
+                    @Teacher_ID,
+                    @C_Name,
+                    @MaxNumEnrolled,
+                    @MinNumEnrolled,
+                    @StartDate,
+                    @StartTime,
+                    @EndDate,
+                    @Place_ID,
+                    @Price,
+                    @CourseIntroduction,
+                    @b_empno,
+                    @b_date
+                    );
+";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+
+            new SqlParameter("@Course_ID", model.Course_ID),
+            new SqlParameter("@Teacher_ID", model.Teacher_ID),
+            new SqlParameter("@C_Name", model.C_Name),
+            new SqlParameter("@MaxNumEnrolled", model.MaxNumEnrolled),
+            new SqlParameter("@MinNumEnrolled", model.MinNumEnrolled),
+            new SqlParameter("@StartDate", model.StartDate),
+            new SqlParameter("@StartTime", model.StartTime),
+            new SqlParameter("@EndDate", model.EndDate),
+            new SqlParameter("@Place_ID", model.Place_ID),
+            new SqlParameter("@Price", model.Price),
+            new SqlParameter("@CourseIntroduction", model.CourseIntroduction),
+            new SqlParameter("@b_empno", model.b_empno),
+            new SqlParameter("@b_date", DateTime.Now),
+
+            };
+
+            this.ExecuteNonQuery(queryString, parameters);
+
+        }
+
+        /// <summary>
+        /// 學生課程各頁面搜尋欄教師下拉選單
+        /// </summary>
+        public void ReadTeacherTable(ref DropDownList ddlTeacher)
+        {
+            //帶入學生課程相關頁面查詢教師的下拉選單內容
+            string connectionstring =
+                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
+            SqlConnection connection = new SqlConnection(connectionstring);
+            SqlCommand command = new SqlCommand(queryString, connection);
+            connection.Open();
+            DataTable dt = new DataTable();
+            SqlDataAdapter ad = new SqlDataAdapter(command);
+            ad.Fill(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+                ddlTeacher.DataSource = dt;
+                ddlTeacher.DataTextField = "Teacher_Name";
+                ddlTeacher.DataValueField = "Teacher_ID";
+                ddlTeacher.DataBind();
+                //搜尋全部教師選項的空值
+                ddlTeacher.Items.Insert(0, "");
+                ddlTeacher.SelectedIndex = 0;
+            }
+            connection.Close();
+        }
+
 
 
     }

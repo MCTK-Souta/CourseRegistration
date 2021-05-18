@@ -617,7 +617,10 @@ namespace CoreProject.Managers
             }
             return true;
         }
-
+        /// <summary>
+        /// 取資料庫內學校清單
+        /// </summary>
+        /// <param name="school"></param>
         public void GetSchoolList(ref DropDownList school)
         {
             string connectionstring = GetConnectionString();
