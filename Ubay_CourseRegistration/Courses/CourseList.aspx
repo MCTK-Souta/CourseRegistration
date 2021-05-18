@@ -54,6 +54,9 @@
             </asp:DropDownList>
 
             <asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click" />
+                 <br />
+                 <br />
+                 <a href="CoursesDetail.aspx">新增課程</a>
         </p>
     </div>
             <br />
