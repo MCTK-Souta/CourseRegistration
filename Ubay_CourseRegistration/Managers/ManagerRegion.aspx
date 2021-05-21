@@ -8,16 +8,16 @@
         <asp:Label ID="LB1" runat="server" Text="新增管理人資料" Style="margin: 0,auto; left: 15%; position: relative;" Font-Size="20pt"></asp:Label><br />
         <br />
         <div style="margin: 0,auto; left: 30%; position: relative;">
-            <div>姓氏：<asp:TextBox runat="server" ID="txtFirstname"></asp:TextBox></div>
+            <div>姓氏：<asp:TextBox runat="server" ID="txtFirstname" MaxLength="50"></asp:TextBox></div>
             <br />
-            <div>名字：<asp:TextBox runat="server" ID="txtLastname"></asp:TextBox></div>
+            <div>名字：<asp:TextBox runat="server" ID="txtLastname" MaxLength="50"></asp:TextBox></div>
             <br />
-            <div>單位：<asp:TextBox runat="server" ID="txtDepartment"></asp:TextBox></div>
+            <div>單位：<asp:TextBox runat="server" ID="txtDepartment" MaxLength="50"></asp:TextBox></div>
             <br />
-            <div>帳號：<asp:TextBox runat="server" ID="txtAccount"></asp:TextBox></div>
+            <div>帳號：<asp:TextBox runat="server" ID="txtAccount" MaxLength="50"></asp:TextBox></div>
             <br />
             <div>新密碼：
-                <asp:TextBox runat="server" TextMode="Password" ID="txtPassword">
+                <asp:TextBox runat="server" TextMode="Password" ID="txtPassword" MaxLength="50">
                 </asp:TextBox>
                 <asp:Label ID="Label3" runat="server" Text="(若不更改密碼則無需填寫)" Visible="true">
                 </asp:Label>
@@ -25,7 +25,7 @@
             <br />
             <div style="margin-left: -65px;">
                 再次確認新密碼：
-                <asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck">
+                <asp:TextBox runat="server" TextMode="Password" ID="txtPwdcheck" MaxLength="50">
                 </asp:TextBox>
                 <asp:Label ID="Label4" runat="server" Text="(若不更改密碼則無需填寫)" Visible="true">
                 </asp:Label>

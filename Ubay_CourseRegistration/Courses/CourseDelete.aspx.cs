@@ -271,6 +271,7 @@ namespace Ubay_CourseRegistration.Courses
                 Calendar.Items[datetime.Day + j - 1].BackColor = Color.LightPink;
         }
 
+        //刪除method
         protected void rptResult_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             string cmdName = e.CommandName;

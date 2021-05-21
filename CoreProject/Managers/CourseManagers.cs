@@ -141,7 +141,7 @@ namespace CoreProject.Managers
             return GetDataTable(cmd, parameters);
         }
 
-
+        //刪除課程
         public void DeleteCourseViewModel(string id, Guid destoryer)
         {
             string dbCommandText =
@@ -163,6 +163,8 @@ namespace CoreProject.Managers
             this.ExecuteNonQuery(dbCommandText, parameters);
         }
 
+
+        //抓課程ID
         public static DataTable GetCourseID(string courseID)
         {
             string connectionstring =
@@ -197,94 +199,7 @@ namespace CoreProject.Managers
             }
         }
 
-        public List<StudentAccountViewModel> GetStudentViewModels(
-      string name, string Idn, out int totalSize, int currentPage = 1, int pageSize = 10)
-        {
-            //----- Process filter conditions -----
-            List<string> conditions = new List<string>();
-
-            if (!string.IsNullOrEmpty(name))
-                conditions.Add(" Student.S_FirstName+Student.S_LastName LIKE '%' + @name + '%'");
-
-            if (!string.IsNullOrEmpty(Idn))
-                conditions.Add(" Idn = @Idn");
-
-            string filterConditions =
-                (conditions.Count > 0)
-                    ? (" WHERE " + string.Join(" AND ", conditions))
-                    : string.Empty;
-            //----- Process filter conditions -----
-
-
-            string query =
-                $@"         
-					SELECT TOP {10} * FROM
-                    (
-                        SELECT 
-                            ROW_NUMBER() OVER(ORDER BY Student.Idn) AS RowNumber,
-                            Student.Student_ID,
-                            Student.S_FirstName,
-                            Student.S_LastName,
-                            Student.gender AS 性別,
-                            Student.Idn AS 身份證字號,
-							Student.CellPhone AS 手機,
-                            Student.Address AS 地址,
-                            Student.d_empno
-                        FROM Student
-                        JOIN Account_summary
-                        ON Student.Student_ID = Account_summary.Acc_sum_ID
-                        {filterConditions}
-                    ) AS TempT
-                    WHERE RowNumber > {pageSize * (currentPage - 1)} AND d_empno IS NULL
-                    ORDER BY 身份證字號
-                    ";
-
-            string countQuery =
-                $@" SELECT 
-                        COUNT(Student.Idn) 
-                    FROM Student
-                    JOIN Account_summary
-                    ON  Student.Student_ID = Account_summary.Acc_sum_ID
-                    {filterConditions}
-                ";
-
-            List<SqlParameter> dbParameters = new List<SqlParameter>();
-
-            if (!string.IsNullOrEmpty(name))
-                dbParameters.Add(new SqlParameter("@name", name));
-
-            if (!string.IsNullOrEmpty(Idn))
-                dbParameters.Add(new SqlParameter("@Idn", Idn));
-
-
-            var dt = this.GetDataTable(query, dbParameters);
-
-            List<StudentAccountViewModel> list = new List<StudentAccountViewModel>();
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                StudentAccountViewModel model = new StudentAccountViewModel();
-                model.Student_ID = (Guid)dr["Student_ID"];
-                model.S_FirstName = (string)dr["S_FirstName"];
-                model.S_LastName = (string)dr["S_LastName"];
-                model.gender = (bool)dr["性別"];
-                model.Idn = (string)dr["身份證字號"];
-                model.CellPhone = (string)dr["手機"];
-                model.Address = (string)dr["地址"];
-
-
-                list.Add(model);
-            }
-
-
-            // 算總數並回傳
-            int? totalSize2 = this.GetScale(countQuery, dbParameters) as int?;
-            totalSize = (totalSize2.HasValue) ? totalSize2.Value : 0;
-
-            return list;
-        }
-
-
+        
         /// <summary>
         /// 新增課程
         /// </summary>
