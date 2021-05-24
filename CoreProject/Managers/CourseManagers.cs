@@ -140,7 +140,6 @@ namespace CoreProject.Managers
                 cmd = cmd.Remove(cmd.Length - 5, 5);
             return GetDataTable(cmd, parameters);
         }
-
         //刪除課程
         public void DeleteCourseViewModel(string id, Guid destoryer)
         {
@@ -162,8 +161,6 @@ namespace CoreProject.Managers
 
             this.ExecuteNonQuery(dbCommandText, parameters);
         }
-
-
         //抓課程ID
         public static DataTable GetCourseID(string courseID)
         {
@@ -198,8 +195,6 @@ namespace CoreProject.Managers
                 }
             }
         }
-
-
         /// <summary>
         /// 新增課程
         /// </summary>
@@ -264,9 +259,8 @@ namespace CoreProject.Managers
             this.ExecuteNonQuery(queryString, parameters);
 
         }
-
         /// <summary>
-        /// 學生課程各頁面搜尋欄教師下拉選單
+        /// 教師下拉選單
         /// </summary>
         public void ReadTeacherTable(ref DropDownList ddlTeacher)
         {
@@ -407,6 +401,7 @@ namespace CoreProject.Managers
             this.ExecuteNonQuery(queryString, parameters);
 
         }
+
 
 
     }
