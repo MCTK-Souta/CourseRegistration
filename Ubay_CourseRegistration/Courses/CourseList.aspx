@@ -56,7 +56,7 @@
             <asp:Button runat="server" ID="btnSearch" Text="Search" OnClick="btnSearch_Click" />
                  <br />
                  <br />
-                 <a href="CoursesDetail.aspx">新增課程</a>
+                 <a href="CourseDetail.aspx">新增課程</a>
         </p>
     </div>
             <br />
@@ -82,7 +82,7 @@
                     <ItemTemplate>
                         <tr>
                             <td><%#Eval("Course_ID") %></td>
-                            <td><%#Eval("C_Name") %></td>
+                            <td><a href="CourseDetail.aspx?Course_ID=<%# Eval("Course_ID") %>"><%#Eval("C_Name") %></td>
                             <td><%#Eval("Teacher_FirstName") %> <%#Eval("Teacher_LastName") %></td>
                             <td><%#Eval("StartDate", "{0:yyyy-MM-dd}") %> <%#Eval("StartTime","{0:hh}") %>:<%#Eval("StartTime","{0:mm}") %></td>
                             <td><%#Eval("EndDate", "{0:yyyy-MM-dd}") %></td>

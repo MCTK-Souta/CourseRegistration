@@ -74,7 +74,7 @@
   <ItemGroup>
     <Content Include="Courses\CourseDelete.aspx" />
     <Content Include="Courses\CourseList.aspx" />
-    <Content Include="Courses\CoursesDetail.aspx" />
+    <Content Include="Courses\CourseDetail.aspx" />
     <Content Include="css\main.css" />
     <Content Include="css\util.css" />
     <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.css" />
@@ -162,12 +162,12 @@
     <Compile Include="Courses\CourseList.aspx.designer.cs">
       <DependentUpon>CourseList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Courses\CoursesDetail.aspx.cs">
-      <DependentUpon>CoursesDetail.aspx</DependentUpon>
+    <Compile Include="Courses\CourseDetail.aspx.cs">
+      <DependentUpon>CourseDetail.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Courses\CoursesDetail.aspx.designer.cs">
-      <DependentUpon>CoursesDetail.aspx</DependentUpon>
+    <Compile Include="Courses\CourseDetail.aspx.designer.cs">
+      <DependentUpon>CourseDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

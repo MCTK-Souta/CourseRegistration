@@ -26,7 +26,7 @@ namespace CoreProject.Managers
         /// <param name="ddlTeacher">教師</param>
         /// <param name="ddlCourseStatus">課程狀態</param>
         /// <returns></returns>
-        public DataTable SearchAllCourse(string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher,string ddlCourseStatus)
+        public DataTable SearchAllCourse(string Course_ID, string C_Name, string StartDate, string EndDate, string Place_Name, string Price1, string Price2, string ddlTeacher, string ddlCourseStatus)
         {
 
             string cmd = @"SELECT * 
@@ -119,12 +119,12 @@ namespace CoreProject.Managers
                 cmd += "Course.Price <= @Price2 AND ";
                 parameters.Add(new SqlParameter("@Price2", Price2));
             }
-            if (ddlCourseStatus == "2" )
+            if (ddlCourseStatus == "2")
             {
                 cmd += "Course.d_date IS NOT NULL AND ";
                 parameters.Add(new SqlParameter("d_date", "2"));
             }
-            else if(ddlCourseStatus =="1")
+            else if (ddlCourseStatus == "1")
             {
                 cmd += "Course.d_date IS NULL AND ";
                 parameters.Add(new SqlParameter("d_date", "1"));
@@ -199,7 +199,7 @@ namespace CoreProject.Managers
             }
         }
 
-        
+
         /// <summary>
         /// 新增課程
         /// </summary>
@@ -208,7 +208,7 @@ namespace CoreProject.Managers
         {
 
             string queryString =
-                $@" INSERT INTO Account_summary
+                $@" INSERT INTO Course
                     (
                     Course_ID,
                     Teacher_ID,
@@ -293,7 +293,120 @@ namespace CoreProject.Managers
             }
             connection.Close();
         }
+        /// <summary>
+        /// 取得課程資料
+        /// </summary>
+        /// <param name="C_ID"></param>
+        /// <returns></returns>
+        public CourseModel GetCourse(string C_ID)
+        {
+            string connectionString = GetConnectionString();
+            string queryString =
+                $@" SELECT  Course.Course_ID,
+                    Teacher.Teacher_ID,
+                    Course.C_Name,
+                    Course.MaxNumEnrolled,
+                    Course.StartDate,
+                    Course.StartTime,
+                    Course.EndDate,
+                    Course.Place_ID,
+                    Course.Price,
+                    Course.CourseIntroduction,
+                    Teacher.Teacher_FirstName,
+                    Teacher.Teacher_LastName
+                    FROM Course
+                    JOIN Teacher
+                    ON Course.Teacher_ID=Teacher.Teacher_ID
+                    WHERE Course_ID=@C_ID;
+                ";
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@C_ID", C_ID);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    CourseModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new CourseModel();
+                        model.Course_ID = (string)reader["Course_ID"];
+                        model.C_Name = (string)reader["C_Name"];
+                        model.Teacher_ID = (int)reader["Teacher_ID"];
+                        model.StartDate = (DateTime)reader["StartDate"];
+                        model.StartTime = (TimeSpan)reader["StartTime"];
+                        model.EndDate = (DateTime)reader["EndDate"];
+                        model.MaxNumEnrolled = (int)reader["MaxNumEnrolled"];
+                        model.Place_ID = (int)reader["Place_ID"];
+                        model.CourseIntroduction = (string)reader["CourseIntroduction"];
+                        model.Price = (Decimal)reader["Price"];
+                        model.Teacher_FirstName = (string)reader["Teacher_FirstName"];
+                        model.Teacher_LastName = (string)reader["Teacher_LastName"];
+
+                    }
+
+                    reader.Close();
+
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
+        /// <summary>
+        /// 修改課程資料
+        /// </summary>
+        /// <param name="model"></param>
+        public void UpdateCourse(CourseModel model)
+        {
+
+            string queryString =
+                $@" UPDATE Course
+                    SET
+                    Course_ID = @Course_ID,
+                    Teacher_ID = @Teacher_ID,
+                    C_Name = @C_Name,
+                    MaxNumEnrolled = @MaxNumEnrolled,
+                    StartDate = @StartDate,
+                    StartTime = @StartTime,
+                    EndDate = @EndDate,
+                    Place_ID = @Place_ID,
+                    Price = @Price,
+                    CourseIntroduction = @CourseIntroduction,
+                    e_empno = @e_empno,
+                    e_date = @e_date
+                WHERE   
+                    Course_ID = @Course_ID;
+                 ";
+
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+
+            new SqlParameter("@Course_ID", model.Course_ID),
+            new SqlParameter("@Teacher_ID", model.Teacher_ID),
+            new SqlParameter("@C_Name", model.C_Name),
+            new SqlParameter("@MaxNumEnrolled", model.MaxNumEnrolled),
+            new SqlParameter("@StartDate", model.StartDate),
+            new SqlParameter("@StartTime", model.StartTime),
+            new SqlParameter("@EndDate", model.EndDate),
+            new SqlParameter("@Place_ID", model.Place_ID),
+            new SqlParameter("@Price", model.Price),
+            new SqlParameter("@CourseIntroduction", model.CourseIntroduction),
+            new SqlParameter("@e_empno", model.e_empno),
+            new SqlParameter("@e_date", DateTime.Now),
+
+            };
+
+            this.ExecuteNonQuery(queryString, parameters);
+
+        }
 
 
     }
