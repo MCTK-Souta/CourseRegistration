@@ -1,11 +1,6 @@
 ﻿using CoreProject.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Managers
 {
@@ -36,6 +31,7 @@ namespace Ubay_CourseRegistration.Managers
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
 
+             
             asmodel.firstname = this.txtFirstname.Text;
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
@@ -139,20 +135,21 @@ namespace Ubay_CourseRegistration.Managers
             }
         }
 
-        private void LoadAccount(Guid updater)
+        private void LoadAccount(Guid temp)
         {
 
             if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
             {
-                updater = (Guid)Session["Acc_sum_ID"];
+                temp = (Guid)Session["Acc_sum_ID"];
             }
 
             var manager = new ManagerManagers();
-            var model = manager.GetAccountViewModel(updater);
+            var model = manager.GetAccountViewModel(temp);
 
             if (model == null)
                 Response.Redirect("~/SystemAdmin/MemberList.aspx");
-
+            AccountModel acmodel = new AccountModel();
+            acmodel.Acc_sum_ID = model.Manager_ID;
             this.txtFirstname.Text = model.firstname;
             this.txtLastname.Text = model.lastname;
             this.txtDepartment.Text = model.department;

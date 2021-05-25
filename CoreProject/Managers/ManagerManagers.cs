@@ -483,6 +483,7 @@ namespace Ubay_CourseRegistration.Managers
             string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
             string queryString =
                 $@" SELECT
+                        Manager.Manager_ID,
                         Manager.Manager_FirstName,
                         Manager.Manager_LastName,
                         Manager.Department,
@@ -510,6 +511,7 @@ namespace Ubay_CourseRegistration.Managers
                     while (reader.Read())
                     {
                         model = new AccountViewModel();
+                        model.Manager_ID = (Guid)reader["Manager_ID"];
                         model.firstname = (string)reader["Manager_FirstName"];
                         model.lastname = (string)reader["Manager_LastName"];
                         model.department = (string)reader["Department"];
@@ -563,7 +565,7 @@ namespace Ubay_CourseRegistration.Managers
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
 
-                command.Parameters.AddWithValue("@Acc_sum_ID", editor);
+                command.Parameters.AddWithValue("@Acc_sum_ID", acmodel.Acc_sum_ID);
                 command.Parameters.AddWithValue("@Firstname", asmodel.firstname);
                 command.Parameters.AddWithValue("@Lastname", asmodel.lastname);
                 command.Parameters.AddWithValue("@Department", asmodel.department);
