@@ -1,10 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Managers/ManagerMaster.Master" AutoEventWireup="true" CodeBehind="CoursesDetail.aspx.cs" Inherits="Ubay_CourseRegistration.Courses.CoursesDetail" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Managers/ManagerMaster.Master" AutoEventWireup="true" CodeBehind="CourseDetail.aspx.cs" Inherits="Ubay_CourseRegistration.Courses.CourseDetail" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div style="margin:20px;">
-        <asp:Label ID="Label1" runat="server" Text="新增課程" Style="margin: 0,auto; left: 45%; position: relative;" Font-Size="20pt"></asp:Label><br />
+        <asp:Label ID="Course_title" runat="server" Text="修改課程" Style="margin: 0,auto; left: 45%; position: relative;" Font-Size="20pt"></asp:Label>
+        <br />
         <br />
         <div>
             課程ID：
@@ -20,7 +21,9 @@
         <br />
         <div>
             授課教師：
-        <asp:DropDownList ID="tcList" runat="server"></asp:DropDownList>
+        <asp:DropDownList ID="tcList" runat="server">
+
+        </asp:DropDownList>
         </div>
         <br />
         <br />
@@ -61,6 +64,9 @@
         </div>
         <br />
         <br />
-        <asp:Button ID="btn_appCourse" runat="server" Text="確認新增" />
+        <asp:Button ID="btn_Course" runat="server" Text="確認修改" OnClick="btn_Course_Click"  />
+        <br /><br />
+        <asp:Label ID="lbMsg" runat="server"  Visible="false" ForeColor="Red"></asp:Label>
+        <%--<asp:TextBox ID="saveMinnum" runat="server" Visible="false"></asp:TextBox>--%>
     </div>
 </asp:Content>

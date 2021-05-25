@@ -11,17 +11,17 @@ namespace Ubay_CourseRegistration.Courses
 {
 
 
-    public partial class CoursesDetail
+    public partial class CourseDetail
     {
 
         /// <summary>
-        /// Label1 控制項。
+        /// Course_title 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label Course_title;
 
         /// <summary>
         /// txtCourseID 控制項。
@@ -114,12 +114,21 @@ namespace Ubay_CourseRegistration.Courses
         protected global::System.Web.UI.WebControls.TextBox Price;
 
         /// <summary>
-        /// btn_appCourse 控制項。
+        /// btn_Course 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_appCourse;
+        protected global::System.Web.UI.WebControls.Button btn_Course;
+
+        /// <summary>
+        /// lbMsg 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbMsg;
     }
 }

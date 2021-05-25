@@ -20,7 +20,7 @@
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-                帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn"></asp:TextBox><br />
+                帳號：<asp:TextBox runat="server" placeholder="請輸入身分證字號" ID="idn" MaxLength="10"></asp:TextBox><br />
             </div>
             <br />
             <div>
@@ -35,7 +35,6 @@
             <br />
             <div>
                 <p style="color: red; display: inline">*</p>
-
                 性別：               
                 <asp:RadioButtonList ID="gender" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
                     <asp:ListItem Text="男" Value="False"></asp:ListItem>
@@ -105,7 +104,7 @@
 
             </div>
             <div style="margin-left: -33px;">
-                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number" MaxLength="20"></asp:TextBox>
+                護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number" oninput="if(value.length>20)value=value.slice(0,20)"></asp:TextBox>
             </div>
             <br />
             <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server"  /></div>

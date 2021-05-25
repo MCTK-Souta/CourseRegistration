@@ -270,5 +270,33 @@ namespace Ubay_CourseRegistration.Courses
             if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
                 Calendar.Items[datetime.Day + j - 1].BackColor = Color.LightPink;
         }
+        //刪除method
+        protected void rptResult_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            string cmdName = e.CommandName;
+            string arg = e.CommandArgument.ToString();
+
+            if (cmdName == "DeleteItem")
+            {
+
+                var manager = new CourseManagers();
+                Guid delete = (Guid)Session["Acc_sum_ID"];
+                manager.DeleteCourseViewModel(arg, delete);
+
+                this.BindDataIntoRepeater();
+                this.lblMsg.Text = "已刪除。";
+                this.lblMsg.Visible = true;
+            }
+
+            //DateTime today = DateTime.Now;
+            //DateTime courseEndDate = Convert.ToDateTime(dateTimePicker2.Value.Date.ToString("yyyy-MM-dd"));
+
+            //if (DateTime.Compare(time1, time2) >= 0) //判斷日期大小
+            //{
+
+            //    messageBox.Show("dateTimePicker1的日期小於或等於dateTimePicker2的日期");
+            //}
+        }
+
     }
 }

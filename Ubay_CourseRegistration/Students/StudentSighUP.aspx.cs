@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CoreProject.Managers;
@@ -50,7 +47,6 @@ namespace Ubay_CourseRegistration.Students
                 this.experience.Text != string.Empty &&
                 this.education.Text != string.Empty)
             {
-                //StudentManagers managers = new StudentManagers();
                 stmodel.S_FirstName = this.fname.Text.Trim();
                 stmodel.S_LastName = this.lname.Text.Trim();
                 bool idnc = Managers.Check(this.idn.Text);
