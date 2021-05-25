@@ -548,7 +548,7 @@ namespace Ubay_CourseRegistration.Managers
                             Account = @Account,
                             password = @password
                         WHERE
-                            Acc_sum_ID = @Acc_sum_ID
+                            Acc_sum_ID = @Acc_sum_ID;
                         UPDATE Manager
                         SET 
                             Manager_FirstName = @Firstname, 
@@ -578,7 +578,6 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     connection.Open();
                     command.ExecuteNonQuery();
-                    HttpContext.Current.Response.Write("<script>alert('修改成功!');</script>");
                 }
 
                 catch (Exception ex)

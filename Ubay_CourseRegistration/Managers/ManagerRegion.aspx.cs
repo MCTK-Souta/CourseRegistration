@@ -31,7 +31,9 @@ namespace Ubay_CourseRegistration.Managers
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
 
-             
+            Guid temp;
+            Guid.TryParse(Request.QueryString["Manager_ID"], out temp);
+            acmodel.Acc_sum_ID = temp;
             asmodel.firstname = this.txtFirstname.Text;
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
@@ -104,6 +106,7 @@ namespace Ubay_CourseRegistration.Managers
                     acmodel.password = model.password;
                 }
                 ManagerManagers.UpdateAdminTablel(acmodel, asmodel, createtime, editor);
+                this.WarningMsg.Text = "修改成功";
             }
             else
             {
@@ -148,8 +151,7 @@ namespace Ubay_CourseRegistration.Managers
 
             if (model == null)
                 Response.Redirect("~/SystemAdmin/MemberList.aspx");
-            AccountModel acmodel = new AccountModel();
-            acmodel.Acc_sum_ID = model.Manager_ID;
+
             this.txtFirstname.Text = model.firstname;
             this.txtLastname.Text = model.lastname;
             this.txtDepartment.Text = model.department;
