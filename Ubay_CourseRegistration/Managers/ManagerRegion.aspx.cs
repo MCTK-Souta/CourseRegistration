@@ -8,15 +8,17 @@ namespace Ubay_CourseRegistration.Managers
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-            if (this.IsUpdateMode())
+            if (this.IsUpdateMode()) //判斷是否為修改模式 
             {
+                //宣告一個變數 去接取所點選欲修改的使用者的GUID
                 Guid temp;
                 Guid.TryParse(Request.QueryString["Manager_ID"], out temp);
-                this.LoadAccount(temp);
-                this.LB1.Text = "修改管理人資料";
-                this.Regis.Text = "確認修改";
+
+                this.LoadAccount(temp); //將所點選的使用者的GUID丟到讀取帳號資料方法
+                this.LB1.Text = "修改管理人資料"; //將標題改為"修改管理人資料"
+                this.Regis.Text = "確認修改"; //將確認新增按鈕改為 "確認修改"
             }
-            else
+            else //如果是新增模式 隱藏Label內容("(若不更改密碼則無需填寫)")
             {
                 this.Label3.Visible = false;
                 this.Label4.Visible = false;
@@ -26,14 +28,13 @@ namespace Ubay_CourseRegistration.Managers
         {
 
         }
-        protected void CreateAdmin_Click(object sender, EventArgs e)
+        protected void CreateAdmin_Click(object sender, EventArgs e) //點擊確認按鈕後
         {
+            //為了將使用者所輸入的資料丟進model裡 先建立model的空間
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
 
-            Guid temp;
-            Guid.TryParse(Request.QueryString["Manager_ID"], out temp);
-            acmodel.Acc_sum_ID = temp;
+            //將使用者的所輸入的資料放進model
             asmodel.firstname = this.txtFirstname.Text;
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
@@ -44,23 +45,23 @@ namespace Ubay_CourseRegistration.Managers
             string createtime = asmodel.datetime.ToString("yyyy/MM/dd HH:mm:ss"); // 轉成字串
             acmodel.Type = true;
 
+            //抓取建立者/修改者的guid
             Guid Creator;
             Creator = (Guid)Session["Acc_sum_ID"];
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
-            if (this.IsUpdateMode())
+
+            if (this.IsUpdateMode()) //如果是修改模式 
             {
-                Guid editor;
-                editor = (Guid)Session["Acc_sum_ID"];
+
+                //宣告一個變數 去接取所點選欲修改的使用者的GUID
+                Guid temp;
+                Guid.TryParse(Request.QueryString["Manager_ID"], out temp);
+                acmodel.Acc_sum_ID = temp;
+
 
                 var manager = new ManagerManagers();
-                var model = manager.GetAccountViewModel(editor);
+                var model = manager.GetAccountViewModel(temp);
 
-
-                conn.Open();
                 var Managers = new ManagerManagers();
-
-                SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + txtPassword.Text + "'", conn);
-                SqlDataReader pwdchk = passwordcheck.ExecuteReader();
 
                 this.WarningMsg.Text = "";
                 if (string.IsNullOrEmpty(this.txtFirstname.Text))
@@ -105,16 +106,19 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     acmodel.password = model.password;
                 }
-                ManagerManagers.UpdateAdminTablel(acmodel, asmodel, createtime, editor);
+                ManagerManagers.UpdateAdminTablel(acmodel, asmodel, createtime, Creator);
                 this.WarningMsg.Text = "修改成功";
             }
-            else
+            else //如果是新增模式
             {
                 acmodel.Acc_sum_ID = Guid.NewGuid();
+
+                SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
+
                 conn.Open();
 
-                SqlCommand bb = new SqlCommand("Select * From Account_summary Where Account='" + txtAccount.Text + "'", conn);
-                SqlDataReader ha = bb.ExecuteReader();
+                SqlCommand accountcheck = new SqlCommand("Select * From Account_summary Where Account='" + txtAccount.Text + "'", conn); //從資料庫抓帳號，跟使用者輸入的帳號做比對
+                SqlDataReader accChk = accountcheck.ExecuteReader();
 
                 if (string.IsNullOrEmpty(asmodel.firstname) || string.IsNullOrEmpty(asmodel.lastname) ||
                     string.IsNullOrEmpty(asmodel.department) || string.IsNullOrEmpty(acmodel.Account) ||
@@ -126,7 +130,7 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     this.WarningMsg.Text = "確認密碼不一致，請重新輸入";
                 }
-                else if (ha.Read())
+                else if (accChk.Read())
                 {
                     this.WarningMsg.Text = "已有相同帳號，請重新輸入";
                 }
@@ -138,7 +142,7 @@ namespace Ubay_CourseRegistration.Managers
             }
         }
 
-        private void LoadAccount(Guid temp)
+        private void LoadAccount(Guid temp) //將使用者的個人資料輸出到欄位上
         {
 
             if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
@@ -159,7 +163,7 @@ namespace Ubay_CourseRegistration.Managers
 
         }
 
-        private bool IsUpdateMode()
+        private bool IsUpdateMode() //判斷是否為修改模式
         {
             string qsID = Request.QueryString["Manager_ID"];
 
@@ -170,7 +174,7 @@ namespace Ubay_CourseRegistration.Managers
             return false;
         }
 
-        protected void Turnback_Click(object sender, EventArgs e)
+        protected void Turnback_Click(object sender, EventArgs e) //返回按鈕
         {
             Response.Redirect("~/Managers/ManagerSearch.aspx");
         }
