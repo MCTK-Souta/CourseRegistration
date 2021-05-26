@@ -26,7 +26,7 @@ namespace Ubay_CourseRegistration.Managers
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
         protected void CreateAdmin_Click(object sender, EventArgs e) //點擊確認按鈕後
         {
@@ -144,36 +144,33 @@ namespace Ubay_CourseRegistration.Managers
 
         private void LoadAccount(Guid temp) //將使用者的個人資料輸出到欄位上
         {
-
+            var manager = new ManagerManagers();
+            var model = manager.GetAccountViewModel(temp);
             if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
             {
                 temp = (Guid)Session["Acc_sum_ID"];
             }
-
-            var manager = new ManagerManagers();
-            var model = manager.GetAccountViewModel(temp);
-
             if (model == null)
-                Response.Redirect("~/SystemAdmin/MemberList.aspx");
-
+            {
+                Response.Redirect("~/Managers/ManagerSearch.aspx");
+            }
             this.txtFirstname.Text = model.firstname;
             this.txtLastname.Text = model.lastname;
             this.txtDepartment.Text = model.department;
             this.txtAccount.Text = model.Account;
-
         }
 
         private bool IsUpdateMode() //判斷是否為修改模式
         {
             string qsID = Request.QueryString["Manager_ID"];
-
             Guid temp;
-            if (Guid.TryParse(qsID, out temp))
-                return true;
-
+            if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
+            {
+                if (Guid.TryParse(qsID, out temp))
+                    return true;
+            }
             return false;
         }
-
         protected void Turnback_Click(object sender, EventArgs e) //返回按鈕
         {
             Response.Redirect("~/Managers/ManagerSearch.aspx");
