@@ -16,7 +16,7 @@ namespace Ubay_CourseRegistration.Managers
 
         public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
         {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string connectionstring = GetConnectionString();
 
             string queryString =
                 $@"
@@ -70,7 +70,7 @@ namespace Ubay_CourseRegistration.Managers
 
         {
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+                GetConnectionString();
 
             string queryString =
                 $@" SELECT * FROM Account_summary
@@ -147,10 +147,10 @@ namespace Ubay_CourseRegistration.Managers
                             Student.Student_ID,
                             Student.S_FirstName,
                             Student.S_LastName,
-                            Student.gender AS 性別,
-                            Student.Idn AS 身份證字號,
-							Student.CellPhone AS 手機,
-                            Student.Address AS 地址,
+                            Student.gender,
+                            Student.Idn,
+							Student.CellPhone,
+                            Student.Address,
                             Student.d_empno
                         FROM Student
                         JOIN Account_summary
@@ -158,7 +158,7 @@ namespace Ubay_CourseRegistration.Managers
                         {filterConditions}
                     ) AS TempT
                     WHERE RowNumber > {pageSize * (currentPage - 1)} AND d_empno IS NULL
-                    ORDER BY 身份證字號
+                    ORDER BY Student_ID
                     ";
 
             string countQuery =
@@ -189,10 +189,10 @@ namespace Ubay_CourseRegistration.Managers
                 model.Student_ID = (Guid)dr["Student_ID"];
                 model.S_FirstName = (string)dr["S_FirstName"];
                 model.S_LastName = (string)dr["S_LastName"];
-                model.gender = (bool)dr["性別"];
-                model.Idn = (string)dr["身份證字號"];
-                model.CellPhone = (string)dr["手機"];
-                model.Address = (string)dr["地址"];
+                model.gender = (bool)dr["gender"];
+                model.Idn = (string)dr["Idn"];
+                model.CellPhone = (string)dr["CellPhone"];
+                model.Address = (string)dr["Address"];
 
 
                 list.Add(model);
@@ -480,7 +480,7 @@ namespace Ubay_CourseRegistration.Managers
     
         public AccountViewModel GetAccountViewModel(Guid id)
         {
-            string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string connectionString = GetConnectionString();
             string queryString =
                 $@" SELECT
                         Manager.Manager_ID,
@@ -540,7 +540,7 @@ namespace Ubay_CourseRegistration.Managers
         /// <param name="editor"></param>
         public static void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string updatetime, Guid editor)
         {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string connectionstring = GetConnectionString();
 
             string queryString =
                 $@"UPDATE  Account_summary 

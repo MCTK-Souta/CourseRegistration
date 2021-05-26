@@ -21,8 +21,10 @@ namespace CoreProject.Models
             DayOfWeek = startdate.DayOfWeek;
         }
 
+        //傳入當前日期，判斷範圍時段內內，同樣星期時間與否有課
         public bool Check(DateTime date)
         {
+
             if (date.DayOfWeek != DayOfWeek)
                 return false;
             if (date >= StartDate && date <= EndDate)

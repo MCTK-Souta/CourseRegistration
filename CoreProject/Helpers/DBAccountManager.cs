@@ -15,7 +15,7 @@ namespace Ubay_CourseRegistration
         public static DataTable GetUserAccount(string account)
         {
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+                GetConnectionString();
 
             string queryString =
                 $@" SELECT *

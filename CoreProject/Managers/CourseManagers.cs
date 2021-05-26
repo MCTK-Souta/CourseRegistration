@@ -165,7 +165,7 @@ namespace CoreProject.Managers
         public static DataTable GetCourseID(string courseID)
         {
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+               GetConnectionString();
 
             string queryString =
                 $@" SELECT *
@@ -266,7 +266,7 @@ namespace CoreProject.Managers
         {
             //帶入學生課程相關頁面查詢教師的下拉選單內容
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+               GetConnectionString();
             string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
             SqlConnection connection = new SqlConnection(connectionstring);
             SqlCommand command = new SqlCommand(queryString, connection);
@@ -402,7 +402,67 @@ namespace CoreProject.Managers
 
         }
 
+        public CourseModel GetAllCourse()
+        {
+            string connectionString = GetConnectionString();
+            string queryString =
+                $@" SELECT  Course.Course_ID,
+                    Teacher.Teacher_ID,
+                    Course.C_Name,
+                    Course.MaxNumEnrolled,
+					Course.MinNumEnrolled,
+                    Course.StartDate,
+                    Course.StartTime,
+                    Course.EndDate,
+                    Course.Place_ID,
+                    Teacher.Teacher_FirstName,
+                    Teacher.Teacher_LastName
+                    FROM Course
+                    INNER JOIN Teacher
+                    ON Course.Teacher_ID=Teacher.Teacher_ID
+					INNER JOIN Place 
+					ON Course.Place_ID=Place.Place_ID 
+                    WHERE Course.d_date IS NULL;
+                ";
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    CourseModel model = null;
+
+                    while (reader.Read())
+                    {
+                        model = new CourseModel();
+                        model.Course_ID = (string)reader["Course_ID"];
+                        model.C_Name = (string)reader["C_Name"];
+                        model.Teacher_ID = (int)reader["Teacher_ID"];
+                        model.StartDate = (DateTime)reader["StartDate"];
+                        model.StartTime = (TimeSpan)reader["StartTime"];
+                        model.EndDate = (DateTime)reader["EndDate"];
+                        model.MaxNumEnrolled = (int)reader["MaxNumEnrolled"];
+                        model.MinNumEnrolled = (int)reader["MinNumEnrolled"];
+                        model.Place_ID = (int)reader["Place_ID"];
+                        model.Teacher_FirstName = (string)reader["Teacher_FirstName"];
+                        model.Teacher_LastName = (string)reader["Teacher_LastName"];
+
+                    }
+
+                    reader.Close();
+
+                    return model;
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+        }
 
     }
 }

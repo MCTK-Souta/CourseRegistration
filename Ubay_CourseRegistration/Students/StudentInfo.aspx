@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div>
-        <h1 style="margin: 0,auto; left: 45%; position: relative;">註冊帳戶</h1>
+        <h1 style="margin: 0,auto; left: 45%; position: relative;">個人資料維護</h1>
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
