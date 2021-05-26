@@ -16,18 +16,6 @@ namespace CoreProject.Managers
 {
     public class StudentManagers : DBBase
     {
-        //public bool GetAccountForRegion(string Account)
-        //{
-        //    SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
-        //    conn.Open();
-
-        //    SqlCommand bb = new SqlCommand("Select * From Account_summary Where Account='" + Account + "'", conn);
-        //    SqlDataReader ha = bb.ExecuteReader();
-
-        //    return ha.Read();
-
-        //}
-
 
         private bool HasAccount(string account)
         {
