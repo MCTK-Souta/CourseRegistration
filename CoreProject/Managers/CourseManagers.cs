@@ -165,7 +165,7 @@ namespace CoreProject.Managers
         public static DataTable GetCourseID(string courseID)
         {
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+               GetConnectionString();
 
             string queryString =
                 $@" SELECT *
@@ -266,7 +266,7 @@ namespace CoreProject.Managers
         {
             //帶入學生課程相關頁面查詢教師的下拉選單內容
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+               GetConnectionString();
             string queryString = $@"SELECT Teacher_ID, CONCAT(Teacher_FirstName,Teacher_LastName ) as Teacher_Name FROM Teacher;";
             SqlConnection connection = new SqlConnection(connectionstring);
             SqlCommand command = new SqlCommand(queryString, connection);

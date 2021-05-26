@@ -46,7 +46,8 @@ namespace Ubay_CourseRegistration
             bool isSuccess = LoginHelper.TryLogin(acc, pwd);
 
             
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
+            
+            SqlConnection conn = new SqlConnection(DBBase.GetConnectionString());
             conn.Open();
             SqlCommand Typecheck = new SqlCommand("Select * From Account_summary Where Type=1 AND Account='" + txtAccount.Text + "'", conn);
             SqlDataReader Typechk = Typecheck.ExecuteReader();

@@ -16,7 +16,7 @@ namespace Ubay_CourseRegistration.Managers
 
         public static void InsertAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string createtime, Guid Creator)
         {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string connectionstring = GetConnectionString();
 
             string queryString =
                 $@"
@@ -70,7 +70,7 @@ namespace Ubay_CourseRegistration.Managers
 
         {
             string connectionstring =
-                "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+                GetConnectionString();
 
             string queryString =
                 $@" SELECT * FROM Account_summary
@@ -480,7 +480,7 @@ namespace Ubay_CourseRegistration.Managers
     
         public AccountViewModel GetAccountViewModel(Guid id)
         {
-            string connectionString = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string connectionString = GetConnectionString();
             string queryString =
                 $@" SELECT
                         Manager.Manager_FirstName,
@@ -538,7 +538,7 @@ namespace Ubay_CourseRegistration.Managers
         /// <param name="editor"></param>
         public static void UpdateAdminTablel(AccountModel acmodel, Account_summaryModel asmodel, string updatetime, Guid editor)
         {
-            string connectionstring = "Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true";
+            string connectionstring = GetConnectionString();
 
             string queryString =
                 $@"UPDATE  Account_summary 
