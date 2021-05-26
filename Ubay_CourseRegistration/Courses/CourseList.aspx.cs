@@ -70,7 +70,7 @@ namespace Ubay_CourseRegistration.Courses
         private void BindDataIntoRepeater()
         {
 
-            var dtt = _courseManagers.SearchAllCourse(txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue,ddlCourseStatus.SelectedValue);
+            var dtt = _courseManagers.SearchAllCourse(txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue, ddlCourseStatus.SelectedValue);
             _pgsource.DataSource = dtt.DefaultView;
             //啟用分頁
             _pgsource.AllowPaging = true;
@@ -220,7 +220,7 @@ namespace Ubay_CourseRegistration.Courses
         protected void CreateCalendar()
         {
 
-            DataTable dt_course = _courseManagers.SearchAllCourse(txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue,ddlCourseStatus.SelectedValue);
+            DataTable dt_course = _courseManagers.SearchAllCourse(txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue, ddlCourseStatus.SelectedValue);
             DataTable dt_calendar = new DataTable();
 
             dt_calendar.Columns.Add(new DataColumn("Date"));
@@ -280,6 +280,14 @@ namespace Ubay_CourseRegistration.Courses
             {
 
                 var manager = new CourseManagers();
+                var chacker = manager.GetAllCourse();
+                if (chacker.MinNumEnrolled >= 1)
+                {
+                    this.lblMsg.Text = "已有學生報名，不可刪除";
+                    this.lblMsg.Visible = true;
+                    return;
+                }
+
                 Guid delete = (Guid)Session["Acc_sum_ID"];
                 manager.DeleteCourseViewModel(arg, delete);
 

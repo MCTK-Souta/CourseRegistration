@@ -70,7 +70,6 @@ namespace Ubay_CourseRegistration.Courses
             this.Place.Text = model.Place_ID.ToString();
             this.txtCourseIntroduction.Text = model.CourseIntroduction;
             this.Price.Text = model.Price.ToString("0");
-            //this.saveMinnum.Text = model.MinNumEnrolled.ToString();
 
         }
 
@@ -132,10 +131,22 @@ namespace Ubay_CourseRegistration.Courses
 
                 return;
             }
+            var chackmodel = manager.GetAllCourse();
+
+            if (chackmodel.Teacher_ID.ToString() == this.tcList.SelectedValue &&
+                chackmodel.Place_ID.ToString() == this.Place.Text &&
+                chackmodel.StartDate.DayOfWeek == Convert.ToDateTime(this.Startdate.Text).DayOfWeek &&
+                chackmodel.StartDate == Convert.ToDateTime(this.Startdate.Text) &&
+                chackmodel.StartTime == TimeSpan.Parse(this.Starttime.Text))
+            {
+                this.lbMsg.Text = "此教師於此時段已有排定課程";
+                this.lbMsg.Visible = true;
+                return;
+            }
 
             if (this.IsUpdateMode())
             {
-                //model.MinNumEnrolled = Convert.ToInt32(this.saveMinnum.Text);
+
                 model.e_empno = (Guid)Session["Acc_sum_ID"];
                 manager.UpdateCourse(model);
                 this.lbMsg.Text = "修改成功";
@@ -143,6 +154,7 @@ namespace Ubay_CourseRegistration.Courses
             }
             else
             {
+
                 model.MinNumEnrolled = 0;
                 model.b_empno = (Guid)Session["Acc_sum_ID"];
                 manager.CreatCourse(model);

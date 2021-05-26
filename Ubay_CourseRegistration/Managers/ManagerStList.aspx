@@ -42,7 +42,7 @@
                 <asp:TemplateField HeaderText="Act">
                     <ItemTemplate>
                         <asp:Button runat="server" ID="btnDelete" Text="刪除" CommandName="DeleteItem"
-                            CommandArgument='<%# Eval("Student_ID") %>' OnClientClick="return confirm('確定刪除嗎?');" />
+                            CommandArgument='<%# Eval("Student_ID") %>' OnClientClick='<%#Eval("Idn","return confirm(\"確定要刪除{0}嗎?\");") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

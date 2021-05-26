@@ -96,7 +96,7 @@
                                     <td><%#((Eval("d_date").ToString()=="")?"開放":"關閉")%></td>
                                     <td>
                                         <asp:Button runat="server" ID="btnDelete" Text="Del" CommandName="DeleteItem"
-                                            CommandArgument='<%# Eval("Course_ID") %>' OnClientClick="return confirm('確定刪除嗎?');" /></td>
+                                            CommandArgument='<%# Eval("Course_ID") %>' OnClientClick='<%#Eval("C_Name","return confirm(\"確定要刪除{0}嗎?\");") %>' /></td>
                                 </tr>
                             </ItemTemplate>
                             <FooterTemplate>
@@ -175,7 +175,8 @@
                         <asp:Panel runat="server" ID="Panel1" ScrollBars="Auto" Height="100">
                             <div style="width: 100px;">
                                 <div style="text-align: center; vertical-align: top;">
-                                    <label><%#Eval("Date")%></label></div>
+                                    <label><%#Eval("Date")%></label>
+                                </div>
                                 <div style="text-align: left; vertical-align: top; height: 100%">
                                     <h5><%#Eval("Course")%><%#Eval("StartTime") %></h5>
                                 </div>
