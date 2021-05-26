@@ -2,16 +2,10 @@
 using CoreProject.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -65,7 +59,7 @@ namespace Ubay_CourseRegistration.Students
             monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
 
-            //列出購物車欄位
+            //先new一次將資料表清空，新增購物車欄位
             dt_cart = new DataTable();
             dt_cart.Columns.Add("Course_ID", typeof(string));
             dt_cart.Columns.Add("C_Name", typeof(string));
@@ -203,7 +197,7 @@ namespace Ubay_CourseRegistration.Students
         {
             //依據使用者搜尋值帶出查詢的可選課程紀錄
             DataTable dt_course = _studentManagers.SearchCouserAdd(_ID, txtCourseID.Text, txtCourseName.Text, txtStartDate1.Text, txtStartDate2.Text, txtPlace.Text, TxtPrice1.Text, TxtPrice2.Text, ddlTeacher.SelectedValue);
-            //後續用來裝載每日每堂課程資訊
+            //後續用來裝載每日每堂課程資訊　
             DataTable dt_calendar = new DataTable();
             dt_calendar.Columns.Add(new DataColumn("Date"));
             dt_calendar.Columns.Add(new DataColumn("Course"));
@@ -211,16 +205,15 @@ namespace Ubay_CourseRegistration.Students
             dt_calendar.Columns.Add(new DataColumn("StartTime"));
 
             //找到當前月份的1號，並記錄他屬於該週的哪一天
-            int ii = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
+            int j = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
             //填滿1號前該週空格
-            for (int i = 0; i < ii; i++)
+            for (int i = 0; i < j; i++)
                 dt_calendar.Rows.Add("");
-
             //產生當前月的日期列表 逐日增加
             for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
             {
                 DataRow dr = dt_calendar.NewRow();
-                //顯示日期號碼
+                //裝日期號碼
                 dr[0] = i.ToString();
                 //用來存放有課日時的課程資訊清單
                 List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
@@ -247,12 +240,12 @@ namespace Ubay_CourseRegistration.Students
                 dr[1] = _tmpstr;
                 dt_calendar.Rows.Add(dr);
             }
-            //資料綁定
+            //資料綁定至月曆
             Calendar.DataSource = dt_calendar;
             Calendar.DataBind();
             //設定月曆上當天顏色
             if (datetime.ToString("yyyy/MM") == DateTime.Now.ToString("yyyy/MM"))
-                Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
+                Calendar.Items[datetime.Day + j - 1].BackColor = Color.LightPink;
         }
 
         //月曆的上、下個月共用功能
@@ -286,22 +279,23 @@ namespace Ubay_CourseRegistration.Students
             : (string)dr["CourseIntroduction"];
         }
 
-        //選課勾選框
+        //選課勾選框狀態更換時
         protected void AddCourseCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            //CheckBox勾選狀態
+            //點選時物件傳入轉型回CheckBox,後續才能取得勾選與否狀態
             CheckBox ckbox = (CheckBox)sender;
+            //取得點選的CheckBox所繫結的課
             DataRow result = GetCurrentCourse(ckbox.Text)[0];
-
+            //當勾選框狀態是勾起時，將勾選的課程資料加入購物車
             if (ckbox.Checked)
             {
-
+                //為購物車新增一列 裝載新勾的課程
                 DataRow dr = dt_cart.NewRow();
                 dr["Course_ID"] = result["Course_ID"];
                 dr["C_Name"] = result["C_Name"];
                 dr["Price"] = result["Price"];
 
-
+                //LINQ 判斷目前新勾的課程是否已經有在購物車了，確認沒有選過才讓資料真正帶入購物車中
                 int results = dt_cart.AsEnumerable().Where(d =>
                 {
                     return d["Course_ID"].ToString() == result["Course_ID"].ToString();
@@ -309,14 +303,19 @@ namespace Ubay_CourseRegistration.Students
                 if (results == 0)
                     dt_cart.Rows.Add(dr);
             }
+            //當勾選框狀態是取消勾選時，將該課程資料從購物車移出
             else
             {
+                //先將目前購物車資料複製一份集合，避免直接跑取消的foreach時，一移除造成的總數不合異常
                 DataRow[] rows = new DataRow[dt_cart.Rows.Count];
+                //複製出來的購物車清單放入，從索引0開始
                 dt_cart.Rows.CopyTo(rows, 0);
+                //用複製出來的清單當作對照，刪除原本購物車內 與取消勾選的對照一致的資料
                 foreach (DataRow row in rows)
                     if (row["Course_ID"].ToString() == ckbox.Text)
                         dt_cart.Rows.Remove(row);
             }
+            //更新購物車內容物實際畫面
             RepeaterCart.DataSource = dt_cart;
             RepeaterCart.DataBind();
         }
@@ -325,11 +324,12 @@ namespace Ubay_CourseRegistration.Students
         
         protected List<DataRow> GetCurrentCourse(string Course_ID)
         {
+            //LINQ  當dt_courses課程表裡的ID等於傳入的ID時，就將其加入集合
             List<DataRow> results = dt_courses.AsEnumerable().Where(d =>
             {
                 return d["Course_ID"].ToString() == Course_ID;
             }).ToList();
-            return results;
+            return results;//回傳集合
         }
 
 
@@ -337,17 +337,25 @@ namespace Ubay_CourseRegistration.Students
         protected int TotalPrice()
         {
             int totalprice = 0;
+            //取得購物車內每筆課程金額進行加總
             foreach (DataRow dr in dt_cart.Rows)
                 totalprice += (int)dr["Price"];
+            //回傳計算完成的總額
             return totalprice;
         }
 
-        //點選確認結帳
+
+        /// <summary>
+        /// 送出結帳需求
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
             //判斷購物車內是否有選課，有選才真正結帳
             if (!_studentManagers.AddCart(_ID, dt_cart, "Cart"))
                 return;
+            //確認真正結帳才跳轉到結帳分頁
             Response.Redirect("~/Students/StudentCheckout.aspx");
 
         }
