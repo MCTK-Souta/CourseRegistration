@@ -180,7 +180,6 @@ namespace Ubay_CourseRegistration.Students
             BindDataIntoRepeater();
             CreateCalendar();
             rptResult.DataBind();
-
         }
 
         //建立月曆表格內容
@@ -195,7 +194,6 @@ namespace Ubay_CourseRegistration.Students
             dt_calendar.Columns.Add(new DataColumn("Place"));
             dt_calendar.Columns.Add(new DataColumn("StartTime"));
             
-
             //找到當前月份的1號，並記錄他屬於該週的哪一天
             int j = (int)datetime.AddDays(-datetime.Day + 1).DayOfWeek;
             //填滿1號前該週空格
@@ -206,7 +204,7 @@ namespace Ubay_CourseRegistration.Students
             for (int i = 1; i <= DateTime.DaysInMonth(datetime.Year, datetime.Month); i++)
             {
                 DataRow dr = dt_calendar.NewRow();
-                //顯示日期號碼
+                //裝日期號碼
                 dr[0] = i.ToString();
                 //用來存放有課日時的課程資訊清單
                 List<StudentCourseTimeModel> _tempClassList = new List<StudentCourseTimeModel>();
