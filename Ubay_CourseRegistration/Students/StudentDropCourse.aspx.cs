@@ -29,6 +29,23 @@ namespace Ubay_CourseRegistration.Students
         static DataTable dt_courses = new DataTable();
         static DataTable dt_cart = new DataTable();
 
+        //用來記錄課程資料repeater當前頁
+        private int CurrentPage
+        {
+            get
+            {
+                if (ViewState["CurrentPage"] == null)
+                {
+                    return 0;
+                }
+                return ((int)ViewState["CurrentPage"]);
+            }
+            set
+            {
+                ViewState["CurrentPage"] = value;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             _ID = Session["Acc_sum_ID"].ToString();
@@ -45,31 +62,13 @@ namespace Ubay_CourseRegistration.Students
             dt_cart.Columns.Add("C_Name", typeof(string));
             dt_cart.Columns.Add("Price", typeof(int));
 
-
-            var _post = Request.QueryString["datetime"];
-
-            if (_post != null)
-                datetime = DateTime.Parse(_post);
+            //建立月曆上的年月顯示資訊
             monthOnCalendar.Text = $"{datetime.ToString("yyyy/MM")}月課程紀錄";
             CreateCalendar();
 
         }
 
-        private int CurrentPage
-        {
-            get
-            {
-                if (ViewState["CurrentPage"] == null)
-                {
-                    return 0;
-                }
-                return ((int)ViewState["CurrentPage"]);
-            }
-            set
-            {
-                ViewState["CurrentPage"] = value;
-            }
-        }
+
 
         private void BindDataIntoRepeater()
         {
@@ -255,7 +254,7 @@ namespace Ubay_CourseRegistration.Students
                 Calendar.Items[datetime.Day + ii - 1].BackColor = Color.LightPink;
         }
 
-        #region 新增的項目
+        #region 退課功能
 
         //簡介內容
         protected void ShowRemark(object sender, CommandEventArgs e)
@@ -263,7 +262,7 @@ namespace Ubay_CourseRegistration.Students
             DataRow dr = GetCurrentCourse(e.CommandArgument.ToString())[0];
             //三元運算  如果簡介是NULL也可以有通知
             Remarks.Text = string.IsNullOrEmpty(dr["CourseIntroduction"].ToString())
-                ? ""
+                ? "此課程暫無簡介"
                 : (string)dr["CourseIntroduction"];
         }
 
@@ -304,6 +303,9 @@ namespace Ubay_CourseRegistration.Students
             }).ToList();
             return results;
         }
+
+
+        
         protected int TotalPrice()
         {
             int totalprice = 0;
@@ -323,6 +325,7 @@ namespace Ubay_CourseRegistration.Students
             _studentManagers.AddCart(_ID, dt_cart, "DropCart");
             //將退課需求修改到Registration_record
             _studentManagers.DropCourse(_ID, dt_cart, DateTime.Now);
+            //退課流程完成後跳轉回歷史課程頁面
             Response.Redirect("~/Students/StudentCourseRecord.aspx");
         }
         #endregion
