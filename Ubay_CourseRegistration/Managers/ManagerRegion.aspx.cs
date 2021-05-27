@@ -1,4 +1,5 @@
-﻿using CoreProject.Models;
+﻿using CoreProject.Helpers;
+using CoreProject.Models;
 using System;
 using System.Data.SqlClient;
 
@@ -113,7 +114,7 @@ namespace Ubay_CourseRegistration.Managers
             {
                 acmodel.Acc_sum_ID = Guid.NewGuid();
 
-                SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
+                SqlConnection conn = new SqlConnection(DBBase.GetConnectionString());
 
                 conn.Open();
 

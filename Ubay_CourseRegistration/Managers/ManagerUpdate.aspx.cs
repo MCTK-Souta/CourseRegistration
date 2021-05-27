@@ -1,4 +1,5 @@
-﻿using CoreProject.Models;
+﻿using CoreProject.Helpers;
+using CoreProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -46,7 +47,7 @@ namespace Ubay_CourseRegistration.Managers
             var manager = new ManagerManagers();
             var model = manager.GetAccountViewModel(editor);
 
-            SqlConnection conn = new SqlConnection("Data Source=localhost\\SQLExpress;Initial Catalog=Course_Selection_System_of_UBAY; Integrated Security=true");
+            SqlConnection conn = new SqlConnection(DBBase.GetConnectionString());
             conn.Open();
             var Managers = new ManagerManagers();
 
@@ -104,6 +105,7 @@ namespace Ubay_CourseRegistration.Managers
                 acmodel.password = model.password;
             }
                 ManagerManagers.UpdateAdminTablel(acmodel, asmodel, updatetime, editor);
+            this.WarningMsg.Text = "修改成功";
         }
 
 
