@@ -13,16 +13,20 @@ namespace Ubay_CourseRegistration.Students
 {
     public partial class StudentInfo : System.Web.UI.Page
     {
+        //接受檔案類型
         private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif" };
+        //存檔路徑
         private string _saveFolder = "~/FileDownload/";
 
         protected void Page_Init(object sender, EventArgs e)
         {
+            //讀取學校清單
             if (!IsPostBack)
             {
                 StudentManagers stmanagers = new StudentManagers();
                 stmanagers.GetSchoolList(ref school);
             }
+            //取URL的ID
             Guid temp;
             Guid.TryParse(Request.QueryString["ID"], out temp);
 
@@ -37,7 +41,9 @@ namespace Ubay_CourseRegistration.Students
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            //關閉JQ驗證
             UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+            //引起PostBack時不將密碼欄清空
             if (IsPostBack)
             {
                 pwd.Attributes.Add("value", pwd.Text);
@@ -46,7 +52,7 @@ namespace Ubay_CourseRegistration.Students
             }
         }
 
-
+        //取Session的ID並將該筆ID的資料帶入文字框
         private void LoadAccount(Guid id)
         {
             id = (Guid)Session["Acc_sum_ID"];

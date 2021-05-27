@@ -10,7 +10,7 @@
         <div style="margin: 0,auto; left: 40%; position: relative;">
             <div>
                 <p style="color: red; display: inline">*</p>
-                姓氏：<asp:TextBox runat="server" ID="fname" MaxLength="8" onkeyup="value=value.replace(/[^\d]/g, '').replace(/^0{1,}/g,'')"></asp:TextBox><br />
+                姓氏：<asp:TextBox runat="server" ID="fname" MaxLength="8" onkeyup="value=value.replace(/[^\u4E00-\u9FA5^\u3105-\u3129\u02CA\u02C7\u02CB\u02D9]/g,'')"></asp:TextBox><br />
             </div>
             <br />
             <div>

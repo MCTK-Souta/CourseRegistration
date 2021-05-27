@@ -9,7 +9,9 @@ namespace Ubay_CourseRegistration.Students
 {
     public partial class StudentSighUP : System.Web.UI.Page
     {
+        //接受檔案類型
         private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif" };
+        //存檔路徑
         private string _saveFolder = "~/FileDownload/";
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -100,6 +102,7 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.CellPhone = this.phone.Text.Trim();
                 stmodel.Address = this.address.Text.Trim();
 
+                //檢查經驗年數輸入值
                 if(this.experience.SelectedItem.Text=="有")
                 {
                     if(this.exyear.SelectedItem.Text== "請選擇")
@@ -123,6 +126,7 @@ namespace Ubay_CourseRegistration.Students
 
                 }
 
+                //檢查學校輸入值
                 if(this.education.SelectedItem.Text=="大學"||this.education.SelectedItem.Text=="研究所")
                 {
                     if(this.school.SelectedItem.Text== "請選擇")
@@ -147,6 +151,7 @@ namespace Ubay_CourseRegistration.Students
                     stmodel.School_ID = Convert.ToInt32(this.school.Text);
                 }
 
+                //檢查上傳檔案類型，並重新命名檔名為GUID
                 stmodel.PassNumber = this.psn.Text.Trim();
                 if (this.GetNewFileName(this.passpic) == "檔案類型錯誤")
                 {
@@ -162,6 +167,7 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.b_date = DateTime.Now;
 
                 StManagers.StudentSigh_UP(stmodel, acmodel);
+                //彈跳視窗
                 Response.Write
                 ("<script>alert('註冊成功，返回登入頁面');location.href='/Login.aspx'; </script>");
             }
@@ -174,7 +180,7 @@ namespace Ubay_CourseRegistration.Students
 
 
         }
-
+        //檔案類型判斷及重新命名為GUID
         private string GetNewFileName(FileUpload fu)
         {
             if (!fu.HasFile)
@@ -201,6 +207,7 @@ namespace Ubay_CourseRegistration.Students
             return newFileName;
         }
 
+        //根據有無程式經驗顯示年數
         protected void experience_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.experience.SelectedItem.Text == "有")
@@ -216,6 +223,7 @@ namespace Ubay_CourseRegistration.Students
 
             }
         }
+        //根據學歷顯示學校清單
         protected void education_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.education.SelectedItem.Text == "大學" || this.education.SelectedItem.Text == "研究所")
