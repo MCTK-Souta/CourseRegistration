@@ -7,7 +7,7 @@
         margin: 0;
         padding: 0;
         width: 20%;
-        background-color: rgb(80, 80, 80,1);
+        background-color: #A0674B;
         flex-direction: row;
         position: relative;
         list-style-type: none;
@@ -33,7 +33,7 @@
             }
 
             li a:hover:not(.active) {
-                background-color: #555;
+                background-color: #FFBA75;
                 color: white;
             }
 

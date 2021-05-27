@@ -300,6 +300,7 @@ namespace CoreProject.Managers
                     Teacher.Teacher_ID,
                     Course.C_Name,
                     Course.MaxNumEnrolled,
+                    Course.MinNumEnrolled,  
                     Course.StartDate,
                     Course.StartTime,
                     Course.EndDate,
@@ -336,6 +337,7 @@ namespace CoreProject.Managers
                         model.StartTime = (TimeSpan)reader["StartTime"];
                         model.EndDate = (DateTime)reader["EndDate"];
                         model.MaxNumEnrolled = (int)reader["MaxNumEnrolled"];
+                        model.MinNumEnrolled = (int)reader["MinNumEnrolled"];
                         model.Place_ID = (int)reader["Place_ID"];
                         model.CourseIntroduction = (string)reader["CourseIntroduction"];
                         model.Price = (Decimal)reader["Price"];
