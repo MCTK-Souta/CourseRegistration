@@ -32,8 +32,8 @@
                 <div style="margin: 0,auto; left: 20%; position: relative;">
                     <p>
                         課程ID:
-                        <asp:TextBox runat="server" ID="txtCourseID" Width="5%"></asp:TextBox>
-                        課程名稱:<asp:TextBox runat="server" ID="txtCourseName"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtCourseID" Width="5%" MaxLength="10"></asp:TextBox>
+                        課程名稱:<asp:TextBox runat="server" ID="txtCourseName" MaxLength="20"> </asp:TextBox>
                         教師:
             <asp:DropDownList runat="server" ID="ddlTeacher">
             </asp:DropDownList>
@@ -43,7 +43,7 @@
                     </p>
                     <p>
                         教室:
-                        <asp:TextBox runat="server" ID="txtPlace" Width="5%"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtPlace" Width="5%" MaxLength="10"></asp:TextBox>
                         價格:
             <asp:TextBox runat="server" ID="TxtPrice1" placeholder="最小值" TextMode="Number"></asp:TextBox>~
             <asp:TextBox runat="server" ID="TxtPrice2" placeholder="最大值" TextMode="Number"></asp:TextBox>
