@@ -4,7 +4,7 @@
         margin: 0;
     }
 </style>
-<header style="background-color: rgb(80, 80, 80,1); height: 75px">
+<header style="background-color: #A0674B; height: 75px">
     <div style="display: inline;">
         <div style="float: left;">
             <a href="/login.aspx" style="font-size: 20px">

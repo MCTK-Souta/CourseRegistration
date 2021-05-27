@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ManagerControlFooter.ascx.cs" Inherits="Ubay_CourseRegistration.Managers.ManagerControlFooter" %>
-<footer style="background:rgb(80, 80, 80,1);display:flex;align-items: flex-end;">
+<footer style="background:#A0674B;display:flex;align-items: flex-end;">
     <asp:Table runat="server" HorizontalAlign="Center" Width="100%">
         <asp:TableRow>
             <asp:TableCell HorizontalAlign="Center">

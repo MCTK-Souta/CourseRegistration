@@ -275,7 +275,7 @@ namespace Ubay_CourseRegistration.Courses
                     this.lblMsg.Visible = true;
                     return;
                 }
-                if (chacker.StartDate <= DateTime.Now && DateTime.Now <= chacker.EndDate)
+                if (chacker.StartDate <= DateTime.Now && chacker.EndDate >= DateTime.Now)
                 {
                     this.lblMsg.Text = "本課程已開始授課，無法刪除";
                     this.lblMsg.Visible = true;

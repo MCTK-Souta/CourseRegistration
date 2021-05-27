@@ -21,10 +21,16 @@ namespace Ubay_CourseRegistration.Courses
             if (this.IsUpdateMode())
             {
                 string temp = Request.QueryString["Course_ID"];
-                this.Startdate.Enabled = false;
-                this.Startdate.BackColor = System.Drawing.Color.DarkGray;
-                this.Starttime.Enabled = false;
-                this.Starttime.BackColor = System.Drawing.Color.DarkGray;
+                var manager = new CourseManagers();
+                int minnum = manager.GetCourse(temp).MinNumEnrolled;
+                if (minnum > 0)
+                {
+                    this.Startdate.Enabled = false;
+                    this.Startdate.BackColor = System.Drawing.Color.DarkGray;
+                    this.Starttime.Enabled = false;
+                    this.Starttime.BackColor = System.Drawing.Color.DarkGray;
+                }
+
                 this.Price.Enabled = false;
                 this.Price.BackColor = System.Drawing.Color.DarkGray;
                 this.LoadCourse(temp);

@@ -13,13 +13,16 @@ namespace Ubay_CourseRegistration.Students
         private string _saveFolder = "~/FileDownload/";
         protected void Page_Load(object sender, EventArgs e)
         {
+            //關閉JQ驗證
             UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+            //引起PostBack時不將密碼欄清空
             if (IsPostBack)
             {
                 pwd.Attributes.Add("value", pwd.Text);
                 repwd.Attributes.Add("value", repwd.Text);
 
             }
+            //進入頁面時讀取學校清單
             if(!IsPostBack)
             { 
             StudentManagers stmanagers = new StudentManagers();
@@ -34,6 +37,7 @@ namespace Ubay_CourseRegistration.Students
             StudentInfoModel stmodel = new StudentInfoModel();
             AccountModel acmodel = new AccountModel();
             var StManagers = new StudentManagers();
+            //檢查帶有*欄位的輸入值(不可為空)
             if (this.fname.Text != string.Empty &&
                 this.lname.Text != string.Empty &&
                 this.idn.Text != string.Empty &&
@@ -49,6 +53,7 @@ namespace Ubay_CourseRegistration.Students
             {
                 stmodel.S_FirstName = this.fname.Text.Trim();
                 stmodel.S_LastName = this.lname.Text.Trim();
+                //驗證身份證字號格式
                 bool idnc = Managers.Check(this.idn.Text);
                 if (idnc == true)
                 {
@@ -61,7 +66,7 @@ namespace Ubay_CourseRegistration.Students
                     this.lbmsg.Visible = true;
                     return;
                 }
-
+                //檢查帳號重複
                 if (Managers.GetAccount(this.idn.Text.Trim()) != null)
                 {
                     stmodel.Idn = null;
@@ -74,7 +79,7 @@ namespace Ubay_CourseRegistration.Students
                     acmodel.Account = this.idn.Text.Trim();
                 }
 
-
+                //檢查密碼、確認密碼的一致性
                 if (this.pwd.Text == this.repwd.Text)
                 {
                     acmodel.password = this.pwd.Text.Trim();
@@ -94,6 +99,7 @@ namespace Ubay_CourseRegistration.Students
                 stmodel.Email = this.email.Text.Trim();
                 stmodel.CellPhone = this.phone.Text.Trim();
                 stmodel.Address = this.address.Text.Trim();
+
                 if(this.experience.SelectedItem.Text=="有")
                 {
                     if(this.exyear.SelectedItem.Text== "請選擇")
