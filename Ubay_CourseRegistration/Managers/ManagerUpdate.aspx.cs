@@ -1,12 +1,7 @@
 ﻿using CoreProject.Helpers;
 using CoreProject.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Managers
 {
@@ -16,10 +11,7 @@ namespace Ubay_CourseRegistration.Managers
         {
             Guid temp;
             Guid.TryParse(Request.QueryString["Manager_ID"], out temp);
-
-            //this.txtAccount.Enabled = false;
-            //this.txtAccount.BackColor = System.Drawing.Color.DarkGray;
-                this.LoadAccount(temp);
+            this.LoadAccount(temp);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -28,7 +20,6 @@ namespace Ubay_CourseRegistration.Managers
         }
         protected void UpdateAdmin_Click(object sender, EventArgs e)
         {
-            AccountViewModel avmodel = new AccountViewModel();
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
             asmodel.firstname = this.txtFirstname.Text;
@@ -51,7 +42,7 @@ namespace Ubay_CourseRegistration.Managers
             conn.Open();
             var Managers = new ManagerManagers();
 
-            SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + this.txtPassword.Text + "'", conn);
+            SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + this.txtPassword.Text + "'", conn); //將使用者輸入的密碼跟資料庫裡的資料做比對
             SqlDataReader pwdchk = passwordcheck.ExecuteReader();
 
             this.WarningMsg.Text = "";
@@ -104,12 +95,12 @@ namespace Ubay_CourseRegistration.Managers
             {
                 acmodel.password = model.password;
             }
-                ManagerManagers.UpdateAdminTablel(acmodel, asmodel, updatetime, editor);
+            ManagerManagers.UpdateAdminTablel(acmodel, asmodel, updatetime, editor);
             this.WarningMsg.Text = "修改成功";
         }
 
 
-        private void LoadAccount(Guid updater)
+        private void LoadAccount(Guid updater) //將登入者帳號的資料放進各欄位
         {
 
             if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
@@ -120,9 +111,10 @@ namespace Ubay_CourseRegistration.Managers
             var manager = new ManagerManagers();
             var model = manager.GetAccountViewModel(updater);
 
-            //if (model == null)
-            //    Response.Redirect("~/SystemAdmin/MemberList.aspx");
-
+            if (model == null)
+            {
+                Response.Redirect("~/Managers/ManagerMainPage.aspx");
+            }
             this.txtFirstname.Text = model.firstname;
             this.txtLastname.Text = model.lastname;
             this.txtDepartment.Text = model.department;

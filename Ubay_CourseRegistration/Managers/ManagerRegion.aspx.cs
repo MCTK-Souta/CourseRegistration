@@ -65,7 +65,7 @@ namespace Ubay_CourseRegistration.Managers
                 var Managers = new ManagerManagers();
 
                 this.WarningMsg.Text = "";
-                if (string.IsNullOrEmpty(this.txtFirstname.Text))
+                if (string.IsNullOrEmpty(this.txtFirstname.Text)) 
                 {
                     this.WarningMsg.Text = "姓氏欄位不可為空!";
                     return;
