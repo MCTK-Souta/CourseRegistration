@@ -1,10 +1,8 @@
 ﻿using CoreProject.Managers;
 using CoreProject.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Ubay_CourseRegistration.Managers;
@@ -51,8 +49,7 @@ namespace Ubay_CourseRegistration.Students
                 renewpwd.Attributes.Add("value", renewpwd.Text);
             }
         }
-
-        //取Session的ID並將該筆ID的資料帶入文字框
+        //取Session的ID讓資料庫查詢，並將該筆ID的資料帶入文字框
         private void LoadAccount(Guid id)
         {
             id = (Guid)Session["Acc_sum_ID"];
@@ -85,7 +82,7 @@ namespace Ubay_CourseRegistration.Students
                 this.schoolshow.Visible = true;
                 this.school.Visible = true;
             }
-            //var schoolint = Convert.ToInt32(this.school.Text);
+
             this.school.SelectedValue = model.School_ID.ToString();
             this.psn.Text = model.PassNumber;
             if (!string.IsNullOrEmpty(model.PassPic))
@@ -103,7 +100,7 @@ namespace Ubay_CourseRegistration.Students
             var DBmanager = new DBAccountManager();
 
             StudentAccountViewModel model = new StudentAccountViewModel();
-
+            //修改資料時須檢查是否有輸入舊密碼
             if (DBmanager.Chackpwd(this.idn.Text, this.pwd.Text) == null)
             {
                 model.password = null;
@@ -116,7 +113,7 @@ namespace Ubay_CourseRegistration.Students
                 model.password = this.pwd.Text;
             }
 
-
+            //如有輸入新密碼文字框時，則認定為要更新密碼，並檢查新密碼與確認新密碼的一致性
             if (!string.IsNullOrEmpty(this.newpwd.Text) ||
             !string.IsNullOrEmpty(this.renewpwd.Text))
             {
@@ -128,7 +125,7 @@ namespace Ubay_CourseRegistration.Students
                 else
                 {
                     model.password = null;
-                    this.lbmsg.Text = "密碼和確認密碼不一致";
+                    this.lbmsg.Text = "新密碼和確認新密碼不一致";
                     this.lbmsg.Visible = true;
                     return;
                 }
@@ -140,7 +137,7 @@ namespace Ubay_CourseRegistration.Students
 
 
 
-
+            //標有*的文字框不可為空值的檢查
             if (this.fname.Text != string.Empty &&
                 this.lname.Text != string.Empty &&
                 this.idn.Text != string.Empty &&
@@ -184,7 +181,7 @@ namespace Ubay_CourseRegistration.Students
                 return;
             }
 
-
+            //檢查有無程式經驗選擇"有"時，是否有選擇年數
             if (this.experience.SelectedItem.Text == "有")
             {
                 if (this.exyear.SelectedItem.Text == "請選擇")
@@ -208,7 +205,7 @@ namespace Ubay_CourseRegistration.Students
                 model.ExYear = 0;
 
             }
-
+            //檢查學歷為大學、研究所時，是否有選擇學校
             if (this.education.SelectedItem.Text == "大學" || this.education.SelectedItem.Text == "研究所")
             {
                 if (this.school.SelectedItem.Text == "請選擇")
@@ -232,6 +229,7 @@ namespace Ubay_CourseRegistration.Students
                 model.Education = Convert.ToInt32(this.education.Text);
                 model.School_ID = 0;
             }
+
             model.Student_ID = (Guid)Session["Acc_sum_ID"];
             model.Acc_sum_ID = (Guid)Session["Acc_sum_ID"];
             model.e_empno = (Guid)Session["Acc_sum_ID"];
@@ -242,27 +240,34 @@ namespace Ubay_CourseRegistration.Students
 
 
         }
+        //取得護照照片檔案名稱，並重新取名為GUID
         private string GetNewFileName(FileUpload fu)
         {
+            //如無檔案則回傳空字串
             if (!fu.HasFile)
                 return string.Empty;
 
-
+            //取得檔案
             var uFile = fu.PostedFile;
+            //取得檔案名稱
             var fileName = uFile.FileName;
+            //取得副檔名(檔案類型)
             string fileExt = System.IO.Path.GetExtension(fileName);
-
+            //判別檔案類型
             if (!_allowExts.Contains(fileExt.ToLower()))
                 return string.Empty;
 
-
+            //存檔路徑
             string path = Server.MapPath(_saveFolder);
+            //取名為GUID
             string newFileName = Guid.NewGuid().ToString() + fileExt;
+            //路徑+檔名
             string fullPath = System.IO.Path.Combine(path, newFileName);
-
+            //存檔
             uFile.SaveAs(fullPath);
             return newFileName;
         }
+        //有無程式經驗根據選項顯示年數
         protected void experience_SelectedIndexChanged(object sender, EventArgs e)
         {
             StudentAccountViewModel model = new StudentAccountViewModel();
@@ -280,6 +285,8 @@ namespace Ubay_CourseRegistration.Students
 
             }
         }
+        //學歷根據選項顯示學校
+
         protected void education_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.education.SelectedItem.Text == "大學" || this.education.SelectedItem.Text == "研究所")

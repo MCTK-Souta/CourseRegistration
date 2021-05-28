@@ -266,8 +266,9 @@ namespace Ubay_CourseRegistration.Courses
 
             if (cmdName == "DeleteItem")
             {
-
+                
                 var manager = new CourseManagers();
+                //判斷是否已有選課學生
                 var chacker = manager.GetAllCourse();
                 if (chacker.MinNumEnrolled >= 1)
                 {
@@ -275,6 +276,7 @@ namespace Ubay_CourseRegistration.Courses
                     this.lblMsg.Visible = true;
                     return;
                 }
+                //判斷當下時間要刪除課程時，是否會刪除到在授課期間內的課程
                 if (chacker.StartDate <= DateTime.Now && chacker.EndDate >= DateTime.Now)
                 {
                     this.lblMsg.Text = "本課程已開始授課，無法刪除";

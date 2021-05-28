@@ -1,11 +1,6 @@
 ﻿using CoreProject.Managers;
 using CoreProject.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Courses
 {
@@ -14,15 +9,19 @@ namespace Ubay_CourseRegistration.Courses
         StudentManagers _studentManagers = new StudentManagers();
         protected void Page_Init(object sender, EventArgs e)
         {
+            //讀取教師清單
             if (!IsPostBack)
             {
                 _studentManagers.ReadTeacherTable(ref tcList);
             }
+
             if (this.IsUpdateMode())
             {
                 string temp = Request.QueryString["Course_ID"];
                 var manager = new CourseManagers();
                 int minnum = manager.GetCourse(temp).MinNumEnrolled;
+
+                //修改模式下選課人數如大於0，則無法更改開課日期及時間
                 if (minnum > 0)
                 {
                     this.Startdate.Enabled = false;
@@ -37,7 +36,6 @@ namespace Ubay_CourseRegistration.Courses
             }
             else
             {
-
                 this.Course_title.Text = "新增課程";
                 this.btn_Course.Text = "確認新增";
             }
@@ -62,10 +60,11 @@ namespace Ubay_CourseRegistration.Courses
         {
             var manager = new CourseManagers();
             var model = manager.GetCourse(id);
+            //如查無該筆ID的資料返回查詢頁面
             if (model == null)
                 Response.Redirect("~/Courses/CourseList.aspx");
 
-
+            //將資料庫內資料放入各文字框
             this.txtCourseID.Text = model.Course_ID;
             this.txtCourseName.Text = model.C_Name;
             this.tcList.Text = model.Teacher_ID.ToString();
@@ -96,7 +95,7 @@ namespace Ubay_CourseRegistration.Courses
             }
 
 
-
+            //檢查個欄位是否為空值
             if (this.txtCourseID.Text != string.Empty &&
                 this.txtCourseName.Text != string.Empty &&
                 this.tcList.SelectedIndex != 0 &&
@@ -111,6 +110,7 @@ namespace Ubay_CourseRegistration.Courses
                 model.Course_ID = this.txtCourseID.Text.Trim();
                 model.C_Name = this.txtCourseName.Text.Trim();
                 model.Teacher_ID = Convert.ToInt32(this.tcList.SelectedValue);
+                //比對開課日期與結訓日期是否有日期上的衝突
                 if (Convert.ToDateTime(this.Enddate.Text) <= Convert.ToDateTime(this.Startdate.Text) ||
                     Convert.ToDateTime(this.Startdate.Text) >= Convert.ToDateTime(this.Enddate.Text))
                 {
@@ -137,8 +137,8 @@ namespace Ubay_CourseRegistration.Courses
 
                 return;
             }
+            //判斷資料庫的既有資料內，是否有教師、教室、開課日期及時間與目前輸入的值是否有重複
             var chackmodel = manager.GetAllCourse();
-
             if (chackmodel.Teacher_ID.ToString() == this.tcList.SelectedValue &&
                 chackmodel.Place_ID.ToString() == this.Place.Text &&
                 chackmodel.StartDate.DayOfWeek == Convert.ToDateTime(this.Startdate.Text).DayOfWeek &&
