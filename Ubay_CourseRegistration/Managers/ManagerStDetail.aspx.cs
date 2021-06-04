@@ -1,13 +1,8 @@
-﻿using CoreProject.Helpers;
-using CoreProject.Managers;
-using CoreProject.Models;
+﻿using CoreProject.Managers;
 using CoreProject.ViewModels;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -16,12 +11,14 @@ namespace Ubay_CourseRegistration.Managers
 
     public partial class ManagerStDetail : System.Web.UI.Page
     {
-
+        //可接受的檔案類型
         private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif" };
+        //護照照片存檔路徑
         private string _saveFolder = "~/FileDownload/";
         
         protected void Page_Init(object sender, EventArgs e)
         {
+            //讀取學校清單
             if (!IsPostBack)
             {
                 StudentManagers stmanagers = new StudentManagers();
@@ -29,6 +26,7 @@ namespace Ubay_CourseRegistration.Managers
             }
             if (this.IsUpdateMode())
             {
+                //取Url上的ID，並將ID傳給資料庫做查詢
                 Guid temp;
                 Guid.TryParse(Request.QueryString["Student_ID"], out temp);
 
@@ -48,7 +46,9 @@ namespace Ubay_CourseRegistration.Managers
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //關閉JQ驗證
             UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+            //引起PostBack時不清空已輸入的密碼
             if (IsPostBack)
             {
                 pwd.Attributes.Add("value", pwd.Text);
@@ -75,11 +75,11 @@ namespace Ubay_CourseRegistration.Managers
         {
             var manager = new ManagerManagers();
             var model = manager.GetStudentViewModel(id);
-            var DBManagers = new DBAccountManager();
+            //如ID傳入資料庫查詢出來為空值則返回學生查詢列表頁面
             if (model == null)
                 Response.Redirect("~/Managers/ManagerStList.aspx");
 
-
+            //將該筆查詢出來的值填入文字框
             this.fname.Text = model.S_FirstName;
             this.lname.Text = model.S_LastName;
             this.idn.Text = model.Idn;
@@ -91,6 +91,7 @@ namespace Ubay_CourseRegistration.Managers
             this.phone.Text = model.CellPhone;
             this.address.Text = model.Address;
             this.experience.SelectedValue = model.Experience.ToString();
+            //如資料庫中的有無程式經驗為"true"時,顯示年數選單
             if(model.Experience == true)
             {
                 this.exyear.Visible = true;
@@ -98,14 +99,16 @@ namespace Ubay_CourseRegistration.Managers
             }
             this.exyear.Text = model.ExYear.ToString();
             this.education.Text = model.Education.ToString();
+            //如資料庫中的學歷為為"3"(大學)、"4"(研究所)時,顯示學校選單
             if(model.Education.ToString()=="3"|| model.Education.ToString() == "4")
             {
                 this.schoolshow.Visible = true;
                 this.school.Visible = true;
             }
-            //var schoolint = Convert.ToInt32(this.school.SelectedItem.Value);
+            
             this.school.Text = model.School_ID.ToString() ;
             this.psn.Text = model.PassNumber;
+            //如資料庫中有該護照照片時將該圖片顯示出來
             if (!string.IsNullOrEmpty(model.PassPic))
             {
                 this.Image1.ImageUrl = _saveFolder + model.PassPic;
@@ -141,20 +144,8 @@ namespace Ubay_CourseRegistration.Managers
 
 
             if (this.IsUpdateMode())
-            {
-                //if(DBmanager.Chackpwd(this.idn.Text,this.pwd.Text) != null)
-                //{
-                //    model.password = null;
-                //    this.lbmsg.Text = "請輸入舊密碼";
-                //    this.lbmsg.Visible = true;
-                //    return;
-                //}
-                //else
-                //{
-                //    model.password = this.pwd.Text;
-                //}
-                
-
+            {                
+                //如新密碼或確認新密碼有輸入值，則認定使用者要更新密碼並比對是否一致
                 if (!string.IsNullOrEmpty(this.newpwd.Text) ||
                 !string.IsNullOrEmpty(this.renewpwd.Text))
                 {
@@ -199,7 +190,7 @@ namespace Ubay_CourseRegistration.Managers
                     }
                 }
 
-
+                //檢查帳號是否重複
                 if (DBmanager.GetAccount(this.idn.Text.Trim()) != null)
                 {
                     this.lbmsg.Text = "帳號已重覆，請選擇其它帳號";
@@ -208,7 +199,7 @@ namespace Ubay_CourseRegistration.Managers
                     return;
                 }
             }
-
+            //檢查各個*的欄位是否為空值
             if (this.fname.Text != string.Empty &&
                 this.lname.Text != string.Empty &&
                 this.idn.Text != string.Empty &&
@@ -252,7 +243,7 @@ namespace Ubay_CourseRegistration.Managers
                 return;
             }
 
-
+            //檢查有無程式經驗選擇"有"時，是否有選擇年數
             if (this.experience.SelectedItem.Text == "有")
             {
                 if (this.exyear.SelectedItem.Text == "請選擇")
@@ -276,7 +267,7 @@ namespace Ubay_CourseRegistration.Managers
                 model.ExYear = 0;
 
             }
-
+            //檢查學歷選擇"大學"、"研究所"時，是否有選擇學校
             if (this.education.SelectedItem.Text == "大學" || this.education.SelectedItem.Text == "研究所")
             {
                 if (this.school.SelectedItem.Text == "請選擇")
@@ -340,26 +331,30 @@ namespace Ubay_CourseRegistration.Managers
 
         private string GetNewFileName(FileUpload fu)
         {
+            //如無檔案則回傳空字串
             if (!fu.HasFile)
                 return string.Empty;
 
-
+            //取得檔案
             var uFile = fu.PostedFile;
+            //取得檔案名稱
             var fileName = uFile.FileName;
+            //取得副檔名(檔案類型)
             string fileExt = System.IO.Path.GetExtension(fileName);
-
+            //判別檔案類型
             if (!_allowExts.Contains(fileExt.ToLower()))
                 return string.Empty;
 
-
+            //存檔路徑
             string path = Server.MapPath(_saveFolder);
+            //取名為GUID
             string newFileName = Guid.NewGuid().ToString() + fileExt;
+            //路徑+檔名
             string fullPath = System.IO.Path.Combine(path, newFileName);
-
+            //存檔
             uFile.SaveAs(fullPath);
             return newFileName;
         }
-
         protected void experience_SelectedIndexChanged(object sender, EventArgs e)
         {
             StudentAccountViewModel model=new StudentAccountViewModel();

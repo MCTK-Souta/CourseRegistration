@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Web;
 using CoreProject.Helpers;
 using CoreProject.ViewModels;
@@ -271,7 +270,7 @@ namespace Ubay_CourseRegistration.Managers
         }
 
         /// <summary>
-        /// 讀取學生資料
+        /// 讀取單筆學生資料
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

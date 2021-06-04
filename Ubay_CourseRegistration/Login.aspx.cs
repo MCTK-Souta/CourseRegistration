@@ -1,12 +1,6 @@
 ﻿using CoreProject.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Ubay_CourseRegistration;
 
 namespace Ubay_CourseRegistration
 {
@@ -14,9 +8,6 @@ namespace Ubay_CourseRegistration
     {
         private string _goToManager = "Managers/ManagerMainPage.aspx";
         private string _goToStudent = "Students/StudentMainPage.aspx";
-
-        private const string _sessionKey = "IsLogined";
-        private const string _sessionKey_Account = "Account";
         protected void Page_Init(object sender, EventArgs e)
         {
             if(this.IsPostBack)
