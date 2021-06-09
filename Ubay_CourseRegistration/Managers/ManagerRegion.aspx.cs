@@ -165,7 +165,7 @@ namespace Ubay_CourseRegistration.Managers
         {
             string qsID = Request.QueryString["Manager_ID"];
             Guid temp;
-            if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
+            if (!string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
             {
                 if (Guid.TryParse(qsID, out temp))
                     return true;
