@@ -20,8 +20,10 @@ namespace Ubay_CourseRegistration.Managers
         }
         protected void UpdateAdmin_Click(object sender, EventArgs e)
         {
+
             Account_summaryModel asmodel = new Account_summaryModel();
             AccountModel acmodel = new AccountModel();
+            //將使用者輸入的資料放進模型裡
             asmodel.firstname = this.txtFirstname.Text;
             asmodel.lastname = this.txtLastname.Text;
             asmodel.department = this.txtDepartment.Text;
@@ -32,14 +34,15 @@ namespace Ubay_CourseRegistration.Managers
             string updatetime = asmodel.datetime.ToString("yyyy/MM/dd HH:mm:ss"); // 轉成字串
             acmodel.Type = true;
 
+            //抓修改者的guid
             Guid editor;
             editor = (Guid)Session["Acc_sum_ID"];
 
             var manager = new ManagerManagers();
-            var model = manager.GetAccountViewModel(editor);
+            var model = manager.GetAccountViewModel(editor); //將修改者的guid拿去資料庫裡撈帳號資料出來做帳號比對
 
-            SqlConnection conn = new SqlConnection(DBBase.GetConnectionString());
-            conn.Open();
+            SqlConnection conn = new SqlConnection(DBBase.GetConnectionString()); //連線字串
+            conn.Open(); 
             var Managers = new ManagerManagers();
 
             SqlCommand passwordcheck = new SqlCommand("Select * From Account_summary Where password = '" + this.txtPassword.Text + "'", conn); //將使用者輸入的密碼跟資料庫裡的資料做比對
@@ -100,7 +103,7 @@ namespace Ubay_CourseRegistration.Managers
         }
 
 
-        private void LoadAccount(Guid updater) //將登入者帳號的資料放進各欄位
+        private void LoadAccount(Guid updater) //將登入者帳號的資料放進各欄位的方法
         {
 
             if (string.IsNullOrEmpty(Request.QueryString["Manager_ID"]))
@@ -111,6 +114,7 @@ namespace Ubay_CourseRegistration.Managers
             var manager = new ManagerManagers();
             var model = manager.GetAccountViewModel(updater);
 
+            //如果修改者guid對不上 返回上一頁
             if (model == null)
             {
                 Response.Redirect("~/Managers/ManagerMainPage.aspx");
