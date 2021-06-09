@@ -1,11 +1,7 @@
 ﻿using CoreProject.Helpers;
-using CoreProject.Managers;
 using CoreProject.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace Ubay_CourseRegistration.Managers
@@ -95,14 +91,7 @@ namespace Ubay_CourseRegistration.Managers
             string name = Request.QueryString["name"];
             string idn = Request.QueryString["idn"];
 
-            //int? level = null;
-            //if (!string.IsNullOrEmpty(idn))
-            //{
-            //    int temp;
-            //    if (int.TryParse(idn, out temp))
-            //        level = temp;
-            //}
-            //----- Get Query string parameters -----
+
 
 
             int totalSize = 0;
@@ -129,24 +118,6 @@ namespace Ubay_CourseRegistration.Managers
             this.GridView1.DataBind();
         }
 
-        //protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        //{
-        //    string cmdName = e.CommandName;
-        //    string arg = e.CommandArgument.ToString();
-
-        //    if (cmdName == "DeleteItem")
-        //    {
-        //        Guid id;
-        //        if (Guid.TryParse(arg, out id))
-        //        {
-        //            var manager = new ManagerManagers();
-        //            manager.DeleteStudentViewModel(id);
-
-        //            this.LoadGridView();
-        //            this.lblMsg.Text = "已刪除。";
-        //        }
-        //    }
-        //}
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {

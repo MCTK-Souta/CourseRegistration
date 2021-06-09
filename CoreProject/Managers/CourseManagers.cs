@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 
 namespace CoreProject.Managers
@@ -403,7 +400,10 @@ namespace CoreProject.Managers
             this.ExecuteNonQuery(queryString, parameters);
 
         }
-
+        /// <summary>
+        /// 搜尋所有課程
+        /// </summary>
+        /// <returns></returns>
         public CourseModel GetAllCourse()
         {
             string connectionString = GetConnectionString();

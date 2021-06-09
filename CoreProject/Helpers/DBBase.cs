@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoreProject.Helpers
 {
     public class DBBase
     {
+        /// <summary>
+        /// 嘗試連接資料庫，並回傳資料
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public DataTable GetDataTable(string dbCommand, List<SqlParameter> parameters)
         {
             string connectionString = GetConnectionString();
@@ -37,7 +40,12 @@ namespace CoreProject.Helpers
                 }
             }
         }
-
+        /// <summary>
+        /// 取得資料筆數
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public object GetScale(string dbCommand, List<SqlParameter> parameters)
         {
             string connectionString = GetConnectionString();
@@ -66,7 +74,12 @@ namespace CoreProject.Helpers
                 }
             }
         }
-
+        /// <summary>
+        /// 執行SQL指令，如途中有錯誤則拋回錯誤並取消執行
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public int ExecuteNonQuery(string dbCommand, List<SqlParameter> parameters)
         {
             string connectionString = GetConnectionString();
@@ -102,8 +115,10 @@ namespace CoreProject.Helpers
                 }
             }
         }
-
-        //private string GetConnectionString()
+        /// <summary>
+        /// 取得位在Web.config的資料庫連線字串
+        /// </summary>
+        /// <returns></returns>
         public static string GetConnectionString()
         {
             var manage = System.Configuration.ConfigurationManager.ConnectionStrings["systemDataBase"];

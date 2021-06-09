@@ -183,30 +183,30 @@ namespace Ubay_CourseRegistration.Students
         //檔案類型判斷及重新命名為GUID
         private string GetNewFileName(FileUpload fu)
         {
+            //如無檔案則回傳空字串
             if (!fu.HasFile)
                 return string.Empty;
 
-
+            //取得檔案
             var uFile = fu.PostedFile;
+            //取得檔案名稱
             var fileName = uFile.FileName;
+            //取得副檔名(檔案類型)
             string fileExt = System.IO.Path.GetExtension(fileName);
-
+            //判別檔案類型
             if (!_allowExts.Contains(fileExt.ToLower()))
-            {
+                return string.Empty;
 
-                return "檔案類型錯誤";
-
-            }
-
-
+            //存檔路徑
             string path = Server.MapPath(_saveFolder);
+            //取名為GUID
             string newFileName = Guid.NewGuid().ToString() + fileExt;
+            //路徑+檔名
             string fullPath = System.IO.Path.Combine(path, newFileName);
-
+            //存檔
             uFile.SaveAs(fullPath);
             return newFileName;
         }
-
         //根據有無程式經驗顯示年數
         protected void experience_SelectedIndexChanged(object sender, EventArgs e)
         {
