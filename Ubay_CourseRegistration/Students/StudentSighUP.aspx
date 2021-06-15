@@ -107,7 +107,8 @@
                 護照號碼：<asp:TextBox ID="psn" runat="server" TextMode="Number" oninput="if(value.length>20)value=value.slice(0,20)"></asp:TextBox>
             </div>
             <br />
-            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server"  /></div>
+            <div style="margin-left: -65px;">上傳護照照片：<asp:FileUpload ID="passpic" runat="server" accept=".jpg,.jpeg,.bmp,.png,.gif"  /></div>
+
             <br />
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

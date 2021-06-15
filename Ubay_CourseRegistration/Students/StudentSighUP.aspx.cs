@@ -10,7 +10,7 @@ namespace Ubay_CourseRegistration.Students
     public partial class StudentSighUP : System.Web.UI.Page
     {
         //接受檔案類型
-        private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif" };
+        private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif",".jpeg" };
         //存檔路徑
         private string _saveFolder = "~/FileDownload/";
         protected void Page_Load(object sender, EventArgs e)
@@ -153,10 +153,10 @@ namespace Ubay_CourseRegistration.Students
 
                 //檢查上傳檔案類型，並重新命名檔名為GUID
                 stmodel.PassNumber = this.psn.Text.Trim();
-                if (this.GetNewFileName(this.passpic) == "檔案類型錯誤")
+                if (this.GetNewFileName(this.passpic) == string.Empty)
                 {
                     stmodel.PassPic = null;
-                    this.lbmsg.Text = "檔案僅接受.jpg, .png, .bmp, .gif";
+                    this.lbmsg.Text = "檔案僅接受.jpeg, .jpg, .png, .bmp, .gif";
                     this.lbmsg.Visible = true;
                     return;
                 }

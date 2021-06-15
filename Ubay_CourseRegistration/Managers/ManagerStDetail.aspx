@@ -110,7 +110,7 @@
             </div>
             <br />
             <div style="margin-left: -65px;">
-                上傳護照照片：<asp:FileUpload ID="passpic" runat="server" />
+                上傳護照照片：<asp:FileUpload ID="passpic" runat="server" accept=".jpg,.jpeg,.bmp,.png,.gif" />
                 <div style="display: inherit">
                     <asp:Image ID="Image1" runat="server" Visible="false" Width="150" Height="150" />
                 </div>

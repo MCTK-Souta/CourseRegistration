@@ -159,38 +159,45 @@ namespace CoreProject.Managers
             this.ExecuteNonQuery(dbCommandText, parameters);
         }
         //抓課程ID
-        public static DataTable GetCourseID(string courseID)
+        public  CourseModel GetCourseID(string courseID)
         {
-            string connectionstring =
+            string connectionString =
                GetConnectionString();
 
             string queryString =
-                $@" SELECT *
+                $@" SELECT Course_ID
                     FROM Course 
                     WHERE Course.Course_ID = @courseID ;";
 
-            using (SqlConnection connection = new SqlConnection(connectionstring))
-            {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@courseID", courseID);
 
-                try
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
+                    SqlCommand command = new SqlCommand(queryString, connection);
+                    command.Parameters.AddWithValue("@courseID", courseID);
 
-                    DataTable dt = new DataTable();
-                    dt.Load(reader);
-                    reader.Close();
-                    return dt;
-                }
+                    try
+                    {
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
 
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return null;
+                    CourseModel model = null;
+
+                        while (reader.Read())
+                        {
+                            model = new CourseModel();
+                            model.Course_ID = (string)reader["Course_ID"];
+                        }
+
+                        reader.Close();
+
+                        return model;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+
                 }
-            }
         }
         /// <summary>
         /// 新增課程

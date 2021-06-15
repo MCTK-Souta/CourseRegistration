@@ -12,7 +12,7 @@ namespace Ubay_CourseRegistration.Managers
     public partial class ManagerStDetail : System.Web.UI.Page
     {
         //可接受的檔案類型
-        private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif" };
+        private string[] _allowExts = { ".jpg", ".png", ".bmp", ".gif",".jpeg" };
         //護照照片存檔路徑
         private string _saveFolder = "~/FileDownload/";
         
@@ -226,7 +226,17 @@ namespace Ubay_CourseRegistration.Managers
                 {
                     string pic1 = this.GetNewFileName(this.passpic);
                     if (string.IsNullOrEmpty(pic1))
+                    {
+                        this.lbmsg.Text = "檔案僅接受.jpeg, .jpg, .png, .bmp, .gif";
+                        this.lbmsg.Visible = true;
+                        return;
+                    }
+                    else
+                    {
                         model.PassPic = pic1;
+                    }
+
+
                 }
                 else
                 {

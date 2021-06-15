@@ -107,14 +107,33 @@ namespace Ubay_CourseRegistration.Courses
                 this.txtCourseIntroduction.Text != string.Empty &&
                 this.Price.Text != string.Empty)
             {
-                model.Course_ID = this.txtCourseID.Text.Trim();
+                if (manager.GetCourseID(this.txtCourseID.Text) == null)
+                {
+                    model.Course_ID = this.txtCourseID.Text.Trim();
+                }
+                else
+                {
+                    this.lbMsg.Text = "課程ID不可與過去課程重複";
+                    this.lbMsg.Visible = true;
+                    return;
+                }
+
+
+
                 model.C_Name = this.txtCourseName.Text.Trim();
                 model.Teacher_ID = Convert.ToInt32(this.tcList.SelectedValue);
+                if (Convert.ToDateTime(this.Startdate.Text) < DateTime.Now.AddDays(7))
+                {
+                    this.lbMsg.Text = "開課日期不可為過去日期，且需距離現在7天以上";
+                    this.lbMsg.Visible = true;
+                    return;
+                }
                 //比對開課日期與結訓日期是否有日期上的衝突
                 if (Convert.ToDateTime(this.Enddate.Text) <= Convert.ToDateTime(this.Startdate.Text) ||
                     Convert.ToDateTime(this.Startdate.Text) >= Convert.ToDateTime(this.Enddate.Text))
                 {
                     this.lbMsg.Text = "開課日期與結訓日期衝突，請重新輸入";
+                    this.lbMsg.Visible = true;
                     return;
                 }
                 else
